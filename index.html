@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -80,6 +81,35 @@
             0% { opacity: 1; }
             50% { opacity: 0.7; }
             100% { opacity: 1; }
+        }
+
+        .onboarding-box {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-blue);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .onboarding-step {
+            margin-bottom: 12px;
+        }
+
+        .onboarding-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .onboarding-step-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+
+        .onboarding-step-desc {
+            font-size: 11px;
+            color: var(--text-sub);
+            line-height: 1.5;
         }
 
         .header-section {
@@ -681,14 +711,29 @@
 <body>
     <div class="container">
         <div class="top-title">Pure Water Tracker</div>
-        
+
+        <div id="onboardingBox" class="onboarding-box">
+            <div class="onboarding-step">
+                <div class="onboarding-step-title">STEP 1: 準備</div>
+                <div class="onboarding-step-desc">まずは下の「水道水硬度」に自分の地域のPPMまたはμS/cmを入力してください。</div>
+            </div>
+            <div class="onboarding-step">
+                <div class="onboarding-step-title">STEP 2: 記録</div>
+                <div class="onboarding-step-desc">洗車が終わったら、使用量を「＋」で入力して保存します。</div>
+            </div>
+            <div class="onboarding-step">
+                <div class="onboarding-step-title">STEP 3: 管理</div>
+                <div class="onboarding-step-desc">寿命予測やコストが自動で算出されます。</div>
+            </div>
+        </div>
+
         <div id="noticeBar" class="notice-bar">⚠️ 樹脂の寿命が近づいています</div>
 
         <div id="hSec" class="header-section">
             <div class="label-xs">交換まであと</div>
             <div class="main-val-wrap" id="mainValWrap" onclick="showDetail()">
                 <span class="main-val" id="remL">
-                    <span class="no-ppm-alert">初期設定が必要</span>
+                    <span class="no-ppm-alert">水道水硬度を入力</span>
                 </span>
             </div>
             <div id="lastResetDisp" class="last-reset-label">前回交換：----/--/--</div>
@@ -757,7 +802,7 @@
             </div>
 
             <div class="setting-item">
-                <span class="label-xs" style="color:#fff; font-size:12px;">基準通水量（10単位時）</span>
+                <span class="label-xs" style="color:#fff; font-size:12px;">メーカー公表生成量（100PPM基準）</span>
                 <div style="display:flex; align-items:center;">
                     <input type="number" id="specIn" class="ppm-input" placeholder="1800" oninput="setSpec(this.value)" pattern="\d*">
                     <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">ℓ</span>
@@ -883,6 +928,16 @@
             }, 2000);
         }
 
+        function updateOnboarding() {
+            const box = document.getElementById('onboardingBox');
+            if (!box) return;
+            if (d.ppm && d.ppm > 0) {
+                box.style.display = 'none';
+            } else {
+                box.style.display = 'block';
+            }
+        }
+
         function setUnit(u) {
             d.unit = u;
             up();
@@ -953,7 +1008,7 @@
             if (noticeBar) noticeBar.style.display = 'none';
 
             if (d.ppm === null || d.ppm === 0 || !d.spec) {
-                remL.innerHTML = '<span class="no-ppm-alert">初期設定が必要</span>';
+                remL.innerHTML = '<span class="no-ppm-alert">水道水硬度を入力</span>';
                 document.getElementById('remCount').innerText = '--';
                 document.getElementById('costDisp').innerText = '0 円';
                 document.getElementById('predictDate').innerText = '寿命予測：--/--頃';
@@ -1004,6 +1059,7 @@
             }
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+            updateOnboarding();
         }
 
         function save() {
