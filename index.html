@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -792,7 +791,12 @@
 
         <div class="settings-box">
             <div class="settings-title">設定・カスタマイズ</div>
-            
+
+            <div class="setting-item">
+                <span class="label-xs" style="color:#fff; font-size:12px;">水道水硬度 (現在地)</span>
+                <input type="number" id="ppmIn" class="ppm-input" placeholder="0" oninput="setPPM(this.value)" pattern="\d*">
+            </div>
+
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">単位</span>
                 <div class="mode-row">
@@ -802,16 +806,11 @@
             </div>
 
             <div class="setting-item">
-                <span class="label-xs" style="color:#fff; font-size:12px;">メーカー公表生成量（100PPM基準）</span>
+                <span class="label-xs" style="color:#fff; font-size:12px;" id="specLabel">メーカー公表生成量（100PPM基準）</span>
                 <div style="display:flex; align-items:center;">
                     <input type="number" id="specIn" class="ppm-input" placeholder="1800" oninput="setSpec(this.value)" pattern="\d*">
                     <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">ℓ</span>
                 </div>
-            </div>
-
-            <div class="setting-item">
-                <span class="label-xs" style="color:#fff; font-size:12px;">水道水硬度 (現在地)</span>
-                <input type="number" id="ppmIn" class="ppm-input" placeholder="0" oninput="setPPM(this.value)" pattern="\d*">
             </div>
 
             <div class="setting-item">
@@ -854,7 +853,11 @@
             本アプリは各社純水器の仕様に基づき、樹脂の寿命を管理するツールです。<br>
             <div class="foot-h">Terms of Use</div>
             ・本アプリは非営利目的で制作されています。<br>
-            ・数値は算出理論値に基づく目安であり、正確性を保証するものではありません。<br>
+            ・製造・監修元各社様とは一切関係ありません。<br>
+            ・個人利用の範囲内でご活用ください。<br>
+            ・本アプリの利用により生じたトラブルや損失・損害について、開発者は一切の責任を負いません。<br>
+            ・数値は算出理論値に基づく目安であり、正確性や樹脂の寿命を保証するものではありません。<br>
+            ・無断転載・配布、および商用利用を固く禁じます。<br>
             <br>Version 1.0.0<br>
             © 2026 missing link. All rights reserved.
         </div>
@@ -902,6 +905,9 @@
     </div>
 
     <script>
+        // © 2026 missing link. All rights reserved.
+        // 無断転載・商用利用・改変配布を禁じます。
+
         const STORAGE_KEY = 'pwGenericV1';
         let d = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             ppm: null,
@@ -935,6 +941,14 @@
                 box.style.display = 'none';
             } else {
                 box.style.display = 'block';
+            }
+        }
+
+        function calcCap() {
+            if (d.unit === 'μS') {
+                return d.spec * (200 / d.ppm);
+            } else {
+                return d.spec * (100 / d.ppm);
             }
         }
 
@@ -1002,6 +1016,7 @@
             document.getElementById('costIn').value = d.price;
             document.getElementById('uPPM').className = d.unit === 'PPM' ? 'btn-m active' : 'btn-m';
             document.getElementById('uUS').className = d.unit === 'μS' ? 'btn-m active' : 'btn-m';
+            document.getElementById('specLabel').innerText = d.unit === 'μS' ? 'メーカー公表生成量（200μS/cm基準）' : 'メーカー公表生成量（100PPM基準）';
 
             remL.style.color = '';
             body.classList.remove('alert-red');
@@ -1013,8 +1028,7 @@
                 document.getElementById('costDisp').innerText = '0 円';
                 document.getElementById('predictDate').innerText = '寿命予測：--/--頃';
             } else {
-                const internalCapFactor = d.spec * 10;
-                const cap = internalCapFactor / d.ppm;
+                const cap = calcCap();
                 const rem = Math.max(0, cap - d.used);
                 const ratio = rem / cap;
                 const recentAvg = getRecentAvg();
@@ -1070,8 +1084,7 @@
             vib(30);
             const now = new Date();
             const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const internalCapFactor = d.spec * 10;
-            const cap = internalCapFactor / d.ppm;
+            const cap = calcCap();
             const cost = Math.round((d.in / cap) * d.price);
             const avg = getRecentAvg();
 
@@ -1109,8 +1122,7 @@
                 alert("初期設定を完了してください");
                 return;
             }
-            const internalCapFactor = d.spec * 10;
-            const cap = internalCapFactor / d.ppm;
+            const cap = calcCap();
             const histDiv = document.getElementById('historyList');
             
             histDiv.innerHTML = d.history.length ? '' : '<div style="font-size:12px;color:#555;text-align:center;padding:20px;">履歴なし</div>';
@@ -1181,11 +1193,11 @@
             const monthDiffStr = monthDiff >= 0 ? `+${monthDiff.toLocaleString()}円` : `${monthDiff.toLocaleString()}円`;
             const yearCost = monthlyAvgCost > 0 ? (monthlyAvgCost * 12).toLocaleString() : '--';
 
-            let usageDiagStr = `・使用量診断: <strong style="color:var(--accent-green);">平均値を保てえています</strong>`;
+            let usageDiagStr = `・使用量診断: <strong style="color:var(--accent-green);">平均値を維持しています</strong>`;
             if (d.history && d.history.length > 0) {
                 const usageDiffPct = Math.round(((d.history[0].amt - recentAvgForAdvice) / recentAvgForAdvice) * 100);
-                if (usageDiffPct > 10) usageDiagStr = `・使用量診断: <strong style="color:var(--accent-yellow);">平均より ${usageDiffPct}% 多めです</strong>`;
-                else if (usageDiffPct < -10) usageDiagStr = `・使用量診断: <strong style="color:var(--accent-green);">平均より ${Math.abs(usageDiffPct)}% 少なめです 👍</strong>`;
+                if (usageDiffPct > 10) usageDiagStr = `・使用量診断: <strong style="color:var(--accent-yellow);">平均値より多めです</strong>`;
+                else if (usageDiffPct < -10) usageDiagStr = `・使用量診断: <strong style="color:var(--accent-green);">平均値より少なめです 👍</strong>`;
             }
 
             document.getElementById('adviceBox').innerHTML = `
@@ -1359,8 +1371,7 @@
             const todayKey = new Date().toDateString();
             if (localStorage.getItem('pwAlertDate') === todayKey) return;
 
-            const internalCapFactor = d.spec * 10;
-            const cap = internalCapFactor / d.ppm;
+            const cap = calcCap();
             const rem = Math.max(0, cap - d.used);
             const ratio = rem / cap;
 
