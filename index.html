@@ -1,3 +1,6 @@
+
+コピー
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -1015,8 +1018,8 @@
                         <option value="yes">はい</option>
                     </select>
                 </div>
-                <div id="wellWaterNote" class="well-water-note">
-                    井戸水データをご提供いただいた方には、同県・近隣エリアの井戸水ユーザーの実測データを優先的にご覧いただけるようになります。
+                <div class="well-water-note" style="display:block; color:#666;">
+                    井戸水・地下水をお使いの方は「はい」を選択してください。データをご提供いただいた方には、同県・近隣エリアの井戸水ユーザーの実測データが優先的にご覧いただけるようになります。
                 </div>
             </div>
  
@@ -1206,7 +1209,7 @@
  
         function setWellWater(val) {
             d.wellWater = (val === 'yes');
-            document.getElementById('wellWaterNote').style.display = d.wellWater ? 'block' : 'none';
+            
             localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
         }
  
@@ -1322,7 +1325,7 @@
             if (d.prefecture) document.getElementById('prefectureSelect').value = d.prefecture;
             if (d.city) document.getElementById('cityInput').value = d.city;
             document.getElementById('wellWaterSelect').value = d.wellWater ? 'yes' : 'no';
-            document.getElementById('wellWaterNote').style.display = d.wellWater ? 'block' : 'none';
+            
  
             remL.style.color = '';
             body.classList.remove('alert-red');
