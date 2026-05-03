@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,14 +18,14 @@
             --alert-deep-red: #2a0a0a;
             color-scheme: only dark;
         }
- 
+
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             outline: none;
             touch-action: manipulation;
         }
- 
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
@@ -41,16 +38,16 @@
             overflow-x: hidden;
             transition: background-color 0.8s ease;
         }
- 
+
         body.alert-red {
             background-color: var(--alert-deep-red);
         }
- 
+
         .container {
             width: 100%;
             max-width: 380px;
         }
- 
+
         .top-title {
             font-size: 14px;
             font-weight: 700;
@@ -64,7 +61,7 @@
             -webkit-text-fill-color: transparent;
             opacity: 0.8;
         }
- 
+
         .notice-bar {
             width: 100%;
             background: var(--accent-red);
@@ -78,13 +75,13 @@
             display: none;
             animation: pulse 2s infinite;
         }
- 
+
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.7; }
             100% { opacity: 1; }
         }
- 
+
         .onboarding-box {
             background: var(--card-bg);
             border: 1px solid var(--accent-blue);
@@ -92,48 +89,48 @@
             padding: 20px;
             margin-bottom: 20px;
         }
- 
+
         .onboarding-step {
             margin-bottom: 12px;
         }
- 
+
         .onboarding-step:last-child {
             margin-bottom: 0;
         }
- 
+
         .onboarding-step-title {
             font-size: 12px;
             font-weight: bold;
             color: var(--accent-blue);
             margin-bottom: 4px;
         }
- 
+
         .onboarding-step-desc {
             font-size: 11px;
             color: var(--text-sub);
             line-height: 1.5;
         }
- 
+
         .header-section {
             text-align: center;
             margin-bottom: 20px;
             padding: 20px 10px;
             border-radius: 24px;
         }
- 
+
         .label-xs {
             font-size: 10px;
             color: var(--text-sub);
             margin-bottom: 8px;
         }
- 
+
         .main-val-wrap {
             position: relative;
             display: inline-block;
             margin-bottom: 5px;
             cursor: pointer;
         }
- 
+
         .main-val {
             font-size: 68px;
             font-weight: 800;
@@ -141,19 +138,19 @@
             transition: color 0.3s;
             text-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
- 
+
         .unit-l {
             font-size: 32px;
             font-weight: 400;
             margin-left: 4px;
         }
- 
+
         .no-ppm-alert {
             font-size: 24px;
             color: var(--text-sub);
             font-weight: bold;
         }
- 
+
         .main-val-wrap::after {
             content: '';
             position: absolute;
@@ -166,20 +163,20 @@
             transition: width 0s linear;
             opacity: 0;
         }
- 
+
         .main-val-wrap.resetting .main-val {
             color: var(--accent-blue) !important;
         }
- 
+
         .main-val-wrap.resetting::after {
             opacity: 1;
         }
- 
+
         .main-val-wrap.reset-active::after {
             width: 100%;
             transition: width 1.0s linear;
         }
- 
+
         .last-reset-label {
             font-size: 10px;
             color: white;
@@ -188,7 +185,7 @@
             margin-bottom: 15px;
             opacity: 0.9;
         }
- 
+
         .btn-detail {
             background: none;
             border: 1px solid #3a3a3c;
@@ -200,7 +197,7 @@
             transition: all 0.2s;
             margin-bottom: 10px;
         }
- 
+
         .sub-stats {
             display: flex;
             justify-content: space-around;
@@ -208,21 +205,21 @@
             color: var(--text-sub);
             margin-bottom: 25px;
         }
- 
+
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
- 
+
         .card {
             background: var(--card-bg);
             padding: 15px;
             border-radius: 12px;
             text-align: center;
         }
- 
+
         .card-full {
             background: var(--card-bg);
             padding: 15px;
@@ -230,14 +227,14 @@
             text-align: center;
             margin-bottom: 25px;
         }
- 
+
         .input-box {
             background: var(--card-bg);
             padding: 25px 20px;
             border-radius: 20px;
             margin-bottom: 15px;
         }
- 
+
         .input-title {
             font-size: 11px;
             color: var(--accent-green);
@@ -245,7 +242,7 @@
             text-align: center;
             margin-bottom: 15px;
         }
- 
+
         .counter-row {
             display: flex;
             justify-content: center;
@@ -253,7 +250,7 @@
             gap: 40px;
             margin-bottom: 15px;
         }
- 
+
         .btn-round {
             width: 50px;
             height: 50px;
@@ -264,12 +261,12 @@
             font-size: 26px;
             cursor: pointer;
         }
- 
+
         .current-disp {
             font-size: 52px;
             font-weight: bold;
         }
- 
+
         .btn-clear {
             background: #3a3a3c;
             color: var(--text-sub);
@@ -281,13 +278,13 @@
             display: block;
             margin: 0 auto 20px;
         }
- 
+
         .quick-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
- 
+
         .btn-q {
             background: #2c2c2e;
             border: none;
@@ -299,7 +296,7 @@
             cursor: pointer;
             touch-action: none;
         }
- 
+
         .btn-save {
             width: 100%;
             display: block;
@@ -316,12 +313,12 @@
             -webkit-appearance: none;
             touch-action: manipulation;
         }
- 
+
         .btn-save:active {
             transform: scale(0.97);
             opacity: 0.9;
         }
- 
+
         .btn-reset {
             width: 100%;
             background: none;
@@ -337,7 +334,7 @@
             position: relative;
             overflow: hidden;
         }
- 
+
         .btn-reset-bar {
             position: absolute;
             top: 0;
@@ -348,14 +345,14 @@
             transition: width 0s linear;
             border-radius: 12px;
         }
- 
+
         .settings-box {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 20px;
             margin-top: 10px;
         }
- 
+
         .settings-title {
             font-size: 11px;
             color: var(--accent-green);
@@ -363,7 +360,7 @@
             text-align: center;
             margin-bottom: 15px;
         }
- 
+
         .setting-item {
             display: flex;
             justify-content: space-between;
@@ -371,7 +368,7 @@
             padding: 12px 0;
             border-bottom: 1px solid #2c2c2e;
         }
- 
+
         .ppm-input {
             background: none;
             border: none;
@@ -381,12 +378,12 @@
             text-align: right;
             width: 100px;
         }
- 
+
         .mode-row {
             display: flex;
             gap: 8px;
         }
- 
+
         .btn-m {
             background: #2c2c2e;
             border: 1px solid transparent;
@@ -397,12 +394,12 @@
             font-weight: bold;
             cursor: pointer;
         }
- 
+
         .btn-m.active {
             border: 1px solid var(--accent-green);
             color: var(--accent-green);
         }
- 
+
         .manufacturer-select {
             width: 100%;
             background: #2c2c2e;
@@ -415,7 +412,7 @@
             margin-top: 8px;
             -webkit-appearance: none;
         }
- 
+
         .manufacturer-note {
             font-size: 9px;
             color: #666;
@@ -425,7 +422,7 @@
             background: rgba(0,0,0,0.2);
             border-radius: 6px;
         }
- 
+
         .custom-name-input {
             width: 100%;
             background: #2c2c2e;
@@ -436,7 +433,7 @@
             border-radius: 8px;
             margin-top: 8px;
         }
- 
+
         .prefecture-select {
             background: none;
             border: none;
@@ -447,7 +444,7 @@
             -webkit-appearance: none;
             width: 140px;
         }
- 
+
         .city-input {
             background: none;
             border: none;
@@ -457,14 +454,14 @@
             text-align: right;
             width: 140px;
         }
- 
+
         .location-row {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-top: 6px;
         }
- 
+
         .btn-location {
             background: #2c2c2e;
             border: 1px solid #3a3a3c;
@@ -476,13 +473,13 @@
             cursor: pointer;
             white-space: nowrap;
         }
- 
+
         .location-note {
             font-size: 9px;
             color: #666;
             line-height: 1.4;
         }
- 
+
         .well-water-select {
             background: none;
             border: none;
@@ -493,7 +490,7 @@
             -webkit-appearance: none;
             width: 80px;
         }
- 
+
         .well-water-note {
             font-size: 9px;
             color: var(--accent-blue);
@@ -501,13 +498,13 @@
             line-height: 1.5;
             display: none;
         }
- 
+
         .backup-section {
             margin-top: 25px;
             border-top: 1px dashed #3a3a3c;
             padding-top: 20px;
         }
- 
+
         .backup-label {
             font-size: 11px;
             color: var(--accent-blue);
@@ -515,7 +512,7 @@
             text-align: center;
             margin-bottom: 10px;
         }
- 
+
         .backup-guide {
             font-size: 9px;
             color: #666;
@@ -525,12 +522,12 @@
             padding: 8px;
             border-radius: 8px;
         }
- 
+
         .backup-row {
             display: flex;
             gap: 8px;
         }
- 
+
         .btn-b {
             flex: 1;
             background: #2c2c2e;
@@ -542,7 +539,7 @@
             font-weight: bold;
             cursor: pointer;
         }
- 
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -556,7 +553,7 @@
             z-index: 1000;
             padding: 20px;
         }
- 
+
         .modal-content {
             background: #1c1c1e;
             width: 100%;
@@ -568,7 +565,7 @@
             border: 1px solid #3a3a3c;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
- 
+
         .modal-h {
             font-size: 18px;
             font-weight: bold;
@@ -576,25 +573,25 @@
             color: var(--accent-blue);
             text-align: center;
         }
- 
+
         .modal-section {
             margin-bottom: 20px;
         }
- 
+
         .modal-label-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
- 
+
         .modal-label {
             font-size: 11px;
             color: var(--text-sub);
             border-left: 3px solid var(--accent-blue);
             padding-left: 8px;
         }
- 
+
         .btn-mini-reset {
             background: none;
             border: 1px solid #444;
@@ -604,7 +601,7 @@
             border-radius: 10px;
             cursor: pointer;
         }
- 
+
         .history-item {
             position: relative;
             display: flex;
@@ -616,7 +613,7 @@
             border-radius: 8px;
             background: rgba(255,255,255,0.02);
         }
- 
+
         .avg-guide-line {
             position: absolute;
             left: 50%;
@@ -627,7 +624,7 @@
             z-index: 2;
             opacity: 0.5;
         }
- 
+
         .avg-label {
             position: absolute;
             left: 51%;
@@ -640,7 +637,7 @@
             padding: 1px 3px;
             border-radius: 2px;
         }
- 
+
         .graph-bar-left {
             position: absolute;
             top: 0;
@@ -650,7 +647,7 @@
             transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             opacity: 0.35;
         }
- 
+
         .hist-main {
             position: relative;
             z-index: 3;
@@ -660,7 +657,7 @@
             align-items: center;
             font-size: 13px;
         }
- 
+
         .hist-sub {
             position: relative;
             z-index: 3;
@@ -670,7 +667,7 @@
             margin-top: 4px;
             font-weight: bold;
         }
- 
+
         .data-textarea {
             width: 100%;
             height: 120px;
@@ -685,14 +682,14 @@
             resize: none;
             word-break: break-all;
         }
- 
+
         .modal-desc {
             font-size: 11px;
             color: #aaa;
             margin-bottom: 15px;
             line-height: 1.5;
         }
- 
+
         .btn-primary {
             width: 100%;
             background: var(--accent-blue);
@@ -704,7 +701,7 @@
             font-size: 14px;
             margin-bottom: 10px;
         }
- 
+
         .logic-box {
             font-size: 11px;
             color: var(--text-sub);
@@ -713,7 +710,7 @@
             border-radius: 8px;
             line-height: 1.6;
         }
- 
+
         .btn-close {
             width: 100%;
             background: #3a3a3c;
@@ -724,7 +721,7 @@
             margin-top: 10px;
             font-weight: bold;
         }
- 
+
         #toast {
             position: fixed;
             bottom: 50px;
@@ -740,7 +737,7 @@
             z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
- 
+
         .footer {
             text-align: center;
             font-size: 10px;
@@ -749,19 +746,19 @@
             line-height: 1.8;
             padding-bottom: 100px;
         }
- 
+
         .foot-h {
             font-weight: bold;
             color: #777;
             margin-top: 15px;
         }
- 
+
         .fullreset-section {
             margin-top: 25px;
             border-top: 1px dashed #3a3a3c;
             padding-top: 20px;
         }
- 
+
         .fullreset-label {
             font-size: 11px;
             color: var(--accent-red);
@@ -769,7 +766,7 @@
             text-align: center;
             margin-bottom: 10px;
         }
- 
+
         .fullreset-guide {
             font-size: 9px;
             color: #666;
@@ -779,7 +776,7 @@
             padding: 8px;
             border-radius: 8px;
         }
- 
+
         .btn-fullreset {
             width: 100%;
             background: none;
@@ -795,7 +792,7 @@
             user-select: none;
             touch-action: none;
         }
- 
+
         .btn-fullreset-bar {
             position: absolute;
             top: 0;
@@ -806,7 +803,7 @@
             transition: width 0s linear;
             border-radius: 10px;
         }
- 
+
         .data-consent-box {
             background: #111;
             border: 1px solid #2c2c2e;
@@ -814,28 +811,28 @@
             padding: 14px;
             margin-bottom: 15px;
         }
- 
+
         .data-consent-title {
             font-size: 11px;
             font-weight: bold;
             color: var(--accent-blue);
             margin-bottom: 8px;
         }
- 
+
         .data-consent-desc {
             font-size: 10px;
             color: var(--text-sub);
             line-height: 1.6;
             margin-bottom: 10px;
         }
- 
+
         .data-consent-merit {
             font-size: 10px;
             color: var(--accent-green);
             line-height: 1.6;
             margin-bottom: 10px;
         }
- 
+
         .data-consent-check {
             display: flex;
             align-items: center;
@@ -844,7 +841,7 @@
             color: white;
             cursor: pointer;
         }
- 
+
         .data-consent-check input[type="checkbox"] {
             width: 16px;
             height: 16px;
@@ -855,7 +852,7 @@
 <body>
     <div class="container">
         <div class="top-title">Pure Water Tracker</div>
- 
+
         <div id="onboardingBox" class="onboarding-box">
             <div class="onboarding-step">
                 <div class="onboarding-step-title">STEP 1: 準備</div>
@@ -870,9 +867,9 @@
                 <div class="onboarding-step-desc">寿命予測やコストが自動で算出されます。</div>
             </div>
         </div>
- 
+
         <div id="noticeBar" class="notice-bar">⚠️ 樹脂の寿命が近づいています</div>
- 
+
         <div id="hSec" class="header-section">
             <div class="label-xs">交換まであと</div>
             <div class="main-val-wrap" id="mainValWrap" onclick="showDetail()">
@@ -883,12 +880,12 @@
             <div id="lastResetDisp" class="last-reset-label">前回交換：----/--/--</div>
             <button class="btn-detail" onclick="showDetail()">コンディション詳細</button>
         </div>
- 
+
         <div class="sub-stats">
             <span>洗車回数：あと <span id="remCount">--</span> 回分</span>
             <span id="predictDate">寿命予測：--/--頃</span>
         </div>
- 
+
         <div class="stats-grid">
             <div class="card">
                 <div class="label-xs">累計使用量</div>
@@ -899,12 +896,12 @@
                 <div id="monthUsed">0 ℓ</div>
             </div>
         </div>
- 
+
         <div class="card-full">
             <div class="label-xs">今月の算出コスト</div>
             <div id="costDisp">0 円</div>
         </div>
- 
+
         <div class="input-box">
             <div class="input-title">今回の洗車使用量</div>
             <div class="counter-row">
@@ -916,7 +913,7 @@
                 <button class="btn-round" onclick="add(1)">＋</button>
             </div>
             <button class="btn-clear" onclick="clr()">入力をリセット</button>
- 
+
             <div class="quick-grid">
                 <button class="btn-q" onclick="add(5)">+5ℓ</button>
                 <button class="btn-q" onclick="add(10)">+10ℓ</button>
@@ -926,23 +923,23 @@
                 <button class="btn-q" onclick="add(100)">+100ℓ</button>
             </div>
         </div>
- 
+
         <button class="btn-save" id="saveBtn" onclick="save()">数値を入力してください</button>
- 
+
         <button id="resetBtn" class="btn-reset">
             <div class="btn-reset-bar" id="resetBar"></div>
             履歴を消去（長押し5秒）
         </button>
- 
+
         <div class="settings-box">
             <div class="settings-title">設定・カスタマイズ</div>
- 
+
             <!-- 1. 水道水硬度 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">水道水硬度 (現在地)</span>
                 <input type="number" id="ppmIn" class="ppm-input" placeholder="0" oninput="setPPM(this.value)" pattern="\d*">
             </div>
- 
+
             <!-- 2. 単位 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">単位</span>
@@ -951,7 +948,7 @@
                     <button id="uUS" class="btn-m" onclick="setUnit('μS')">μS/cm</button>
                 </div>
             </div>
- 
+
             <!-- 3. 純水器メーカー・機種 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start;">
                 <span class="label-xs" style="color:#fff; font-size:12px; margin-bottom:4px;">純水器メーカー・機種</span>
@@ -971,7 +968,7 @@
                 <input type="text" id="customNameInput" class="custom-name-input" placeholder="純水器名を入力してください（3文字以上）" oninput="setCustomName(this.value)" style="display:none;">
                 <div class="manufacturer-note" style="margin-top:4px;">※基準未公表メーカーは100ppmを共通条件として算出。実際の生成量は水道水硬度により異なります。</div>
             </div>
- 
+
             <!-- 4. 生成量 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;" id="specLabel">メーカー公表生成量（100PPM基準）</span>
@@ -980,7 +977,7 @@
                     <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">ℓ</span>
                 </div>
             </div>
- 
+
             <!-- 5. 樹脂交換費用 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">樹脂交換費用</span>
@@ -989,7 +986,7 @@
                     <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">円</span>
                 </div>
             </div>
- 
+
             <!-- 6. 都道府県・市区町村 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
                 <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
@@ -1008,7 +1005,7 @@
                     <span class="location-note">位置情報を送信いただくと、より近いエリアのデータと比較できます</span>
                 </div>
             </div>
- 
+
             <!-- 7. 井戸水 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start;">
                 <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
@@ -1022,11 +1019,11 @@
                     井戸水・地下水をお使いの方は「はい」を選択してください。データをご提供いただいた方には、同県・近隣エリアの井戸水ユーザーの実測データが優先的にご覧いただけるようになります。
                 </div>
             </div>
- 
+
             <div style="font-size:10px; color:var(--text-sub); text-align:center; margin-top:15px; border-top: 1px solid #2c2c2e; padding-top:10px;">
                 前回樹脂リセット日：<span id="lastResetDate" style="color:white; font-weight:bold;">----/--/--</span>
             </div>
- 
+
             <div class="backup-section">
                 <div class="backup-label">データ移行・復元</div>
                 <div class="backup-guide">
@@ -1037,7 +1034,7 @@
                     <button class="btn-b" onclick="openTransferModal('import')">読み込み</button>
                 </div>
             </div>
- 
+
             <div class="fullreset-section">
                 <div class="fullreset-label">全データリセット</div>
                 <div class="fullreset-guide">
@@ -1049,28 +1046,27 @@
                 </button>
             </div>
         </div>
- 
+
         <div class="footer">
             <div class="foot-h">β版についてのご案内</div>
             本アプリは現在β版です。機能追加・改善を継続中のため、予告なく仕様が変更される場合があります。<br>
             <div class="foot-h">Information</div>
-            本アプリは各社純水器の仕様に基づき、樹脂の寿命を管理するツールです。<br>
+            本アプリは各社純水器の仕様に基づき、樹脂の寿命を管理するツールです。純水器メーカーの公表生成量における基準の不透明さを可視化し、ユーザーの皆様が正しい判断をできる環境づくりを目指しています。<br>
             <div class="foot-h">Terms of Use</div>
-            ・本アプリは非営利目的で制作されています。<br>
+            ・本アプリは現在、個人が非営利目的で運営しています。将来的に運営形態が変更される場合があります。<br>
             ・製造・監修元各社様とは一切関係ありません。<br>
-            ・個人利用の範囲内でご活用ください。<br>
             ・本アプリの利用により生じたトラブルや損失・損害について、開発者は一切の責任を負いません。<br>
             ・数値は算出理論値に基づく目安であり、正確性や樹脂の寿命を保証するものではありません。<br>
-            ・無断転載・配布、および商用利用を固く禁じます。<br>
+            ・本アプリのコード・デザイン・文言の無断転載・配布・商用利用を固く禁じます。<br>
             <div class="foot-h">統計データの取り扱いについて</div>
             本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
             <br>Version 1.0.0 β<br>
             © 2026 missing link. All rights reserved.
         </div>
     </div>
- 
+
     <div id="toast">保存しました</div>
- 
+
     <div id="modalOverlay" class="modal-overlay" onclick="closeDetail()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-h">コンディション詳細</div>
@@ -1095,7 +1091,7 @@
             <button class="btn-close" onclick="closeDetail()">閉じる</button>
         </div>
     </div>
- 
+
     <div id="transferModal" class="modal-overlay" onclick="closeTransferModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div id="transferTitle" class="modal-h">データ移行</div>
@@ -1105,7 +1101,7 @@
             <button class="btn-close" onclick="closeTransferModal()">閉じる</button>
         </div>
     </div>
- 
+
     <div id="dataConsentModal" class="modal-overlay">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-h">樹脂をリセットします</div>
@@ -1126,18 +1122,18 @@
             <button class="btn-close" onclick="cancelResetConsent()">キャンセル</button>
         </div>
     </div>
- 
+
     <script>
         // © 2026 missing link. All rights reserved.
         // 無断転載・商用利用・改変配布を禁じます。
- 
+
         const STORAGE_KEY = 'pwGenericV1';
         let d = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             ppm: null, unit: 'PPM', spec: null, price: null,
             used: 0, in: 0, logs: {}, history: [], lastReset: null,
             manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false
         };
- 
+
         const MANUFACTURER_PRESETS = {
             purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
             purenish_just: { spec: 1000, price: 9878,  note: '100ppm基準・公式明記' },
@@ -1149,7 +1145,7 @@
             garacoat_15:   { spec: 3600, price: 11480, note: '100ppm想定・公表値から逆算' },
             custom:        { spec: null, price: null,  note: 'お使いの純水器の公表値を入力してください' }
         };
- 
+
         function getSetupMessage() {
             if (!d.ppm || d.ppm === 0) return '水道水硬度を入力してください';
             if (!d.manufacturer) return '純水器・機種を選択してください';
@@ -1159,7 +1155,7 @@
             if (!d.prefecture) return '都道府県を選択してください';
             return null;
         }
- 
+
         function validateSpec(val) {
             if (val < 200 || val > 10000) {
                 alert('生成量は200〜10000ℓの範囲で入力してください');
@@ -1167,7 +1163,7 @@
             }
             return true;
         }
- 
+
         function validatePrice(val) {
             if (val < 1000 || val > 200000) {
                 alert('樹脂交換費用は1,000〜200,000円の範囲で入力してください');
@@ -1175,7 +1171,7 @@
             }
             return true;
         }
- 
+
         function onManufacturerChange(val) {
             d.manufacturer = val;
             const noteEl = document.getElementById('manufacturerNote');
@@ -1202,17 +1198,17 @@
             }
             up();
         }
- 
+
         function setCustomName(val) { d.customName = val; up(); }
         function setPrefecture(val) { d.prefecture = val; up(); }
         function setCity(val) { d.city = val; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
- 
+
         function setWellWater(val) {
             d.wellWater = (val === 'yes');
             
             localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
         }
- 
+
         function getLocation() {
             if (!navigator.geolocation) { alert('位置情報の取得に対応していません'); return; }
             navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -1231,27 +1227,27 @@
                 } catch(e) { alert('位置情報の取得に失敗しました'); }
             }, () => { alert('位置情報の取得が拒否されました'); });
         }
- 
+
         function vib(ms) { if (navigator.vibrate) navigator.vibrate(ms); }
- 
+
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.innerText = msg; t.style.display = 'block';
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
- 
+
         function updateOnboarding() {
             const box = document.getElementById('onboardingBox');
             if (!box) return;
             box.style.display = (d.ppm && d.ppm > 0) ? 'none' : 'block';
         }
- 
+
         function calcCap() {
             return d.unit === 'μS' ? d.spec * (200 / d.ppm) : d.spec * (100 / d.ppm);
         }
- 
+
         function setUnit(u) { d.unit = u; up(); }
- 
+
         function validateSpecOnBlur(el) {
             const val = parseInt(el.value);
             if (el.value !== "" && (isNaN(val) || val < 200 || val > 10000)) {
@@ -1259,7 +1255,7 @@
                 el.value = ""; d.spec = null; up();
             }
         }
- 
+
         function validateCostOnBlur(el) {
             const val = parseInt(el.value);
             if (el.value !== "" && (isNaN(val) || val < 1000 || val > 200000)) {
@@ -1267,25 +1263,25 @@
                 el.value = ""; d.price = null; up();
             }
         }
- 
+
         function setSpec(v) {
             d.spec = v === "" ? null : parseInt(v);
             up();
         }
- 
+
         function setCost(v) {
             d.price = v === "" ? null : parseInt(v);
             up();
         }
- 
+
         function setPPM(val) { d.ppm = val === "" ? null : parseInt(val); up(); }
- 
+
         function getRecentAvg() {
             if (!d.history || d.history.length === 0) return 30;
             const recent = d.history.slice(0, 5);
             return Math.round(recent.reduce((a, b) => a + b.amt, 0) / recent.length);
         }
- 
+
         function getAvgInterval() {
             if (!d.history || d.history.length < 2) return 7;
             let totalDays = 0, count = 0;
@@ -1297,7 +1293,7 @@
             }
             return count > 0 ? Math.max(1, totalDays / count) : 7;
         }
- 
+
         function calculatePredictDate(remaining, avgUsage) {
             if (!avgUsage || avgUsage <= 0 || remaining <= 0) return "--/--";
             const daysRem = Math.floor((remaining / avgUsage) * getAvgInterval());
@@ -1305,7 +1301,7 @@
             target.setDate(target.getDate() + daysRem);
             return `${target.getMonth() + 1}/${target.getDate()}`;
         }
- 
+
         function up() {
             const body = document.body;
             const remL = document.getElementById('remL');
@@ -1314,7 +1310,7 @@
             const now = new Date();
             const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             const monthUsed = d.logs[monthKey] || 0;
- 
+
             document.getElementById('ppmIn').value = d.ppm;
             if (d.spec !== null && d.spec !== undefined) document.getElementById('specIn').value = d.spec;
             if (d.price !== null && d.price !== undefined) document.getElementById('costIn').value = d.price;
@@ -1326,11 +1322,11 @@
             if (d.city) document.getElementById('cityInput').value = d.city;
             document.getElementById('wellWaterSelect').value = d.wellWater ? 'yes' : 'no';
             
- 
+
             remL.style.color = '';
             body.classList.remove('alert-red');
             if (noticeBar) noticeBar.style.display = 'none';
- 
+
             const setupMsg = getSetupMessage();
             if (setupMsg) {
                 remL.innerHTML = `<span class="no-ppm-alert">${setupMsg}</span>`;
@@ -1357,18 +1353,18 @@
                 document.getElementById('costDisp').innerText = monthlyCost.toLocaleString() + ' 円';
                 document.getElementById('predictDate').innerText = `寿命予測：${calculatePredictDate(rem, recentAvg)}頃`;
             }
- 
+
             document.getElementById('totalUsed').innerText = d.used + ' ℓ';
             document.getElementById('monthUsed').innerText = monthUsed + ' ℓ';
             document.getElementById('inVal').innerText = d.in;
- 
+
             if (d.lastReset) {
                 const lr = new Date(d.lastReset);
                 const dateStr = `${lr.getFullYear()}/${lr.getMonth()+1}/${lr.getDate()}`;
                 document.getElementById('lastResetDate').innerText = dateStr;
                 document.getElementById('lastResetDisp').innerText = `前回交換：${dateStr}`;
             }
- 
+
             if (d.in > 0) {
                 saveBtn.innerText = '記録を保存';
                 saveBtn.style.opacity = "1";
@@ -1378,11 +1374,11 @@
                 saveBtn.style.opacity = "0.3";
                 saveBtn.style.pointerEvents = "none";
             }
- 
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
             updateOnboarding();
         }
- 
+
         function save() {
             const setupMsg = getSetupMessage();
             if (setupMsg) { alert(setupMsg); return; }
@@ -1411,7 +1407,7 @@
             d.in = 0;
             up();
         }
- 
+
         function showDetail() {
             const setupMsg = getSetupMessage();
             if (setupMsg) { alert(setupMsg); return; }
@@ -1432,7 +1428,7 @@
                         <div class="hist-sub" style="color:${color}">${label}</div>
                     </div>`;
             });
- 
+
             const summaryDiv = document.getElementById('monthSummaryList');
             const sortedLogKeys = Object.keys(d.logs).sort().reverse();
             summaryDiv.innerHTML = sortedLogKeys.length ? '' : '<div style="font-size:12px;color:#555;text-align:center;padding:20px;">サマリーなし</div>';
@@ -1441,7 +1437,7 @@
                 const mCost = Math.round((mUsed / cap) * d.price);
                 summaryDiv.innerHTML += `<div class="history-item"><div class="hist-main"><span>${key}</span><span>${mUsed}ℓ</span><span>${mCost}円</span></div></div>`;
             });
- 
+
             const recentAvg = getRecentAvg();
             const interval = getAvgInterval();
             const rem = Math.max(0, cap - d.used);
@@ -1458,14 +1454,14 @@
             const monthDiff = monthlyAvgCost > 0 ? thisMonthCost - monthlyAvgCost : 0;
             const monthDiffStr = monthDiff >= 0 ? `+${monthDiff.toLocaleString()}円` : `${monthDiff.toLocaleString()}円`;
             const yearCost = monthlyAvgCost > 0 ? (monthlyAvgCost * 12).toLocaleString() : '--';
- 
+
             let usageDiag = `・使用量診断: <strong style="color:var(--accent-green);">平均値を維持しています</strong>`;
             if (d.history && d.history.length > 0) {
                 const pct = Math.round(((d.history[0].amt - recentAvg) / recentAvg) * 100);
                 if (pct > 10) usageDiag = `・使用量診断: <strong style="color:var(--accent-yellow);">平均値より多めです</strong>`;
                 else if (pct < -10) usageDiag = `・使用量診断: <strong style="color:var(--accent-green);">平均値より少なめです 👍</strong>`;
             }
- 
+
             document.getElementById('adviceBox').innerHTML = `
                 ・洗車回数：あと <strong>${remCount}回</strong> 分<br>
                 ・今月コスト：${thisMonthCost.toLocaleString()}円（月平均比 <strong>${monthDiffStr}</strong>）<br>
@@ -1476,22 +1472,22 @@
                 ・交換時期予測: <strong>${predictStr}・洗車あと${remCount}回</strong><br>
                 ・年間コスト予測: <strong>${yearCost}円</strong>（実績ベース）<br>
                 <span style="color:var(--accent-yellow);">・算出ロジックは記録を更新するとカスタマイズされます</span>`;
- 
+
             document.getElementById('modalOverlay').style.display = 'flex';
             vib(10);
         }
- 
+
         function clr() { d.in = 0; vib(5); up(); }
         function add(v) { d.in = Math.max(0, d.in + v); vib(5); up(); }
         function closeDetail() { document.getElementById('modalOverlay').style.display = 'none'; }
- 
+
         function resetHistory() {
             if(confirm("履歴をクリアしますか？")) { d.history = []; up(); showDetail(); }
         }
         function resetSummary() {
             if(confirm("サマリーをクリアしますか？")) { d.logs = {}; up(); showDetail(); }
         }
- 
+
         let longClickTimer;
         const resetBtn = document.getElementById('resetBtn');
         const startReset = (e) => {
@@ -1509,14 +1505,14 @@
                 cancelReset();
             }, 5000);
         };
- 
+
         const cancelReset = () => {
             clearTimeout(longClickTimer);
             document.getElementById('mainValWrap').classList.remove('resetting', 'reset-active');
             document.getElementById('resetBar').style.transition = 'width 0s linear';
             document.getElementById('resetBar').style.width = '0%';
         };
- 
+
         function executeReset() {
             // if (document.getElementById('dataConsentCheck').checked) { sendData(); }
             d.used = 0; d.in = 0; d.lastReset = new Date().getTime();
@@ -1524,14 +1520,14 @@
             up();
             showToast("樹脂をリセットしました");
         }
- 
+
         function cancelResetConsent() { document.getElementById('dataConsentModal').style.display = 'none'; }
- 
+
         resetBtn.addEventListener('mousedown', startReset);
         resetBtn.addEventListener('touchstart', startReset, {passive: false});
         window.addEventListener('mouseup', cancelReset);
         window.addEventListener('touchend', cancelReset);
- 
+
         let currentTransferMode = '';
         function openTransferModal(mode) {
             currentTransferMode = mode;
@@ -1550,7 +1546,7 @@
             }
             document.getElementById('transferModal').style.display = 'flex';
         }
- 
+
         function handleTransferAction() {
             const area = document.getElementById('transferArea');
             if (currentTransferMode === 'export') {
@@ -1563,9 +1559,9 @@
                 } catch(e) { alert("不正なコードです"); }
             }
         }
- 
+
         function closeTransferModal() { document.getElementById('transferModal').style.display = 'none'; }
- 
+
         let fullResetTimer;
         const fullResetBtn = document.getElementById('fullResetBtn');
         const fullResetBar = document.getElementById('fullResetBar');
@@ -1594,16 +1590,16 @@
         fullResetBtn.addEventListener('touchstart', startFullReset, {passive: false});
         window.addEventListener('mouseup', cancelFullReset);
         window.addEventListener('touchend', cancelFullReset);
- 
+
         up();
- 
+
         if (d.manufacturer === 'custom') {
             document.getElementById('customNameInput').style.display = 'block';
             document.getElementById('customNameInput').value = d.customName || '';
             document.getElementById('manufacturerNote').style.display = 'block';
             document.getElementById('manufacturerNote').innerText = 'お使いの純水器の公表値を入力してください';
         }
- 
+
         (function checkStartupAlert() {
             if (!d.ppm || d.ppm === 0 || !d.spec) return;
             const todayKey = new Date().toDateString();
