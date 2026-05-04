@@ -39,14 +39,9 @@
             transition: background-color 0.8s ease;
         }
 
-        body.alert-red {
-            background-color: var(--alert-deep-red);
-        }
+        body.alert-red { background-color: var(--alert-deep-red); }
 
-        .container {
-            width: 100%;
-            max-width: 380px;
-        }
+        .container { width: 100%; max-width: 380px; }
 
         .top-title {
             font-size: 14px;
@@ -77,9 +72,7 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; }
         }
 
         .onboarding-box {
@@ -90,26 +83,10 @@
             margin-bottom: 20px;
         }
 
-        .onboarding-step {
-            margin-bottom: 12px;
-        }
-
-        .onboarding-step:last-child {
-            margin-bottom: 0;
-        }
-
-        .onboarding-step-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: var(--accent-blue);
-            margin-bottom: 4px;
-        }
-
-        .onboarding-step-desc {
-            font-size: 11px;
-            color: var(--text-sub);
-            line-height: 1.5;
-        }
+        .onboarding-step { margin-bottom: 12px; }
+        .onboarding-step:last-child { margin-bottom: 0; }
+        .onboarding-step-title { font-size: 12px; font-weight: bold; color: var(--accent-blue); margin-bottom: 4px; }
+        .onboarding-step-desc { font-size: 11px; color: var(--text-sub); line-height: 1.5; }
 
         .header-section {
             text-align: center;
@@ -118,11 +95,7 @@
             border-radius: 24px;
         }
 
-        .label-xs {
-            font-size: 10px;
-            color: var(--text-sub);
-            margin-bottom: 8px;
-        }
+        .label-xs { font-size: 10px; color: var(--text-sub); margin-bottom: 8px; }
 
         .main-val-wrap {
             position: relative;
@@ -139,17 +112,8 @@
             text-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
 
-        .unit-l {
-            font-size: 32px;
-            font-weight: 400;
-            margin-left: 4px;
-        }
-
-        .no-ppm-alert {
-            font-size: 24px;
-            color: var(--text-sub);
-            font-weight: bold;
-        }
+        .unit-l { font-size: 32px; font-weight: 400; margin-left: 4px; }
+        .no-ppm-alert { font-size: 24px; color: var(--text-sub); font-weight: bold; }
 
         .main-val-wrap::after {
             content: '';
@@ -164,18 +128,9 @@
             opacity: 0;
         }
 
-        .main-val-wrap.resetting .main-val {
-            color: var(--accent-blue) !important;
-        }
-
-        .main-val-wrap.resetting::after {
-            opacity: 1;
-        }
-
-        .main-val-wrap.reset-active::after {
-            width: 100%;
-            transition: width 1.0s linear;
-        }
+        .main-val-wrap.resetting .main-val { color: var(--accent-blue) !important; }
+        .main-val-wrap.resetting::after { opacity: 1; }
+        .main-val-wrap.reset-active::after { width: 100%; transition: width 1.0s linear; }
 
         .last-reset-label {
             font-size: 10px;
@@ -213,20 +168,8 @@
             margin-bottom: 10px;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .card-full {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
+        .card { background: var(--card-bg); padding: 15px; border-radius: 12px; text-align: center; }
+        .card-full { background: var(--card-bg); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px; }
 
         .input-box {
             background: var(--card-bg);
@@ -235,13 +178,7 @@
             margin-bottom: 15px;
         }
 
-        .input-title {
-            font-size: 11px;
-            color: var(--accent-green);
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+        .input-title { font-size: 11px; color: var(--accent-green); font-weight: bold; text-align: center; margin-bottom: 15px; }
 
         .counter-row {
             display: flex;
@@ -262,10 +199,7 @@
             cursor: pointer;
         }
 
-        .current-disp {
-            font-size: 52px;
-            font-weight: bold;
-        }
+        .current-disp { font-size: 52px; font-weight: bold; }
 
         .btn-clear {
             background: #3a3a3c;
@@ -297,6 +231,95 @@
             touch-action: none;
         }
 
+        /* ── 洗車メモセクション ── */
+        .wash-memo-box {
+            background: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #2c2c2e;
+        }
+
+        .wash-memo-title {
+            font-size: 11px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        /* 施工内容タグ */
+        .tag-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .tag-btn {
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            color: #aaa;
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .tag-btn.selected {
+            background: rgba(10, 132, 255, 0.15);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        /* メモテキストエリア */
+        .memo-input {
+            width: 100%;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 10px;
+            color: white;
+            font-size: 13px;
+            padding: 10px 12px;
+            resize: none;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+        }
+
+        .memo-input::placeholder { color: #555; }
+        .memo-input:focus { border-color: var(--accent-blue); }
+
+        /* カレンダー連携チェックボックス */
+        .cal-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cal-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-green);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .cal-label {
+            font-size: 12px;
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cal-label span { font-size: 14px; }
+
         .btn-save {
             width: 100%;
             display: block;
@@ -314,10 +337,7 @@
             touch-action: manipulation;
         }
 
-        .btn-save:active {
-            transform: scale(0.97);
-            opacity: 0.9;
-        }
+        .btn-save:active { transform: scale(0.97); opacity: 0.9; }
 
         .btn-reset {
             width: 100%;
@@ -337,8 +357,7 @@
 
         .btn-reset-bar {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             height: 100%;
             width: 0%;
             background: rgba(255,69,58,0.25);
@@ -353,13 +372,7 @@
             margin-top: 10px;
         }
 
-        .settings-title {
-            font-size: 11px;
-            color: var(--accent-green);
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+        .settings-title { font-size: 11px; color: var(--accent-green); font-weight: bold; text-align: center; margin-bottom: 15px; }
 
         .setting-item {
             display: flex;
@@ -379,10 +392,7 @@
             width: 100px;
         }
 
-        .mode-row {
-            display: flex;
-            gap: 8px;
-        }
+        .mode-row { display: flex; gap: 8px; }
 
         .btn-m {
             background: #2c2c2e;
@@ -395,10 +405,7 @@
             cursor: pointer;
         }
 
-        .btn-m.active {
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-        }
+        .btn-m.active { border: 1px solid var(--accent-green); color: var(--accent-green); }
 
         .manufacturer-select {
             width: 100%;
@@ -455,12 +462,7 @@
             width: 140px;
         }
 
-        .location-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
-        }
+        .location-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
 
         .btn-location {
             background: #2c2c2e;
@@ -474,11 +476,7 @@
             white-space: nowrap;
         }
 
-        .location-note {
-            font-size: 9px;
-            color: #666;
-            line-height: 1.4;
-        }
+        .location-note { font-size: 9px; color: #666; line-height: 1.4; }
 
         .well-water-select {
             background: none;
@@ -491,61 +489,21 @@
             width: 80px;
         }
 
-        .well-water-note {
-            font-size: 9px;
-            color: var(--accent-blue);
-            margin-top: 4px;
-            line-height: 1.5;
-            display: none;
-        }
-
         .backup-section {
             margin-top: 25px;
             border-top: 1px dashed #3a3a3c;
             padding-top: 20px;
         }
 
-        .backup-label {
-            font-size: 11px;
-            color: var(--accent-blue);
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .backup-guide {
-            font-size: 9px;
-            color: #666;
-            line-height: 1.4;
-            margin-bottom: 12px;
-            background: rgba(0,0,0,0.2);
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .backup-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-b {
-            flex: 1;
-            background: #2c2c2e;
-            border: 1px solid #3a3a3c;
-            padding: 12px 5px;
-            border-radius: 10px;
-            color: #aaa;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .backup-label { font-size: 11px; color: var(--accent-blue); font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .backup-guide { font-size: 9px; color: #666; line-height: 1.4; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
+        .backup-row { display: flex; gap: 8px; }
+        .btn-b { flex: 1; background: #2c2c2e; border: 1px solid #3a3a3c; padding: 12px 5px; border-radius: 10px; color: #aaa; font-size: 10px; font-weight: bold; cursor: pointer; }
 
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
             display: none;
             justify-content: center;
@@ -566,41 +524,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .modal-h {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--accent-blue);
-            text-align: center;
-        }
-
-        .modal-section {
-            margin-bottom: 20px;
-        }
-
-        .modal-label-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .modal-label {
-            font-size: 11px;
-            color: var(--text-sub);
-            border-left: 3px solid var(--accent-blue);
-            padding-left: 8px;
-        }
-
-        .btn-mini-reset {
-            background: none;
-            border: 1px solid #444;
-            color: #666;
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+        .modal-h { font-size: 18px; font-weight: bold; margin-bottom: 20px; color: var(--accent-blue); text-align: center; }
+        .modal-section { margin-bottom: 20px; }
+        .modal-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .modal-label { font-size: 11px; color: var(--text-sub); border-left: 3px solid var(--accent-blue); padding-left: 8px; }
+        .btn-mini-reset { background: none; border: 1px solid #444; color: #666; font-size: 9px; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
 
         .history-item {
             position: relative;
@@ -614,113 +542,45 @@
             background: rgba(255,255,255,0.02);
         }
 
-        .avg-guide-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1.5px;
-            background: #ffffff;
-            z-index: 2;
-            opacity: 0.5;
+        .hist-memo {
+            position: relative;
+            z-index: 3;
+            font-size: 10px;
+            color: #888;
+            margin-top: 3px;
+            font-style: italic;
         }
 
-        .avg-label {
-            position: absolute;
-            left: 51%;
-            top: 2px;
-            font-size: 7px;
-            color: #fff;
-            z-index: 4;
-            opacity: 0.8;
-            background: rgba(0,0,0,0.5);
-            padding: 1px 3px;
-            border-radius: 2px;
-        }
-
-        .graph-bar-left {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 0;
-            transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            opacity: 0.35;
-        }
-
-        .hist-main {
+        .hist-tags {
             position: relative;
             z-index: 3;
             display: flex;
-            width: 100%;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-        }
-
-        .hist-sub {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            font-size: 10px;
-            text-align: right;
+            flex-wrap: wrap;
+            gap: 4px;
             margin-top: 4px;
-            font-weight: bold;
         }
 
-        .data-textarea {
-            width: 100%;
-            height: 120px;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 12px;
-            color: var(--accent-green);
-            font-family: monospace;
-            font-size: 12px;
-            padding: 12px;
-            margin-bottom: 15px;
-            resize: none;
-            word-break: break-all;
+        .hist-tag {
+            font-size: 9px;
+            background: rgba(10,132,255,0.15);
+            color: var(--accent-blue);
+            padding: 2px 7px;
+            border-radius: 10px;
+            border: 1px solid rgba(10,132,255,0.3);
         }
 
-        .modal-desc {
-            font-size: 11px;
-            color: #aaa;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
+        .avg-guide-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: #ffffff; z-index: 2; opacity: 0.5; }
+        .avg-label { position: absolute; left: 51%; top: 2px; font-size: 7px; color: #fff; z-index: 4; opacity: 0.8; background: rgba(0,0,0,0.5); padding: 1px 3px; border-radius: 2px; }
+        .graph-bar-left { position: absolute; top: 0; bottom: 0; left: 0; z-index: 0; transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1); opacity: 0.35; }
+        .hist-main { position: relative; z-index: 3; display: flex; width: 100%; justify-content: space-between; align-items: center; font-size: 13px; }
+        .hist-sub { position: relative; z-index: 3; width: 100%; font-size: 10px; text-align: right; margin-top: 4px; font-weight: bold; }
 
-        .btn-primary {
-            width: 100%;
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
+        .data-textarea { width: 100%; height: 120px; background: #000; border: 1px solid #333; border-radius: 12px; color: var(--accent-green); font-family: monospace; font-size: 12px; padding: 12px; margin-bottom: 15px; resize: none; word-break: break-all; }
+        .modal-desc { font-size: 11px; color: #aaa; margin-bottom: 15px; line-height: 1.5; }
 
-        .logic-box {
-            font-size: 11px;
-            color: var(--text-sub);
-            background: #111;
-            padding: 12px;
-            border-radius: 8px;
-            line-height: 1.6;
-        }
-
-        .btn-close {
-            width: 100%;
-            background: #3a3a3c;
-            border: none;
-            color: white;
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
+        .btn-primary { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+        .logic-box { font-size: 11px; color: var(--text-sub); background: #111; padding: 12px; border-radius: 8px; line-height: 1.6; }
+        .btn-close { width: 100%; background: #3a3a3c; border: none; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; font-weight: bold; }
 
         #toast {
             position: fixed;
@@ -738,115 +598,43 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .footer {
-            text-align: center;
-            font-size: 10px;
-            color: #555;
-            margin-top: 50px;
-            line-height: 1.8;
-            padding-bottom: 100px;
-        }
+        .footer { text-align: center; font-size: 10px; color: #555; margin-top: 50px; line-height: 1.8; padding-bottom: 100px; }
+        .foot-h { font-weight: bold; color: #777; margin-top: 15px; }
 
-        .foot-h {
-            font-weight: bold;
-            color: #777;
-            margin-top: 15px;
-        }
+        .fullreset-section { margin-top: 25px; border-top: 1px dashed #3a3a3c; padding-top: 20px; }
+        .fullreset-label { font-size: 11px; color: var(--accent-red); font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .fullreset-guide { font-size: 9px; color: #666; line-height: 1.4; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
 
-        .fullreset-section {
-            margin-top: 25px;
-            border-top: 1px dashed #3a3a3c;
-            padding-top: 20px;
-        }
+        .btn-fullreset { width: 100%; background: none; border: 1px solid var(--accent-red); color: var(--accent-red); padding: 12px 5px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; position: relative; overflow: hidden; user-select: none; touch-action: none; }
+        .btn-fullreset-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(255,69,58,0.25); transition: width 0s linear; border-radius: 10px; }
 
-        .fullreset-label {
-            font-size: 11px;
-            color: var(--accent-red);
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        .data-consent-box { background: #111; border: 1px solid #2c2c2e; border-radius: 12px; padding: 14px; margin-bottom: 15px; }
+        .data-consent-title { font-size: 11px; font-weight: bold; color: var(--accent-blue); margin-bottom: 8px; }
+        .data-consent-desc { font-size: 10px; color: var(--text-sub); line-height: 1.6; margin-bottom: 10px; }
+        .data-consent-merit { font-size: 10px; color: var(--accent-green); line-height: 1.6; margin-bottom: 10px; }
+        .data-consent-check { display: flex; align-items: center; gap: 8px; font-size: 11px; color: white; cursor: pointer; }
+        .data-consent-check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent-blue); }
 
-        .fullreset-guide {
-            font-size: 9px;
-            color: #666;
-            line-height: 1.4;
-            margin-bottom: 12px;
-            background: rgba(0,0,0,0.2);
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .btn-fullreset {
-            width: 100%;
-            background: none;
-            border: 1px solid var(--accent-red);
-            color: var(--accent-red);
-            padding: 12px 5px;
-            border-radius: 10px;
-            font-size: 11px;
+        /* カレンダー選択モーダル */
+        .cal-picker { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+        .cal-option-btn {
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            color: white;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            user-select: none;
-            touch-action: none;
-        }
-
-        .btn-fullreset-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: rgba(255,69,58,0.25);
-            transition: width 0s linear;
-            border-radius: 10px;
-        }
-
-        .data-consent-box {
-            background: #111;
-            border: 1px solid #2c2c2e;
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 15px;
-        }
-
-        .data-consent-title {
-            font-size: 11px;
-            font-weight: bold;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-        }
-
-        .data-consent-desc {
-            font-size: 10px;
-            color: var(--text-sub);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .data-consent-merit {
-            font-size: 10px;
-            color: var(--accent-green);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .data-consent-check {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: white;
-            cursor: pointer;
+            gap: 10px;
+            transition: all 0.15s;
         }
-
-        .data-consent-check input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent-blue);
-        }
+        .cal-option-btn:active { opacity: 0.7; }
+        .cal-option-btn.apple { border-color: rgba(52,199,89,0.4); }
+        .cal-option-btn.google { border-color: rgba(10,132,255,0.4); }
+        .cal-option-icon { font-size: 22px; }
     </style>
 </head>
 <body>
@@ -856,7 +644,7 @@
         <div id="onboardingBox" class="onboarding-box">
             <div class="onboarding-step">
                 <div class="onboarding-step-title">STEP 1: 準備</div>
-                <div class="onboarding-step-desc">まずは下の「水道水硬度」に自分の地域のPPMまたはμS/cmを入力してください。</div>
+                <div class="onboarding-step-desc">まずは指示に従い下の「水道水硬度」に自分の地域のPPMまたはμS/cmなど設定を入力してください。</div>
             </div>
             <div class="onboarding-step">
                 <div class="onboarding-step-title">STEP 2: 記録</div>
@@ -888,7 +676,7 @@
 
         <div class="stats-grid">
             <div class="card">
-                <div class="label-xs">累計使用量</div>
+                <div class="label-xs">リセットからの累計使用量</div>
                 <div id="totalUsed">0 ℓ</div>
             </div>
             <div class="card">
@@ -902,6 +690,7 @@
             <div id="costDisp">0 円</div>
         </div>
 
+        <!-- 使用量入力 -->
         <div class="input-box">
             <div class="input-title">今回の洗車使用量</div>
             <div class="counter-row">
@@ -913,7 +702,6 @@
                 <button class="btn-round" onclick="add(1)">＋</button>
             </div>
             <button class="btn-clear" onclick="clr()">入力をリセット</button>
-
             <div class="quick-grid">
                 <button class="btn-q" onclick="add(5)">+5ℓ</button>
                 <button class="btn-q" onclick="add(10)">+10ℓ</button>
@@ -922,6 +710,32 @@
                 <button class="btn-q" onclick="add(50)">+50ℓ</button>
                 <button class="btn-q" onclick="add(100)">+100ℓ</button>
             </div>
+        </div>
+
+        <!-- 施工メモボックス -->
+        <div class="wash-memo-box">
+            <div class="wash-memo-title">📋 施工内容・メモ（任意）</div>
+            <div class="tag-grid" id="tagGrid">
+                <button class="tag-btn" onclick="toggleTag(this, '水垢汚れ')">🪣 水垢汚れ</button>
+                <button class="tag-btn" onclick="toggleTag(this, '油汚れ')">🛢️ 油汚れ</button>
+                <button class="tag-btn" onclick="toggleTag(this, '鉄粉')">🧲 鉄粉</button>
+                <button class="tag-btn" onclick="toggleTag(this, '3ph')">🧪 3ph</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'リセット')">🔄 リセット</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'コーティング')">✨ コーティング</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'ワックス')">💎 ワックス</button>
+                <button class="tag-btn" onclick="toggleTag(this, '油膜ウロコ')">🪟 油膜ウロコ</button>
+                <button class="tag-btn" onclick="toggleTag(this, 'タイヤワックス')">🛞 タイヤワックス</button>
+                <button class="tag-btn" onclick="toggleTag(this, '研磨')">🔆 研磨</button>
+            </div>
+            <textarea id="memoInput" class="memo-input" rows="2" placeholder="一言メモ（例：花粉多かったので2度洗い）"></textarea>
+        </div>
+
+        <!-- カレンダー連携チェック + 保存ボタン -->
+        <div class="cal-row">
+            <input type="checkbox" id="calCheck" class="cal-checkbox" checked>
+            <label for="calCheck" class="cal-label">
+                <span>📅</span> カレンダーに記録する
+            </label>
         </div>
 
         <button class="btn-save" id="saveBtn" onclick="save()">数値を入力してください</button>
@@ -934,13 +748,11 @@
         <div class="settings-box">
             <div class="settings-title">設定・カスタマイズ</div>
 
-            <!-- 1. 水道水硬度 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">水道水硬度 (現在地)</span>
                 <input type="number" id="ppmIn" class="ppm-input" placeholder="0" oninput="setPPM(this.value)" pattern="\d*">
             </div>
 
-            <!-- 2. 単位 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">単位</span>
                 <div class="mode-row">
@@ -949,7 +761,6 @@
                 </div>
             </div>
 
-            <!-- 3. 純水器メーカー・機種 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start;">
                 <span class="label-xs" style="color:#fff; font-size:12px; margin-bottom:4px;">純水器メーカー・機種</span>
                 <select id="manufacturerSelect" class="manufacturer-select" onchange="onManufacturerChange(this.value)">
@@ -969,7 +780,6 @@
                 <div class="manufacturer-note" style="margin-top:4px;">※基準未公表メーカーは100ppmを共通条件として算出。実際の生成量は水道水硬度により異なります。</div>
             </div>
 
-            <!-- 4. 生成量 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;" id="specLabel">メーカー公表生成量（100PPM基準）</span>
                 <div style="display:flex; align-items:center;">
@@ -978,7 +788,6 @@
                 </div>
             </div>
 
-            <!-- 5. 樹脂交換費用 -->
             <div class="setting-item">
                 <span class="label-xs" style="color:#fff; font-size:12px;">樹脂交換費用</span>
                 <div style="display:flex; align-items:center;">
@@ -987,7 +796,6 @@
                 </div>
             </div>
 
-            <!-- 6. 都道府県・市区町村 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
                 <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                     <span class="label-xs" style="color:#fff; font-size:12px;">都道府県</span>
@@ -1006,7 +814,6 @@
                 </div>
             </div>
 
-            <!-- 7. 井戸水 -->
             <div class="setting-item" style="flex-direction: column; align-items: flex-start;">
                 <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                     <span class="label-xs" style="color:#fff; font-size:12px;">井戸水・地下水をお使いですか？</span>
@@ -1016,7 +823,7 @@
                     </select>
                 </div>
                 <div class="well-water-note" style="display:block; color:#666;">
-                    井戸水・地下水をお使いの方は「はい」を選択してください。データをご提供いただいた方には、同県・近隣エリアの井戸水ユーザーの実測データが優先的にご覧いただけるようになります。
+                    井戸水・地下水をお使いの方は「はい」を選択してください。
                 </div>
             </div>
 
@@ -1026,9 +833,7 @@
 
             <div class="backup-section">
                 <div class="backup-label">データ移行・復元</div>
-                <div class="backup-guide">
-                    機種変更やブラウザ変更時に、これまでの洗車記録をコードで引き継ぐことができます。
-                </div>
+                <div class="backup-guide">機種変更やブラウザ変更時に、これまでの洗車記録をコードで引き継ぐことができます。</div>
                 <div class="backup-row">
                     <button class="btn-b" onclick="openTransferModal('export')">書き出し</button>
                     <button class="btn-b" onclick="openTransferModal('import')">読み込み</button>
@@ -1037,9 +842,7 @@
 
             <div class="fullreset-section">
                 <div class="fullreset-label">全データリセット</div>
-                <div class="fullreset-guide">
-                    累計使用量・履歴・月別サマリー・前回交換日をすべて初期化します。設定値は保持されます。
-                </div>
+                <div class="fullreset-guide">累計使用量・履歴・月別サマリー・前回交換日をすべて初期化します。設定値は保持されます。</div>
                 <button class="btn-fullreset" id="fullResetBtn">
                     <div class="btn-fullreset-bar" id="fullResetBar"></div>
                     すべての記録を初期化する（長押し5秒）
@@ -1060,13 +863,15 @@
             ・本アプリのコード・デザイン・文言の無断転載・配布・商用利用を固く禁じます。<br>
             <div class="foot-h">統計データの取り扱いについて</div>
             本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
-            <br>Version 1.0.0 β<br>
+            ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
+            <br>Version 1.1.0 β<br>
             © 2026 missing link. All rights reserved.
         </div>
     </div>
 
     <div id="toast">保存しました</div>
 
+    <!-- コンディション詳細モーダル -->
     <div id="modalOverlay" class="modal-overlay" onclick="closeDetail()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-h">コンディション詳細</div>
@@ -1092,6 +897,7 @@
         </div>
     </div>
 
+    <!-- データ移行モーダル -->
     <div id="transferModal" class="modal-overlay" onclick="closeTransferModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div id="transferTitle" class="modal-h">データ移行</div>
@@ -1102,17 +908,14 @@
         </div>
     </div>
 
+    <!-- 樹脂リセット同意モーダル -->
     <div id="dataConsentModal" class="modal-overlay">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-h">樹脂をリセットします</div>
             <div class="data-consent-box">
                 <div class="data-consent-title">📊 統計データへの協力のお願い</div>
-                <div class="data-consent-desc">
-                    本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量のみで、個人の特定は一切しません。
-                </div>
-                <div class="data-consent-merit" id="consentMerit">
-                    ✓ データを提供いただくと、同機種ユーザーの平均値・他機種との効率比較データが見られるようになります。
-                </div>
+                <div class="data-consent-desc">本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量のみで、個人の特定は一切しません。</div>
+                <div class="data-consent-merit" id="consentMerit">✓ データを提供いただくと、同機種ユーザーの平均値・他機種との効率比較データが見られるようになります。</div>
                 <label class="data-consent-check">
                     <input type="checkbox" id="dataConsentCheck" checked>
                     統計データの提供に協力する（匿名）
@@ -1120,6 +923,25 @@
             </div>
             <button class="btn-primary" onclick="executeReset()">リセットする</button>
             <button class="btn-close" onclick="cancelResetConsent()">キャンセル</button>
+        </div>
+    </div>
+
+    <!-- カレンダー選択モーダル -->
+    <div id="calModal" class="modal-overlay" onclick="closeCalModal()">
+        <div class="modal-content" onclick="event.stopPropagation()" style="max-height: 60vh;">
+            <div class="modal-h" style="font-size:16px; margin-bottom:12px;">📅 カレンダーに追加</div>
+            <div style="font-size:12px; color:var(--text-sub); text-align:center; margin-bottom:16px;" id="calModalPreview"></div>
+            <div class="cal-picker">
+                <button class="cal-option-btn apple" onclick="addToAppleCalendar()">
+                    <span class="cal-option-icon">🍎</span>
+                    <span>Appleカレンダー（iOS）</span>
+                </button>
+                <button class="cal-option-btn google" onclick="addToGoogleCalendar()">
+                    <span class="cal-option-icon">📆</span>
+                    <span>Googleカレンダー（Android等）</span>
+                </button>
+            </div>
+            <button class="btn-close" onclick="closeCalModal()">スキップ</button>
         </div>
     </div>
 
@@ -1131,8 +953,12 @@
         let d = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             ppm: null, unit: 'PPM', spec: null, price: null,
             used: 0, in: 0, logs: {}, history: [], lastReset: null,
-            manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false
+            manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
+            calPref: true  // カレンダー連携デフォルトON
         };
+
+        // calPrefが未定義の場合の互換対応
+        if (d.calPref === undefined) d.calPref = true;
 
         const MANUFACTURER_PRESETS = {
             purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
@@ -1146,6 +972,123 @@
             custom:        { spec: null, price: null,  note: 'お使いの純水器の公表値を入力してください' }
         };
 
+        // 選択済みタグ管理
+        let selectedTags = [];
+
+        function toggleTag(btn, tag) {
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                selectedTags = selectedTags.filter(t => t !== tag);
+            } else {
+                btn.classList.add('selected');
+                selectedTags.push(tag);
+            }
+        }
+
+        function clearTags() {
+            selectedTags = [];
+            document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('selected'));
+        }
+
+        function getMemo() {
+            return document.getElementById('memoInput').value.trim();
+        }
+
+        function clearMemo() {
+            document.getElementById('memoInput').value = '';
+        }
+
+        // カレンダーチェック状態の読み書き
+        function initCalCheck() {
+            document.getElementById('calCheck').checked = d.calPref;
+        }
+
+        document.addEventListener('DOMContentLoaded', initCalCheck);
+
+        document.getElementById('calCheck').addEventListener('change', function() {
+            d.calPref = this.checked;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+        });
+
+        // ── カレンダー連携 ──
+
+        let pendingCalData = null;
+
+        function buildCalTitle(amt, totalUsed) {
+            return `🚗 洗車　純水使用量 ${amt}ℓ（累計 ${totalUsed}ℓ）`;
+        }
+
+        function buildCalDesc(amt, totalUsed, tags, memo) {
+            let parts = [];
+            if (tags.length > 0) parts.push('施工内容: ' + tags.join('・'));
+            if (memo) parts.push(memo);
+            return parts.join('\n') || '純水使用量記録';
+        }
+
+        function openCalModal(calData) {
+            pendingCalData = calData;
+            const preview = buildCalTitle(calData.amt, calData.totalUsed);
+            document.getElementById('calModalPreview').innerText = preview;
+            document.getElementById('calModal').style.display = 'flex';
+        }
+
+        function closeCalModal() {
+            document.getElementById('calModal').style.display = 'none';
+            pendingCalData = null;
+        }
+
+        function addToAppleCalendar() {
+            if (!pendingCalData) return;
+            const { amt, totalUsed, tags, memo, dateStr } = pendingCalData;
+            const title = buildCalTitle(amt, totalUsed);
+            const desc = buildCalDesc(amt, totalUsed, tags, memo);
+
+            // 今日の日時（終日イベント）
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            const dtStart = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+            const dtEnd = dtStart; // 終日
+
+            const ics = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Pure Water Tracker//JP',
+                'BEGIN:VEVENT',
+                `DTSTART;VALUE=DATE:${dtStart}`,
+                `DTEND;VALUE=DATE:${dtEnd}`,
+                `SUMMARY:${title}`,
+                `DESCRIPTION:${desc.replace(/\n/g, '\\n')}`,
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+
+            const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `washlog_${dtStart}.ics`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            closeCalModal();
+        }
+
+        function addToGoogleCalendar() {
+            if (!pendingCalData) return;
+            const { amt, totalUsed, tags, memo } = pendingCalData;
+            const title = encodeURIComponent(buildCalTitle(amt, totalUsed));
+            const details = encodeURIComponent(buildCalDesc(amt, totalUsed, tags, memo));
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            const dateOnly = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateOnly}`;
+            window.open(url, '_blank');
+            closeCalModal();
+        }
+
+        // ── 既存ロジック ──
+
         function getSetupMessage() {
             if (!d.ppm || d.ppm === 0) return '水道水硬度を入力してください';
             if (!d.manufacturer) return '純水器・機種を選択してください';
@@ -1154,22 +1097,6 @@
             if (!d.price) return '樹脂交換費用を入力してください';
             if (!d.prefecture) return '都道府県を選択してください';
             return null;
-        }
-
-        function validateSpec(val) {
-            if (val < 200 || val > 10000) {
-                alert('生成量は200〜10000ℓの範囲で入力してください');
-                return false;
-            }
-            return true;
-        }
-
-        function validatePrice(val) {
-            if (val < 1000 || val > 200000) {
-                alert('樹脂交換費用は1,000〜200,000円の範囲で入力してください');
-                return false;
-            }
-            return true;
         }
 
         function onManufacturerChange(val) {
@@ -1202,12 +1129,7 @@
         function setCustomName(val) { d.customName = val; up(); }
         function setPrefecture(val) { d.prefecture = val; up(); }
         function setCity(val) { d.city = val; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
-
-        function setWellWater(val) {
-            d.wellWater = (val === 'yes');
-            
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
-        }
+        function setWellWater(val) { d.wellWater = (val === 'yes'); localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 
         function getLocation() {
             if (!navigator.geolocation) { alert('位置情報の取得に対応していません'); return; }
@@ -1264,16 +1186,8 @@
             }
         }
 
-        function setSpec(v) {
-            d.spec = v === "" ? null : parseInt(v);
-            up();
-        }
-
-        function setCost(v) {
-            d.price = v === "" ? null : parseInt(v);
-            up();
-        }
-
+        function setSpec(v) { d.spec = v === "" ? null : parseInt(v); up(); }
+        function setCost(v) { d.price = v === "" ? null : parseInt(v); up(); }
         function setPPM(val) { d.ppm = val === "" ? null : parseInt(val); up(); }
 
         function getRecentAvg() {
@@ -1321,7 +1235,6 @@
             if (d.prefecture) document.getElementById('prefectureSelect').value = d.prefecture;
             if (d.city) document.getElementById('cityInput').value = d.city;
             document.getElementById('wellWaterSelect').value = d.wellWater ? 'yes' : 'no';
-            
 
             remL.style.color = '';
             body.classList.remove('alert-red');
@@ -1354,6 +1267,7 @@
                 document.getElementById('predictDate').innerText = `寿命予測：${calculatePredictDate(rem, recentAvg)}頃`;
             }
 
+            // 累計使用量（リセットからの積算）
             document.getElementById('totalUsed').innerText = d.used + ' ℓ';
             document.getElementById('monthUsed').innerText = monthUsed + ' ℓ';
             document.getElementById('inVal').innerText = d.in;
@@ -1388,24 +1302,46 @@
             const cap = calcCap();
             const cost = Math.round((d.in / cap) * d.price);
             const avg = getRecentAvg();
+
+            const tags = [...selectedTags];
+            const memo = getMemo();
+            const savedAmt = d.in;
+
             if (d.in > 0) {
                 const wasteL = Math.max(0, d.in - avg);
                 const wasteCost = Math.round((wasteL / cap) * d.price);
                 let level = 'normal';
                 if (d.in > avg * 1.5) level = 'danger';
                 else if (d.in > avg * 1.2) level = 'warn';
-                if(!d.history) d.history = [];
+                if (!d.history) d.history = [];
                 d.history.unshift({
-                    ts: now.getTime(), date: `${now.getMonth()+1}/${now.getDate()}`,
-                    amt: d.in, cost, wasteL, wasteCost, refAvg: avg, level
+                    ts: now.getTime(),
+                    date: `${now.getMonth()+1}/${now.getDate()}`,
+                    amt: d.in, cost, wasteL, wasteCost, refAvg: avg, level,
+                    tags: tags,
+                    memo: memo
                 });
-                if(d.history.length > 10) d.history.pop();
+                if (d.history.length > 10) d.history.pop();
                 d.used += d.in;
                 d.logs[monthKey] = (d.logs[monthKey] || 0) + d.in;
                 showToast("記録を保存しました");
             }
+
+            const totalUsed = d.used;
             d.in = 0;
+
+            // メモ・タグをクリア
+            clearTags();
+            clearMemo();
+
             up();
+
+            // カレンダー連携
+            if (document.getElementById('calCheck').checked) {
+                const pad = n => String(n).padStart(2, '0');
+                const dateStr = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`;
+                openCalModal({ amt: savedAmt, totalUsed, tags, memo, dateStr });
+            }
         }
 
         function showDetail() {
@@ -1420,12 +1356,24 @@
                 let label = `平均より ${Math.abs(h.amt - h.refAvg)}ℓ 節約`;
                 if (h.level === 'danger') { color = 'var(--accent-red)'; label = `🔥多すぎ (+${h.wasteL}ℓ 約${h.wasteCost}円ロス)`; }
                 else if (h.level === 'warn') { color = 'var(--accent-yellow)'; label = `⚠️多め (+${h.wasteL}ℓ 約${h.wasteCost}円ロス)`; }
+
+                // タグ表示
+                const tagsHtml = (h.tags && h.tags.length > 0)
+                    ? `<div class="hist-tags">${h.tags.map(t => `<span class="hist-tag">${t}</span>`).join('')}</div>`
+                    : '';
+                // メモ表示
+                const memoHtml = h.memo
+                    ? `<div class="hist-memo">💬 ${h.memo}</div>`
+                    : '';
+
                 histDiv.innerHTML += `
                     <div class="history-item">
                         <div class="avg-guide-line"></div><div class="avg-label">平均ライン</div>
                         <div class="graph-bar-left" style="width:${barWidth}%; background:${color};"></div>
                         <div class="hist-main"><span>${h.date}</span><span style="font-weight:bold;font-size:15px;">${h.amt}ℓ</span><span>${h.cost}円</span></div>
                         <div class="hist-sub" style="color:${color}">${label}</div>
+                        ${tagsHtml}
+                        ${memoHtml}
                     </div>`;
             });
 
@@ -1514,7 +1462,6 @@
         };
 
         function executeReset() {
-            // if (document.getElementById('dataConsentCheck').checked) { sendData(); }
             d.used = 0; d.in = 0; d.lastReset = new Date().getTime();
             document.getElementById('dataConsentModal').style.display = 'none';
             up();
@@ -1554,6 +1501,7 @@
             } else {
                 try {
                     d = JSON.parse(decodeURIComponent(escape(atob(area.value.trim()))));
+                    if (d.calPref === undefined) d.calPref = true;
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
                     up(); alert("復元しました！"); closeTransferModal();
                 } catch(e) { alert("不正なコードです"); }
@@ -1592,6 +1540,7 @@
         window.addEventListener('touchend', cancelFullReset);
 
         up();
+        initCalCheck();
 
         if (d.manufacturer === 'custom') {
             document.getElementById('customNameInput').style.display = 'block';
