@@ -692,6 +692,7 @@
                 </span>
             </div>
             <div id="lastResetDisp" class="last-reset-label">前回交換：----/--/--</div>
+            <div id="founderBadge" style="display:none; font-size:11px; color:gold; font-weight:bold; margin-bottom:8px;"></div>
             <button class="btn-detail" onclick="showDetail()">コンディション詳細</button>
         </div>
 
@@ -919,6 +920,7 @@
                 <div class="modal-label">算出ロジックの根拠と診断</div>
                 <div class="logic-box" id="adviceBox"></div>
             </div>
+            <div id="modalFounderBadge" style="display:none; text-align:center; font-size:12px; color:gold; font-weight:bold; margin-bottom:8px; padding:8px; background:rgba(255,215,0,0.08); border-radius:8px; border:1px solid rgba(255,215,0,0.2);"></div>
             <div id="statsBtn" style="display:none; margin-top:10px;">
                 <button class="btn-primary" style="background:rgba(10,132,255,0.15); border:1px solid var(--accent-blue); color:var(--accent-blue);" onclick="fetchLatestStats()">📊 最新の統計データを見る</button>
             </div>
@@ -1333,6 +1335,17 @@
                 document.getElementById('lastResetDisp').innerText = `前回交換：${dateStr}`;
             }
 
+            // 創設メンバーバッジ表示
+            const founderBadge = document.getElementById('founderBadge');
+            if (founderBadge) {
+                if (d.isFounder && d.memberNo) {
+                    founderBadge.innerText = `🏅 創設メンバー No.${d.memberNo}`;
+                    founderBadge.style.display = 'block';
+                } else {
+                    founderBadge.style.display = 'none';
+                }
+            }
+
             if (d.in > 0) {
                 saveBtn.innerText = '記録を保存';
                 saveBtn.style.opacity = "1";
@@ -1479,6 +1492,17 @@
             const statsBtn = document.getElementById('statsBtn');
             if (statsBtn) statsBtn.style.display = d.statsToken ? 'block' : 'none';
 
+            // 創設メンバーバッジをモーダル内に表示
+            const modalFounderBadge = document.getElementById('modalFounderBadge');
+            if (modalFounderBadge) {
+                if (d.isFounder && d.memberNo) {
+                    modalFounderBadge.innerHTML = `🏅 創設メンバー No.${d.memberNo}`;
+                    modalFounderBadge.style.display = 'block';
+                } else {
+                    modalFounderBadge.style.display = 'none';
+                }
+            }
+
             document.getElementById('modalOverlay').style.display = 'flex';
             vib(10);
         }
@@ -1519,11 +1543,21 @@
             document.getElementById('resetBar').style.width = '0%';
         };
 
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyX75cz_jMQHz-gahNMasYDZt2zN4_4iYy4qfHfUo3X5vWmzP7ihBw0wf3o8XYlmsQ3/exec';
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwnz-HMQHlkslJ3QGUwdpZWfu5FlL76kLA8Qr6217pmPlB037FuM2J1JES5Es6FN9Vl/exec';
+
+        function meetsStatsCriteria(actualLiters, lastResetTs) {
+            const litersOk = actualLiters >= 500;
+            const daysOk = lastResetTs
+                ? (new Date().getTime() - lastResetTs) / (1000 * 60 * 60 * 24) >= 60
+                : false;
+            return litersOk && daysOk;
+        }
 
         async function executeReset() {
             const actualLiters = d.used;
+            const lastResetTs = d.lastReset;
             const sendData = document.getElementById('dataConsentCheck').checked;
+            const qualified = meetsStatsCriteria(actualLiters, lastResetTs);
 
             d.used = 0; d.in = 0; d.lastReset = new Date().getTime();
             document.getElementById('dataConsentModal').style.display = 'none';
@@ -1538,7 +1572,8 @@
                         actualLiters: actualLiters,
                         prefecture: d.prefecture || '',
                         wellWater: d.wellWater || false,
-                        appVersion: '1.1.0'
+                        appVersion: '1.1.0',
+                        qualified: qualified
                     };
                     const res = await fetch(GAS_URL, {
                         method: 'POST',
@@ -1546,23 +1581,89 @@
                         body: JSON.stringify(payload)
                     });
                     const result = await res.json();
-                    if (result.token) {
-                        d.statsToken = result.token;
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+                    if (result.notQualified) {
+                        showNotQualifiedModal();
+                    } else if (qualified) {
+                        if (result.token) {
+                            d.statsToken = result.token;
+                            d.isFounder = result.isFounder || false;
+                            d.memberNo = result.memberNo || null;
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+                        }
+                        showStatsModal(result, actualLiters, true);
+                    } else {
+                        showNotQualifiedModal();
                     }
-                    showStatsModal(result, actualLiters, true);
                 } catch(e) {
                     console.log('統計送信エラー:', e);
+                    showErrorModal();
                 }
             }
+        }
+
+        function showNotQualifiedModal() {
+            const box = document.getElementById('statsResultBox');
+            const title = document.getElementById('statsModalTitle');
+            const sub = document.getElementById('statsModalSub');
+            title.innerText = '📊 データをご提供いただきありがとうございます';
+            sub.innerText = '';
+            box.innerHTML = `
+                <div style="line-height:1.8; color:var(--text-sub);">
+                    今回のデータは統計比較の対象外となりました。<br><br>
+                    より信頼性の高いデータを集めるため、次回は十分に樹脂を使い切ってからリセットすることをおすすめします。<br><br>
+                    <span style="color:var(--accent-blue);">条件を満たした際には、同機種ユーザーとの比較データが届きます。引き続きご利用ください。</span>
+                </div>`;
+            document.getElementById('statsModal').style.display = 'flex';
+        }
+
+        function showErrorModal() {
+            const box = document.getElementById('statsResultBox');
+            const title = document.getElementById('statsModalTitle');
+            const sub = document.getElementById('statsModalSub');
+            title.innerText = '⚠️ 通信エラー';
+            sub.innerText = '';
+            box.innerHTML = `
+                <div style="line-height:1.8; color:var(--text-sub);">
+                    データは送信されましたが、統計結果の取得に失敗しました。<br><br>
+                    <span style="color:var(--accent-blue);">次回のリセット時に改めて比較データをお届けします。</span>
+                </div>`;
+            document.getElementById('statsModal').style.display = 'flex';
+        }
+
+        function getRankPct(yourLiters, sameModelAvg, sameModelCount, exactRank) {
+            if (!sameModelCount || sameModelCount < 1) return null;
+            const pct = exactRank ? Math.round(((sameModelCount - exactRank + 1) / sameModelCount) * 100) : null;
+            if (pct === null) return null;
+            if (pct >= 97)      return '上位3%';
+            else if (pct >= 95) return '上位5%';
+            else if (pct >= 90) return '上位10%';
+            else if (pct >= 85) return '上位15%';
+            else if (pct >= 75) return '上位25%';
+            else if (pct >= 65) return '上位35%';
+            else if (pct >= 50) return '上位50%';
+            else                return '下位50%';
         }
 
         function showStatsModal(result, yourLiters, isReset = false) {
             const box = document.getElementById('statsResultBox');
             const title = document.getElementById('statsModalTitle');
             const sub = document.getElementById('statsModalSub');
+            const isFounder = result.isFounder || d.isFounder;
+            const memberNo = result.memberNo || d.memberNo;
 
-            if (isReset) {
+            if (result.error === 'unauthorized') {
+                title.innerText = '⚠️ 認証エラー';
+                sub.innerText = '';
+                box.innerHTML = `<span style="color:var(--accent-red)">データ提供者のみ閲覧できます。</span>`;
+                document.getElementById('statsModal').style.display = 'flex';
+                return;
+            }
+
+            // タイトル設定
+            if (isFounder) {
+                title.innerHTML = `🏅 創設メンバー No.${memberNo}`;
+                sub.innerText = '';
+            } else if (isReset) {
                 title.innerText = '📊 ご協力ありがとうございます';
                 sub.innerText = '同機種ユーザーのデータと比較しました';
             } else {
@@ -1571,20 +1672,44 @@
             }
 
             let html = '';
-            if (result.error === 'unauthorized') {
-                html = `<span style="color:var(--accent-red)">⚠️ 認証エラー。データ提供者のみ閲覧できます。</span>`;
-            } else if (result.sameModelCount >= 1) {
-                const diff = yourLiters - result.sameModelAvg;
+
+            // 創設メンバー特別メッセージ
+            if (isFounder && isReset) {
+                html += `<div style="color:var(--text-sub); font-size:12px; line-height:1.8; margin-bottom:12px;">
+                    Pure Water Trackerの歩みを最初から支えてくださっている大切なメンバーの一人です。<br><br>
+                    あなたのデータがこのアプリの統計の礎となっています。ありがとうございます。<br><br>
+                    <span style="color:var(--accent-blue);">創設メンバーには感謝の気持ちを込めて、同機種ユーザーの中での具体的な順位をお伝えしています。</span>
+                </div><hr style="border-color:#2c2c2e; margin-bottom:12px;">`;
+            } else if (isFounder && !isReset) {
+                html += `<div style="color:var(--accent-blue); font-size:11px; margin-bottom:12px;">創設メンバーには具体的な順位を特別にお伝えしています。</div>
+                <hr style="border-color:#2c2c2e; margin-bottom:12px;">`;
+            }
+
+            // データなし（最初の提供者）
+            if (!result.sameModelCount || result.sameModelCount < 1) {
+                html += `<div style="line-height:1.8;">
+                    📊 あなたがこの機種の<strong>最初のデータ提供者</strong>です！<br><br>
+                    次回リセット時から同機種ユーザーとの比較データが届くようになります。<br>
+                    引き続きご利用ください。
+                </div>`;
+            } else {
+                const liters = yourLiters || result.sameModelAvg;
+                const diff = liters - result.sameModelAvg;
                 const diffStr = diff >= 0
                     ? `<span style="color:var(--accent-green)">+${diff}ℓ 多い</span>`
                     : `<span style="color:var(--accent-yellow)">${diff}ℓ 少ない</span>`;
+
                 html += `🔧 同機種ユーザー数：<strong>${result.sameModelCount}人</strong><br>`;
                 html += `📊 同機種平均生成量：<strong>${result.sameModelAvg}ℓ</strong><br>`;
                 if (yourLiters) html += `🏆 あなたの生成量：<strong>${yourLiters}ℓ</strong>（平均より ${diffStr}）<br>`;
-                if (result.yourRank) html += `🎖️ ランク：<strong style="color:var(--accent-blue)">${result.yourRank}</strong><br>`;
-            } else {
-                html += `📊 あなたが<strong>最初のデータ提供者</strong>です！<br>`;
-                html += `次回リセット時から比較データが届きます。<br>`;
+
+                if (isFounder && result.exactRank) {
+                    const pctLabel = getRankPct(yourLiters, result.sameModelAvg, result.sameModelCount, result.exactRank);
+                    html += `🎖️ 同機種 ${result.sameModelCount}人中 <strong style="color:var(--accent-blue)">${result.exactRank}位</strong><br>`;
+                    if (pctLabel) html += `<span style="font-size:10px; color:#666; margin-left:1em;">（一般ユーザー表示：${pctLabel}）</span><br>`;
+                } else if (result.yourRank) {
+                    html += `🎖️ ランク：<strong style="color:var(--accent-blue)">${result.yourRank}</strong><br>`;
+                }
             }
 
             if (result.prefectureCount >= 1 && result.prefectureAvg) {
