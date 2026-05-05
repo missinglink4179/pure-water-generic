@@ -919,6 +919,9 @@
                 <div class="modal-label">算出ロジックの根拠と診断</div>
                 <div class="logic-box" id="adviceBox"></div>
             </div>
+            <div id="statsBtn" style="display:none; margin-top:10px;">
+                <button class="btn-primary" style="background:rgba(10,132,255,0.15); border:1px solid var(--accent-blue); color:var(--accent-blue);" onclick="fetchLatestStats()">📊 最新の統計データを見る</button>
+            </div>
             <button class="btn-close" onclick="closeDetail()">閉じる</button>
         </div>
     </div>
@@ -968,6 +971,17 @@
                 </button>
             </div>
             <button class="btn-close" onclick="closeCalModal()">スキップ</button>
+        </div>
+    </div>
+
+
+    <!-- 統計結果モーダル -->
+    <div id="statsModal" class="modal-overlay" onclick="closeStatsModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-h" style="font-size:16px;" id="statsModalTitle">📊 ご協力ありがとうございます</div>
+            <div style="font-size:12px; color:var(--text-sub); text-align:center; margin-bottom:16px;" id="statsModalSub">同機種ユーザーのデータと比較しました</div>
+            <div id="statsResultBox" style="background:#111; border-radius:12px; padding:16px; margin-bottom:16px; font-size:13px; line-height:2;"></div>
+            <button class="btn-close" onclick="closeStatsModal()">閉じる</button>
         </div>
     </div>
 
@@ -1461,6 +1475,10 @@
                 ・年間コスト予測: <strong>${yearCost}円</strong>（実績ベース）<br>
                 <span style="color:var(--accent-yellow);">・算出ロジックは記録を更新するとカスタマイズされます</span>`;
 
+            // トークン保有者のみ統計ボタンを表示
+            const statsBtn = document.getElementById('statsBtn');
+            if (statsBtn) statsBtn.style.display = d.statsToken ? 'block' : 'none';
+
             document.getElementById('modalOverlay').style.display = 'flex';
             vib(10);
         }
@@ -1501,11 +1519,103 @@
             document.getElementById('resetBar').style.width = '0%';
         };
 
-        function executeReset() {
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyX75cz_jMQHz-gahNMasYDZt2zN4_4iYy4qfHfUo3X5vWmzP7ihBw0wf3o8XYlmsQ3/exec';
+
+        async function executeReset() {
+            const actualLiters = d.used;
+            const sendData = document.getElementById('dataConsentCheck').checked;
+
             d.used = 0; d.in = 0; d.lastReset = new Date().getTime();
             document.getElementById('dataConsentModal').style.display = 'none';
             up();
             showToast("樹脂をリセットしました");
+
+            if (sendData && actualLiters > 0 && d.manufacturer && d.ppm) {
+                try {
+                    const payload = {
+                        manufacturer: d.manufacturer === 'custom' ? (d.customName || 'custom') : d.manufacturer,
+                        ppm: d.ppm,
+                        actualLiters: actualLiters,
+                        prefecture: d.prefecture || '',
+                        wellWater: d.wellWater || false,
+                        appVersion: '1.1.0'
+                    };
+                    const res = await fetch(GAS_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await res.json();
+                    if (result.token) {
+                        d.statsToken = result.token;
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+                    }
+                    showStatsModal(result, actualLiters, true);
+                } catch(e) {
+                    console.log('統計送信エラー:', e);
+                }
+            }
+        }
+
+        function showStatsModal(result, yourLiters, isReset = false) {
+            const box = document.getElementById('statsResultBox');
+            const title = document.getElementById('statsModalTitle');
+            const sub = document.getElementById('statsModalSub');
+
+            if (isReset) {
+                title.innerText = '📊 ご協力ありがとうございます';
+                sub.innerText = '同機種ユーザーのデータと比較しました';
+            } else {
+                title.innerText = '📊 最新の統計データ';
+                sub.innerText = 'データ提供者限定の比較情報です';
+            }
+
+            let html = '';
+            if (result.error === 'unauthorized') {
+                html = `<span style="color:var(--accent-red)">⚠️ 認証エラー。データ提供者のみ閲覧できます。</span>`;
+            } else if (result.sameModelCount >= 1) {
+                const diff = yourLiters - result.sameModelAvg;
+                const diffStr = diff >= 0
+                    ? `<span style="color:var(--accent-green)">+${diff}ℓ 多い</span>`
+                    : `<span style="color:var(--accent-yellow)">${diff}ℓ 少ない</span>`;
+                html += `🔧 同機種ユーザー数：<strong>${result.sameModelCount}人</strong><br>`;
+                html += `📊 同機種平均生成量：<strong>${result.sameModelAvg}ℓ</strong><br>`;
+                if (yourLiters) html += `🏆 あなたの生成量：<strong>${yourLiters}ℓ</strong>（平均より ${diffStr}）<br>`;
+                if (result.yourRank) html += `🎖️ ランク：<strong style="color:var(--accent-blue)">${result.yourRank}</strong><br>`;
+            } else {
+                html += `📊 あなたが<strong>最初のデータ提供者</strong>です！<br>`;
+                html += `次回リセット時から比較データが届きます。<br>`;
+            }
+
+            if (result.prefectureCount >= 1 && result.prefectureAvg) {
+                html += `<br>📍 ${d.prefecture}の平均：<strong>${result.prefectureAvg}ℓ</strong>（${result.prefectureCount}件）`;
+            }
+
+            box.innerHTML = html;
+            document.getElementById('statsModal').style.display = 'flex';
+        }
+
+        function closeStatsModal() {
+            document.getElementById('statsModal').style.display = 'none';
+        }
+
+        async function fetchLatestStats() {
+            if (!d.statsToken) return;
+            const btn = document.querySelector('#statsBtn button');
+            btn.innerText = '取得中...';
+            btn.style.pointerEvents = 'none';
+            try {
+                const url = GAS_URL + '?token=' + encodeURIComponent(d.statsToken);
+                const res = await fetch(url);
+                const result = await res.json();
+                closeDetail();
+                showStatsModal(result, null, false);
+            } catch(e) {
+                alert('通信エラーが発生しました');
+            } finally {
+                btn.innerText = '📊 最新の統計データを見る';
+                btn.style.pointerEvents = 'auto';
+            }
         }
 
         function cancelResetConsent() { document.getElementById('dataConsentModal').style.display = 'none'; }
