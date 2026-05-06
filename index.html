@@ -1376,10 +1376,11 @@
                 const tagsHtml = (h.tags && h.tags.length > 0)
                     ? `<div class="hist-tags">${h.tags.map(t => `<span class="hist-tag">${t}</span>`).join('')}</div>`
                     : '';
-                // メモ表示
-                const memoHtml = h.memo
-                    ? `<div class="hist-memo">💬 ${h.memo}</div>`
-                    : '';
+                // メモ表示（XSS対策：textContentで安全に描画）
+                const memoEl = document.createElement('div');
+                memoEl.className = 'hist-memo';
+                memoEl.textContent = '💬 ' + h.memo;
+                const memoHtml = h.memo ? memoEl.outerHTML : '';
 
                 histDiv.innerHTML += `
                     <div class="history-item">
