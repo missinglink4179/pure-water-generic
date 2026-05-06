@@ -650,6 +650,20 @@
             </div>
         </div>
 
+        <!-- 洗車時間入力（任意） -->
+        <div class="wash-memo-box" style="margin-bottom:12px;">
+            <div class="wash-memo-title">⏱️ 洗車時間（任意）</div>
+            <div class="counter-row" style="margin-bottom:10px;">
+                <button class="btn-round" onclick="addTime(-5)">−</button>
+                <div class="current-disp">
+                    <span id="timeVal">0</span>
+                    <span style="font-size:24px; margin-left:4px; color:var(--text-sub);">分</span>
+                </div>
+                <button class="btn-round" onclick="addTime(5)">＋</button>
+            </div>
+            <button class="btn-clear" onclick="clrTime()">時間をリセット</button>
+        </div>
+
         <!-- 施工メモボックス -->
         <div class="wash-memo-box">
             <div class="wash-memo-title">📋 施工内容・メモ（任意）</div>
@@ -824,6 +838,10 @@
                 </div>
                 <div id="historyList"></div>
             </div>
+            <div class="modal-section" id="washTimeSectionWrap" style="display:none;">
+                <div class="modal-label">洗車時間の記録（3件以上で表示）</div>
+                <div id="washTimeSection"></div>
+            </div>
             <div class="modal-section">
                 <div class="modal-label-row">
                     <div class="modal-label">月別サマリー</div>
@@ -908,7 +926,7 @@
         const STORAGE_KEY = 'pwGenericV1';
         let d = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             ppm: null, unit: 'PPM', spec: null, price: null,
-            used: 0, in: 0, logs: {}, history: [], lastReset: null,
+            used: 0, in: 0, washTime: 0, logs: {}, history: [], lastReset: null,
             manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
             calPref: true
         };
@@ -1334,7 +1352,8 @@
                     date: `${now.getMonth()+1}/${now.getDate()}`,
                     amt: d.in, cost, wasteL, wasteCost, refAvg: avg, level,
                     tags: tags,
-                    memo: memo
+                    memo: memo,
+                    washTime: d.washTime > 0 ? d.washTime : null
                 });
                 if (d.history.length > 10) d.history.pop();
                 d.used += d.in;
@@ -1344,10 +1363,12 @@
 
             const totalUsed = d.used;
             d.in = 0;
+            d.washTime = 0;
 
             // メモ・タグをクリア
             clearTags();
             clearMemo();
+            document.getElementById('timeVal').innerText = 0;
 
             up();
 
@@ -1392,6 +1413,27 @@
                         ${memoHtml}
                     </div>`;
             });
+
+            // 洗車時間セクション（3件以上記録がある場合のみ表示）
+            const timeRecords = d.history.filter(h => h.washTime && h.washTime > 0);
+            const timeSection = document.getElementById('washTimeSection');
+            if (timeSection) {
+                if (timeRecords.length >= 3) {
+                    const avgTime = Math.round(timeRecords.reduce((a, b) => a + b.washTime, 0) / timeRecords.length);
+                    let timeHtml = '';
+                    timeRecords.forEach(h => {
+                        const diff = h.washTime - avgTime;
+                        const diffStr = diff === 0 ? '平均と同じ' : diff > 0 ? `平均より${diff}分長い` : `平均より${Math.abs(diff)}分短い`;
+                        const color = diff === 0 ? 'var(--text-sub)' : diff > 0 ? 'var(--accent-yellow)' : 'var(--accent-green)';
+                        timeHtml += `<div class="history-item"><div class="hist-main"><span>${h.date}</span><span style="font-weight:bold;">${h.washTime}分</span></div><div class="hist-sub" style="color:${color}">${diffStr}</div></div>`;
+                    });
+                    timeHtml += `<div style="font-size:10px; color:var(--text-sub); text-align:right; margin-top:4px;">直近平均：${avgTime}分</div>`;
+                    timeSection.innerHTML = timeHtml;
+                    document.getElementById('washTimeSectionWrap').style.display = 'block';
+                } else {
+                    document.getElementById('washTimeSectionWrap').style.display = 'none';
+                }
+            }
 
             const summaryDiv = document.getElementById('monthSummaryList');
             const sortedLogKeys = Object.keys(d.logs).sort().reverse();
@@ -1457,6 +1499,8 @@
         }
 
         function clr() { d.in = 0; vib(5); up(); }
+        function addTime(v) { d.washTime = Math.max(0, (d.washTime || 0) + v); document.getElementById('timeVal').innerText = d.washTime; vib(5); }
+        function clrTime() { d.washTime = 0; document.getElementById('timeVal').innerText = 0; vib(5); }
         function add(v) { d.in = Math.max(0, d.in + v); vib(5); up(); }
         function closeDetail() { document.getElementById('modalOverlay').style.display = 'none'; }
 
