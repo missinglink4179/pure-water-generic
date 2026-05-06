@@ -88,37 +88,74 @@
         .onboarding-step-title { font-size: 12px; font-weight: bold; color: var(--accent-blue); margin-bottom: 4px; }
         .onboarding-step-desc { font-size: 11px; color: var(--text-sub); line-height: 1.5; }
 
+        /* ★ リングゲージ header-section（変更箇所のみ） */
         .header-section {
             text-align: center;
             margin-bottom: 20px;
-            padding: 20px 10px;
+            padding: 10px 10px 20px;
             border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .label-xs { font-size: 10px; color: var(--text-sub); margin-bottom: 8px; }
-
-        .main-val-wrap {
+        .ring-wrap {
             position: relative;
-            display: inline-block;
-            margin-bottom: 5px;
+            width: 240px;
+            height: 240px;
+            margin: 0 auto;
+        }
+
+        .ring-wrap svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
 
-        .main-val {
-            font-size: 68px;
-            font-weight: 800;
-            line-height: 1.1;
-            transition: color 0.3s;
-            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        .label-xs-ring {
+            font-size: 10px;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+            letter-spacing: 0.03em;
         }
 
-        .unit-l { font-size: 32px; font-weight: 400; margin-left: 4px; }
+        .main-val {
+            font-size: 58px;
+            font-weight: 800;
+            line-height: 1;
+            transition: color 0.3s;
+            text-shadow: 0 0 24px rgba(52,199,89,0.25);
+        }
+
+        .unit-l { font-size: 24px; font-weight: 400; color: var(--text-sub); margin-top: 2px; }
+
+        .ring-pct {
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 6px;
+            letter-spacing: 0.04em;
+            transition: color 0.3s;
+        }
+
         .no-ppm-alert {
-            font-size: 15px;
+            font-size: 13px;
             color: var(--text-sub);
             font-weight: bold;
             line-height: 1.5;
             display: block;
+            text-align: center;
+            padding: 0 16px;
         }
         .setup-guide {
             display: block;
@@ -126,7 +163,6 @@
             color: var(--accent-blue);
             margin-top: 6px;
             font-weight: normal;
-            letter-spacing: 0.03em;
         }
         .setup-progress {
             display: inline-block;
@@ -138,25 +174,15 @@
             padding: 2px 10px;
             margin-top: 8px;
             font-weight: bold;
-            letter-spacing: 0.05em;
         }
 
-        .main-val-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background-color: var(--accent-blue);
-            border-radius: 2px;
-            transition: width 0s linear;
-            opacity: 0;
+        .ring-below {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
         }
-
-        .main-val-wrap.resetting .main-val { color: var(--accent-blue) !important; }
-        .main-val-wrap.resetting::after { opacity: 1; }
-        .main-val-wrap.reset-active::after { width: 100%; transition: width 1.0s linear; }
 
         .last-reset-label {
             font-size: 10px;
@@ -178,6 +204,8 @@
             transition: all 0.2s;
             margin-bottom: 10px;
         }
+
+        .label-xs { font-size: 10px; color: var(--text-sub); margin-bottom: 8px; }
 
         .sub-stats {
             display: flex;
@@ -215,27 +243,19 @@
         }
 
         .btn-round {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: #3a3a3c;
-            color: white;
-            font-size: 26px;
-            cursor: pointer;
+            width: 50px; height: 50px;
+            border-radius: 50%; border: none;
+            background: #3a3a3c; color: white;
+            font-size: 26px; cursor: pointer;
         }
 
         .current-disp { font-size: 52px; font-weight: bold; }
 
         .btn-clear {
-            background: #3a3a3c;
-            color: var(--text-sub);
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 11px;
-            cursor: pointer;
-            display: block;
+            background: #3a3a3c; color: var(--text-sub);
+            border: none; padding: 6px 16px;
+            border-radius: 20px; font-size: 11px;
+            cursor: pointer; display: block;
             margin: 0 auto 20px;
         }
 
@@ -246,14 +266,10 @@
         }
 
         .btn-q {
-            background: #2c2c2e;
-            border: none;
-            padding: 14px 5px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
+            background: #2c2c2e; border: none;
+            padding: 14px 5px; border-radius: 10px;
+            color: white; font-weight: 600;
+            font-size: 12px; cursor: pointer;
             touch-action: none;
         }
 
@@ -273,13 +289,7 @@
             margin-bottom: 12px;
         }
 
-        /* 施工内容タグ */
-        .tag-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin-bottom: 12px;
-        }
+        .tag-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
 
         .tag-btn {
             background: #2c2c2e;
@@ -301,7 +311,6 @@
             font-weight: bold;
         }
 
-        /* メモテキストエリア */
         .memo-input {
             width: 100%;
             background: #2c2c2e;
@@ -318,7 +327,6 @@
         .memo-input::placeholder { color: #555; }
         .memo-input:focus { border-color: var(--accent-blue); }
 
-        /* カレンダー連携チェックボックス */
         .cal-row {
             display: flex;
             align-items: center;
@@ -328,11 +336,9 @@
         }
 
         .cal-checkbox {
-            width: 18px;
-            height: 18px;
+            width: 18px; height: 18px;
             accent-color: var(--accent-green);
-            cursor: pointer;
-            flex-shrink: 0;
+            cursor: pointer; flex-shrink: 0;
         }
 
         .cal-label {
@@ -347,206 +353,131 @@
         .cal-label span { font-size: 14px; }
 
         .btn-save {
-            width: 100%;
-            display: block;
-            background: var(--accent-green);
-            color: white;
-            padding: 22px;
-            border-radius: 18px;
-            border: none;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.1s;
-            -webkit-appearance: none;
+            width: 100%; display: block;
+            background: var(--accent-green); color: white;
+            padding: 22px; border-radius: 18px; border: none;
+            font-size: 16px; font-weight: bold;
+            margin-bottom: 15px; cursor: pointer;
+            transition: all 0.1s; -webkit-appearance: none;
             touch-action: manipulation;
         }
 
         .btn-save:active { transform: scale(0.97); opacity: 0.9; }
 
         .btn-reset {
-            width: 100%;
-            background: none;
+            width: 100%; background: none;
             border: 1px solid var(--accent-red);
             color: var(--accent-red);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            margin-bottom: 25px;
-            user-select: none;
-            cursor: pointer;
-            touch-action: none;
-            position: relative;
-            overflow: hidden;
+            padding: 12px; border-radius: 12px;
+            font-size: 11px; margin-bottom: 25px;
+            user-select: none; cursor: pointer;
+            touch-action: none; position: relative; overflow: hidden;
         }
 
         .btn-reset-bar {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            width: 0%;
+            position: absolute; top: 0; left: 0;
+            height: 100%; width: 0%;
             background: rgba(255,69,58,0.25);
-            transition: width 0s linear;
-            border-radius: 12px;
+            transition: width 0s linear; border-radius: 12px;
         }
 
         .settings-box {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 20px;
-            margin-top: 10px;
+            padding: 20px; border-radius: 20px; margin-top: 10px;
         }
 
         .settings-title { font-size: 11px; color: var(--accent-green); font-weight: bold; text-align: center; margin-bottom: 15px; }
 
         .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 12px 0;
             border-bottom: 1px solid #2c2c2e;
         }
 
         .ppm-input {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-weight: bold;
-            font-size: 16px;
-            text-align: right;
-            width: 100px;
+            background: none; border: none;
+            color: var(--accent-green); font-weight: bold;
+            font-size: 16px; text-align: right; width: 100px;
         }
 
         .mode-row { display: flex; gap: 8px; }
 
         .btn-m {
-            background: #2c2c2e;
-            border: 1px solid transparent;
-            padding: 8px 12px;
-            border-radius: 8px;
-            color: #666;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
+            background: #2c2c2e; border: 1px solid transparent;
+            padding: 8px 12px; border-radius: 8px;
+            color: #666; font-size: 11px; font-weight: bold; cursor: pointer;
         }
 
         .btn-m.active { border: 1px solid var(--accent-green); color: var(--accent-green); }
 
         .manufacturer-select {
-            width: 100%;
-            background: #2c2c2e;
-            border: none;
-            color: var(--accent-green);
-            font-weight: bold;
-            font-size: 13px;
-            padding: 8px 4px;
-            border-radius: 8px;
-            margin-top: 8px;
-            -webkit-appearance: none;
+            width: 100%; background: #2c2c2e; border: none;
+            color: var(--accent-green); font-weight: bold;
+            font-size: 13px; padding: 8px 4px;
+            border-radius: 8px; margin-top: 8px; -webkit-appearance: none;
         }
 
         .manufacturer-note {
-            font-size: 9px;
-            color: #666;
-            line-height: 1.4;
-            margin-top: 6px;
-            padding: 6px 8px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 6px;
+            font-size: 9px; color: #666; line-height: 1.4;
+            margin-top: 6px; padding: 6px 8px;
+            background: rgba(0,0,0,0.2); border-radius: 6px;
         }
 
         .custom-name-input {
-            width: 100%;
-            background: #2c2c2e;
-            border: 1px solid #3a3a3c;
-            color: white;
-            font-size: 13px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
+            width: 100%; background: #2c2c2e;
+            border: 1px solid #3a3a3c; color: white;
+            font-size: 13px; padding: 10px 12px;
+            border-radius: 8px; margin-top: 8px;
         }
 
         .prefecture-select {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-weight: bold;
-            font-size: 14px;
-            text-align: right;
-            -webkit-appearance: none;
-            width: 140px;
+            background: none; border: none;
+            color: var(--accent-green); font-weight: bold;
+            font-size: 14px; text-align: right;
+            -webkit-appearance: none; width: 140px;
         }
 
         .city-input {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-weight: bold;
-            font-size: 14px;
-            text-align: right;
-            width: 140px;
+            background: none; border: none;
+            color: var(--accent-green); font-weight: bold;
+            font-size: 14px; text-align: right; width: 140px;
         }
 
         .location-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
 
         .btn-location {
-            background: #2c2c2e;
-            border: 1px solid #3a3a3c;
-            color: var(--accent-blue);
-            font-size: 10px;
-            font-weight: bold;
-            padding: 6px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            white-space: nowrap;
+            background: #2c2c2e; border: 1px solid #3a3a3c;
+            color: var(--accent-blue); font-size: 10px; font-weight: bold;
+            padding: 6px 10px; border-radius: 8px; cursor: pointer; white-space: nowrap;
         }
 
         .location-note { font-size: 9px; color: #666; line-height: 1.4; }
 
         .well-water-select {
-            background: none;
-            border: none;
-            color: var(--accent-green);
-            font-weight: bold;
-            font-size: 14px;
-            text-align: right;
-            -webkit-appearance: none;
-            width: 80px;
+            background: none; border: none;
+            color: var(--accent-green); font-weight: bold;
+            font-size: 14px; text-align: right;
+            -webkit-appearance: none; width: 80px;
         }
 
-        .backup-section {
-            margin-top: 25px;
-            border-top: 1px dashed #3a3a3c;
-            padding-top: 20px;
-        }
-
+        .backup-section { margin-top: 25px; border-top: 1px dashed #3a3a3c; padding-top: 20px; }
         .backup-label { font-size: 11px; color: var(--accent-blue); font-weight: bold; text-align: center; margin-bottom: 10px; }
         .backup-guide { font-size: 9px; color: #666; line-height: 1.4; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
         .backup-row { display: flex; gap: 8px; }
         .btn-b { flex: 1; background: #2c2c2e; border: 1px solid #3a3a3c; padding: 12px 5px; border-radius: 10px; color: #aaa; font-size: 10px; font-weight: bold; cursor: pointer; }
 
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
+            display: none; justify-content: center;
+            align-items: center; z-index: 1000; padding: 20px;
         }
 
         .modal-content {
-            background: #1c1c1e;
-            width: 100%;
-            max-width: 350px;
-            max-height: 85vh;
-            border-radius: 24px;
-            padding: 25px;
-            overflow-y: auto;
-            border: 1px solid #3a3a3c;
+            background: #1c1c1e; width: 100%; max-width: 350px;
+            max-height: 85vh; border-radius: 24px; padding: 25px;
+            overflow-y: auto; border: 1px solid #3a3a3c;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
@@ -557,43 +488,15 @@
         .btn-mini-reset { background: none; border: 1px solid #444; color: #666; font-size: 9px; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
 
         .history-item {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding: 12px 10px;
-            border-bottom: 1px solid #2c2c2e;
-            overflow: hidden;
-            margin-bottom: 4px;
-            border-radius: 8px;
+            position: relative; display: flex; flex-direction: column;
+            padding: 12px 10px; border-bottom: 1px solid #2c2c2e;
+            overflow: hidden; margin-bottom: 4px; border-radius: 8px;
             background: rgba(255,255,255,0.02);
         }
 
-        .hist-memo {
-            position: relative;
-            z-index: 3;
-            font-size: 10px;
-            color: #888;
-            margin-top: 3px;
-            font-style: italic;
-        }
-
-        .hist-tags {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 4px;
-        }
-
-        .hist-tag {
-            font-size: 9px;
-            background: rgba(10,132,255,0.15);
-            color: var(--accent-blue);
-            padding: 2px 7px;
-            border-radius: 10px;
-            border: 1px solid rgba(10,132,255,0.3);
-        }
+        .hist-memo { position: relative; z-index: 3; font-size: 10px; color: #888; margin-top: 3px; font-style: italic; }
+        .hist-tags { position: relative; z-index: 3; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+        .hist-tag { font-size: 9px; background: rgba(10,132,255,0.15); color: var(--accent-blue); padding: 2px 7px; border-radius: 10px; border: 1px solid rgba(10,132,255,0.3); }
 
         .avg-guide-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: #ffffff; z-index: 2; opacity: 0.5; }
         .avg-label { position: absolute; left: 51%; top: 2px; font-size: 7px; color: #fff; z-index: 4; opacity: 0.8; background: rgba(0,0,0,0.5); padding: 1px 3px; border-radius: 2px; }
@@ -609,18 +512,12 @@
         .btn-close { width: 100%; background: #3a3a3c; border: none; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; font-weight: bold; }
 
         #toast {
-            position: fixed;
-            bottom: 50px;
-            left: 50%;
+            position: fixed; bottom: 50px; left: 50%;
             transform: translateX(-50%);
-            background: rgba(52, 199, 89, 0.9);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: bold;
-            display: none;
-            z-index: 2000;
+            background: rgba(52, 199, 89, 0.9); color: white;
+            padding: 12px 24px; border-radius: 25px;
+            font-size: 14px; font-weight: bold;
+            display: none; z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
@@ -630,7 +527,6 @@
         .fullreset-section { margin-top: 25px; border-top: 1px dashed #3a3a3c; padding-top: 20px; }
         .fullreset-label { font-size: 11px; color: var(--accent-red); font-weight: bold; text-align: center; margin-bottom: 10px; }
         .fullreset-guide { font-size: 9px; color: #666; line-height: 1.4; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
-
         .btn-fullreset { width: 100%; background: none; border: 1px solid var(--accent-red); color: var(--accent-red); padding: 12px 5px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; position: relative; overflow: hidden; user-select: none; touch-action: none; }
         .btn-fullreset-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(255,69,58,0.25); transition: width 0s linear; border-radius: 10px; }
 
@@ -641,21 +537,11 @@
         .data-consent-check { display: flex; align-items: center; gap: 8px; font-size: 11px; color: white; cursor: pointer; }
         .data-consent-check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent-blue); }
 
-        /* カレンダー選択モーダル */
         .cal-picker { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
         .cal-option-btn {
-            background: #2c2c2e;
-            border: 1px solid #3a3a3c;
-            color: white;
-            padding: 14px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.15s;
+            background: #2c2c2e; border: 1px solid #3a3a3c; color: white;
+            padding: 14px 16px; border-radius: 12px; font-size: 14px; font-weight: bold;
+            cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.15s;
         }
         .cal-option-btn:active { opacity: 0.7; }
         .cal-option-btn.apple { border-color: rgba(52,199,89,0.4); }
@@ -684,16 +570,41 @@
 
         <div id="noticeBar" class="notice-bar">⚠️ 樹脂の寿命が近づいています</div>
 
+        <!-- ★ header-section：リングゲージに変更（それ以外は元のまま） -->
         <div id="hSec" class="header-section">
-            <div class="label-xs">交換まであと</div>
-            <div class="main-val-wrap" id="mainValWrap" onclick="showDetail()">
-                <span class="main-val" id="remL">
-                    <span class="no-ppm-alert">水道水硬度を入力してください</span>
-                </span>
+            <div class="ring-wrap" id="ringWrap">
+                <svg viewBox="0 0 240 240">
+                    <!-- 背景トラック -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#2c2c2e" stroke-width="12"/>
+                    <!-- 危険ゾーン 薄赤（最後10%） -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#ff453a" stroke-width="12"
+                        stroke-dasharray="65.3 588.7"
+                        stroke-dashoffset="1"
+                        opacity="0.2"/>
+                    <!-- 残量アーク -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#34c759" stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="653"
+                        stroke-dashoffset="653"
+                        id="mainArc"/>
+                </svg>
+                <div class="ring-inner" onclick="showDetail()">
+                    <span class="label-xs-ring">交換まであと</span>
+                    <span class="main-val" id="remL">
+                        <span class="no-ppm-alert">水道水硬度を入力してください</span>
+                    </span>
+                    <span class="unit-l" id="unitLabel" style="display:none;">ℓ</span>
+                    <span class="ring-pct" id="ringPct" style="display:none;"></span>
+                </div>
             </div>
-            <div id="lastResetDisp" class="last-reset-label">前回交換：----/--/--</div>
-            <div id="founderBadge" style="display:none; font-size:11px; color:gold; font-weight:bold; margin-bottom:8px;"></div>
-            <button class="btn-detail" onclick="showDetail()">コンディション詳細</button>
+            <div class="ring-below">
+                <div id="lastResetDisp" class="last-reset-label">前回交換：----/--/--</div>
+                <div id="founderBadge" style="display:none; font-size:11px; color:gold; font-weight:bold; margin-bottom:8px;"></div>
+                <button class="btn-detail" onclick="showDetail()">コンディション詳細</button>
+            </div>
         </div>
 
         <div class="sub-stats">
@@ -800,11 +711,15 @@
                     <option value="unger">UNGER（コストコ等）</option>
                     <option value="garacoat_10">ガラコート（GARACOAT）10L</option>
                     <option value="garacoat_15">ガラコート（GARACOAT）15L</option>
+                    <option value="dkworks_10">DKワークス（DK-works）10L</option>
+                    <option value="dkworks_5">DKワークス（DK-works）5L</option>
+                    <option value="actial_10">ACTIAL（アクティアル）10L</option>
+                    <option value="astro">アストロプロダクツ 10L</option>
                     <option value="custom">手動入力（カスタム）</option>
                 </select>
                 <div id="manufacturerNote" class="manufacturer-note" style="display:none;"></div>
                 <input type="text" id="customNameInput" class="custom-name-input" placeholder="純水器名を入力してください（3文字以上）" oninput="setCustomName(this.value)" style="display:none;">
-                <div class="manufacturer-note" style="margin-top:4px;">※基準未公表メーカーは100ppmを共通条件として算出。実際の生成量は水道水硬度により異なります。</div>
+                <div class="manufacturer-note" style="margin-top:4px;">⚠️ 生成量の基準ppmを公表していないメーカーがあります。このアプリでは100ppmで統一算出し、横並び比較を可能にしています。購入前に必ず基準ppmの明記を確認してください。</div>
             </div>
 
             <div class="setting-item">
@@ -891,7 +806,7 @@
             <div class="foot-h">統計データの取り扱いについて</div>
             本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
             ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
-            <br>Version 1.1.0 β<br>
+            <br>Version 1.2.0 β<br>
             © 2026 missing link. All rights reserved.
         </div>
     </div>
@@ -976,7 +891,6 @@
         </div>
     </div>
 
-
     <!-- 統計結果モーダル -->
     <div id="statsModal" class="modal-overlay" onclick="closeStatsModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -996,7 +910,7 @@
             ppm: null, unit: 'PPM', spec: null, price: null,
             used: 0, in: 0, logs: {}, history: [], lastReset: null,
             manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
-            calPref: true  // カレンダー連携デフォルトON
+            calPref: true
         };
 
         // calPrefが未定義の場合の互換対応
@@ -1011,6 +925,10 @@
             unger:         { spec: 1000, price: 8250,  note: '100ppm想定・洗車回数から算出' },
             garacoat_10:   { spec: 2400, price: 7680,  note: '100ppm想定・公表値から逆算' },
             garacoat_15:   { spec: 3600, price: 11480, note: '100ppm想定・公表値から逆算' },
+            dkworks_10:    { spec: 1620, price: 6990,  note: '90ppm基準公式明記・100ppm換算値で登録' },
+            dkworks_5:     { spec: 450,  price: 4400,  note: '90ppm基準公式明記・100ppm換算値で登録' },
+            actial_10:     { spec: 2560, price: 7800,  note: '生成量公表・基準ppm非公表・100ppm想定で登録' },
+            astro:         { spec: 1900, price: 13090, note: '100ppm基準・公式明記' },
             custom:        { spec: null, price: null,  note: 'お使いの純水器の公表値を入力してください' }
         };
 
@@ -1081,16 +999,13 @@
 
         function addToAppleCalendar() {
             if (!pendingCalData) return;
-            const { amt, totalUsed, tags, memo, dateStr } = pendingCalData;
+            const { amt, totalUsed, tags, memo } = pendingCalData;
             const title = buildCalTitle(amt, totalUsed);
             const desc = buildCalDesc(amt, totalUsed, tags, memo);
-
-            // 今日の日時（終日イベント）
             const now = new Date();
             const pad = n => String(n).padStart(2, '0');
             const dtStart = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-            const dtEnd = dtStart; // 終日
-
+            const dtEnd = dtStart;
             const ics = [
                 'BEGIN:VCALENDAR',
                 'VERSION:2.0',
@@ -1103,7 +1018,6 @@
                 'END:VEVENT',
                 'END:VCALENDAR'
             ].join('\r\n');
-
             const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1162,6 +1076,8 @@
                 const preset = MANUFACTURER_PRESETS[val];
                 noteEl.style.display = 'block';
                 noteEl.innerText = preset.note;
+                const isAdjusted = ['unger','garacoat_10','garacoat_15','dkworks_10','dkworks_5','actial_10'].includes(val);
+                noteEl.style.color = isAdjusted ? '#ffcc00' : '#666';
                 if (val === 'custom') {
                     customInput.style.display = 'block';
                     customInput.value = d.customName || '';
@@ -1271,6 +1187,34 @@
             return `${target.getMonth() + 1}/${target.getDate()}`;
         }
 
+        // ★ リングゲージ更新関数（追加）
+        const RING_CIRCUMFERENCE = 653; // 2π×104
+
+        function updateRing(ratio) {
+            const arc = document.getElementById('mainArc');
+            const pctEl = document.getElementById('ringPct');
+            const unitEl = document.getElementById('unitLabel');
+            if (!arc) return;
+            const offset = RING_CIRCUMFERENCE * (1 - Math.max(0, Math.min(1, ratio)));
+            arc.setAttribute('stroke-dashoffset', offset);
+            let color = '#34c759';
+            if (ratio < 0.1) color = '#ff453a';
+            else if (ratio < 0.3) color = '#ffcc00';
+            arc.setAttribute('stroke', color);
+            pctEl.style.color = color;
+            pctEl.textContent = `残量 ${Math.round(ratio * 100)}%`;
+            pctEl.style.display = 'block';
+            unitEl.style.display = 'block';
+        }
+
+        function hideRingExtras() {
+            document.getElementById('ringPct').style.display = 'none';
+            document.getElementById('unitLabel').style.display = 'none';
+            const arc = document.getElementById('mainArc');
+            arc.setAttribute('stroke-dashoffset', RING_CIRCUMFERENCE);
+            arc.setAttribute('stroke', '#2c2c2e');
+        }
+
         function up() {
             const body = document.body;
             const remL = document.getElementById('remL');
@@ -1298,16 +1242,20 @@
             const setupMsg = getSetupMessage();
             if (setupMsg) {
                 const prog = getSetupProgress();
-                remL.innerHTML = `<span class="no-ppm-alert">${setupMsg}</span><span class="setup-guide">↓ 下の設定から入力してください</span><span class="setup-progress">設定 ${prog.done} / ${prog.total} 完了</span>`;
+                remL.innerHTML = `<span class="no-ppm-alert">${setupMsg}<span class="setup-guide">↓ 下の設定から入力してください</span><span class="setup-progress">設定 ${prog.done} / ${prog.total} 完了</span></span>`;
                 document.getElementById('remCount').innerText = '--';
                 document.getElementById('costDisp').innerText = '0 円';
                 document.getElementById('predictDate').innerText = '寿命予測：--/--頃';
+                hideRingExtras();
             } else {
                 const cap = calcCap();
                 const rem = Math.max(0, cap - d.used);
                 const ratio = rem / cap;
                 const recentAvg = getRecentAvg();
-                remL.innerHTML = Math.floor(rem) + '<span class="unit-l">ℓ</span>';
+
+                remL.innerHTML = Math.floor(rem);
+                updateRing(ratio); // ★ リングゲージ更新
+
                 document.getElementById('remCount').innerText = Math.floor(rem / recentAvg);
                 if (ratio < 0.1) {
                     remL.style.color = 'var(--accent-red)';
@@ -1522,7 +1470,6 @@
         const resetBtn = document.getElementById('resetBtn');
         const startReset = (e) => {
             if (e.type === 'touchstart') e.preventDefault();
-            document.getElementById('mainValWrap').classList.add('resetting', 'reset-active');
             document.getElementById('resetBar').style.transition = 'width 5.0s linear';
             document.getElementById('resetBar').style.width = '100%';
             vib(10);
@@ -1538,7 +1485,6 @@
 
         const cancelReset = () => {
             clearTimeout(longClickTimer);
-            document.getElementById('mainValWrap').classList.remove('resetting', 'reset-active');
             document.getElementById('resetBar').style.transition = 'width 0s linear';
             document.getElementById('resetBar').style.width = '0%';
         };
@@ -1572,7 +1518,7 @@
                         actualLiters: actualLiters,
                         prefecture: d.prefecture || '',
                         wellWater: d.wellWater || false,
-                        appVersion: '1.1.0',
+                        appVersion: '1.2.0',
                         qualified: qualified
                     };
                     const res = await fetch(GAS_URL, {
