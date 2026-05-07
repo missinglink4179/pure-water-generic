@@ -670,6 +670,7 @@
                 <button class="btn-q" onclick="addTime(150)">+2.5h</button>
                 <button class="btn-q" onclick="addTime(180)">+3時間</button>
             </div>
+            <div id="washTimeGuide" style="font-size:10px; color:var(--text-sub); text-align:center; margin-top:8px; display:none;"></div>
         </div>
 
         <!-- 施工メモボックス -->
@@ -1328,6 +1329,21 @@
                 saveBtn.innerText = '数値を入力してください';
                 saveBtn.style.opacity = "0.3";
                 saveBtn.style.pointerEvents = "none";
+            }
+
+            // 洗車時間ガイド更新
+            const washTimeGuide = document.getElementById('washTimeGuide');
+            if (washTimeGuide) {
+                const timeCount = (d.history || []).filter(h => h.washTime && h.washTime > 0).length;
+                if (timeCount >= 3) {
+                    washTimeGuide.style.display = 'none';
+                } else {
+                    const remaining = 3 - timeCount;
+                    washTimeGuide.style.display = 'block';
+                    washTimeGuide.innerText = timeCount === 0
+                        ? '3回以上記録すると「コンディション詳細」に洗車時間の比較が表示されます'
+                        : `あと${remaining}回記録すると洗車時間の比較が表示されます`;
+                }
             }
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
