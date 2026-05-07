@@ -1700,13 +1700,27 @@
                 <hr style="border-color:#2c2c2e; margin-bottom:12px;">`;
             }
 
-            // データなし（最初の提供者）
-            if (!result.sameModelCount || result.sameModelCount < 1) {
-                html += `<div style="line-height:1.8;">
-                    📊 あなたがこの機種の<strong>最初のデータ提供者</strong>です！<br><br>
-                    次回リセット時から同機種ユーザーとの比較データが届くようになります。<br>
-                    引き続きご利用ください。
+            // データなし・少ない場合
+            if (!result.sameModelCount || result.sameModelCount < 3) {
+                const isFirst = !result.sameModelCount || result.sameModelCount < 1;
+                html += `<div style="line-height:1.9; color:var(--text-sub); font-size:12px;">
+                    📊 統計データを受信しました。<br><br>
+                    ${isFirst
+                        ? 'あなたがこの機種の<strong style="color:white;">最初のデータ提供者</strong>です。'
+                        : `まだ同機種ユーザーが<strong style="color:white;">${result.sameModelCount}人</strong>のため、`}
+                    ${isFirst ? '<br><br>' : ''}
+                    比較データとして十分な精度がありません。<br><br>
+                    これはβ版の初期段階であるため自然なことです。<br>
+                    ユーザーが増えるにつれ、メーカー別の実測値比較・地域別の傾向など、より価値あるデータが届くようになります。<br><br>
+                    <span style="color:var(--accent-blue);">あなたのデータはこのアプリの礎になっています。</span>
                 </div>`;
+                if (isFounder) {
+                    html += `<div style="margin-top:12px; padding:10px 12px; background:rgba(255,204,0,0.08); border:1px solid rgba(255,204,0,0.25); border-radius:10px; font-size:12px; line-height:1.8;">
+                        🏅 <strong style="color:var(--accent-yellow);">創設メンバー No.${memberNo}</strong><br>
+                        あなたは最初期のユーザーとしてこのデータベースの礎を作っています。<br>
+                        ありがとうございます。
+                    </div>`;
+                }
             } else {
                 const liters = yourLiters || result.sameModelAvg;
                 const diff = liters - result.sameModelAvg;
