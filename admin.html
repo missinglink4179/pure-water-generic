@@ -24,8 +24,6 @@
             min-height: 100vh;
             padding: 0;
         }
-
-        /* ── ログイン画面 ── */
         #loginScreen {
             min-height: 100vh;
             display: flex;
@@ -35,311 +33,61 @@
             gap: 24px;
             padding: 40px 20px;
         }
-        .login-logo {
-            font-size: 11px;
-            letter-spacing: 0.3em;
-            color: var(--sub);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        .login-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: -0.02em;
-            text-shadow: 0 0 40px rgba(0,212,255,0.4);
-        }
-        .login-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
-            width: 100%;
-            max-width: 360px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .login-input {
-            background: #0a0f15;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--accent);
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 16px;
-            padding: 14px 16px;
-            width: 100%;
-            letter-spacing: 0.1em;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+        .login-logo { font-size: 11px; letter-spacing: 0.3em; color: var(--sub); text-transform: uppercase; margin-bottom: 8px; }
+        .login-title { font-size: 28px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; text-shadow: 0 0 40px rgba(0,212,255,0.4); }
+        .login-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px; }
+        .login-input { background: #0a0f15; border: 1px solid var(--border); border-radius: 10px; color: var(--accent); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 16px; padding: 14px 16px; width: 100%; letter-spacing: 0.1em; outline: none; transition: border-color 0.2s; }
         .login-input:focus { border-color: var(--accent); }
-        .login-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 14px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
+        .login-btn { background: var(--accent); color: #000; border: none; border-radius: 10px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; padding: 14px; cursor: pointer; transition: opacity 0.2s; }
         .login-btn:active { opacity: 0.8; }
         .login-error { font-size: 11px; color: var(--accent4); text-align: center; display: none; }
-
-        /* ── ダッシュボード ── */
         #dashboard { display: none; }
-        .dash-header {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .dash-logo {
-            font-size: 11px;
-            letter-spacing: 0.25em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-        .dash-time {
-            font-size: 10px;
-            color: var(--sub);
-            letter-spacing: 0.05em;
-        }
+        .dash-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .dash-logo { font-size: 11px; letter-spacing: 0.25em; color: var(--accent); text-transform: uppercase; }
+        .dash-time { font-size: 10px; color: var(--sub); letter-spacing: 0.05em; }
         .dash-body { padding: 24px 20px; max-width: 800px; margin: 0 auto; }
-
-        /* ── KPIカード ── */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .kpi-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px 16px;
-            text-align: center;
-        }
-        .kpi-label {
-            font-size: 9px;
-            color: var(--sub);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        .kpi-val {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-        }
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+        .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; text-align: center; }
+        .kpi-label { font-size: 9px; color: var(--sub); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-val { font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
         .kpi-val.green { color: var(--accent2); }
         .kpi-val.yellow { color: var(--accent3); }
-
-        /* ── セクション ── */
-        .section {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-        .section-header {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border);
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
+        .section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+        .section-header { padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 10px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
         .section-body { padding: 16px 18px; }
-
-        /* ── ランキング ── */
-        .rank-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-        }
+        .rank-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
         .rank-row:last-child { border-bottom: none; }
-        .rank-no {
-            font-size: 10px;
-            color: var(--sub);
-            width: 20px;
-            text-align: right;
-            flex-shrink: 0;
-        }
-        .rank-name {
-            font-size: 11px;
-            color: var(--text);
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .rank-bar-wrap {
-            flex: 2;
-            background: #0a0f15;
-            border-radius: 4px;
-            height: 6px;
-            overflow: hidden;
-        }
-        .rank-bar {
-            height: 100%;
-            border-radius: 4px;
-            background: var(--accent);
-            transition: width 0.8s cubic-bezier(0.23,1,0.32,1);
-        }
-        .rank-val {
-            font-size: 11px;
-            color: var(--accent);
-            width: 60px;
-            text-align: right;
-            flex-shrink: 0;
-        }
-        .rank-count {
-            font-size: 9px;
-            color: var(--sub);
-            width: 40px;
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        /* ── ppm帯 ── */
-        .ppm-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 0;
-        }
-        .ppm-label {
-            font-size: 10px;
-            color: var(--sub);
-            width: 70px;
-            flex-shrink: 0;
-        }
-        .ppm-bar-wrap {
-            flex: 1;
-            background: #0a0f15;
-            border-radius: 4px;
-            height: 6px;
-            overflow: hidden;
-        }
-        .ppm-bar {
-            height: 100%;
-            border-radius: 4px;
-            background: var(--accent3);
-        }
-        .ppm-val {
-            font-size: 10px;
-            color: var(--sub);
-            width: 30px;
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        /* ── 都道府県 ── */
-        .pref-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .pref-tag {
-            background: #0a0f15;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 5px 10px;
-            font-size: 10px;
-            color: var(--sub);
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
+        .rank-no { font-size: 10px; color: var(--sub); width: 20px; text-align: right; flex-shrink: 0; }
+        .rank-name { font-size: 11px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rank-bar-wrap { flex: 2; background: #0a0f15; border-radius: 4px; height: 6px; overflow: hidden; }
+        .rank-bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.8s cubic-bezier(0.23,1,0.32,1); }
+        .rank-val { font-size: 11px; color: var(--accent); width: 60px; text-align: right; flex-shrink: 0; }
+        .rank-count { font-size: 9px; color: var(--sub); width: 40px; text-align: right; flex-shrink: 0; }
+        .ppm-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+        .ppm-label { font-size: 10px; color: var(--sub); width: 70px; flex-shrink: 0; }
+        .ppm-bar-wrap { flex: 1; background: #0a0f15; border-radius: 4px; height: 6px; overflow: hidden; }
+        .ppm-bar { height: 100%; border-radius: 4px; background: var(--accent3); }
+        .ppm-val { font-size: 10px; color: var(--sub); width: 30px; text-align: right; flex-shrink: 0; }
+        .pref-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pref-tag { background: #0a0f15; border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 10px; color: var(--sub); display: flex; gap: 6px; align-items: center; }
         .pref-tag span { color: var(--accent2); font-weight: bold; }
-
-        /* ── 直近一覧 ── */
-        .recent-row {
-            display: grid;
-            grid-template-columns: 70px 1fr 50px 60px 60px;
-            gap: 8px;
-            padding: 9px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 10px;
-            align-items: center;
-        }
+        .recent-row { display: grid; grid-template-columns: 60px 1fr 45px 55px 55px 55px; gap: 6px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 10px; align-items: center; }
         .recent-row:last-child { border-bottom: none; }
         .recent-row.header { color: var(--sub); font-size: 9px; letter-spacing: 0.1em; padding-bottom: 6px; }
-        .founder-badge {
-            font-size: 8px;
-            background: rgba(255,204,0,0.15);
-            color: var(--accent3);
-            border: 1px solid rgba(255,204,0,0.3);
-            border-radius: 4px;
-            padding: 1px 5px;
-            margin-left: 4px;
-        }
-
-        /* ── バージョン ── */
-        .ver-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 11px;
-        }
+        .founder-badge { font-size: 8px; background: rgba(255,204,0,0.15); color: var(--accent3); border: 1px solid rgba(255,204,0,0.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+        .ver-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 11px; }
         .ver-row:last-child { border-bottom: none; }
         .ver-key { color: var(--sub); }
         .ver-val { color: var(--accent2); }
-
-        /* ── リフレッシュ ── */
-        .refresh-btn {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--sub);
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            padding: 6px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .refresh-btn { background: none; border: 1px solid var(--border); color: var(--sub); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 10px; letter-spacing: 0.1em; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
         .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* ── ローディング ── */
-        #loading {
-            display: none;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .spinner {
-            width: 32px; height: 32px;
-            border: 2px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { font-size: 10px; color: var(--sub); letter-spacing: 0.2em; }
     </style>
 </head>
 <body>
 
-<!-- ログイン画面 -->
 <div id="loginScreen">
     <div>
         <div class="login-logo">pure-water-tracker</div>
@@ -352,13 +100,11 @@
     </div>
 </div>
 
-<!-- ローディング -->
 <div id="loading" style="display:none; min-height:100vh; align-items:center; justify-content:center; flex-direction:column; gap:16px;">
     <div class="spinner"></div>
     <div class="loading-text">LOADING DATA...</div>
 </div>
 
-<!-- ダッシュボード -->
 <div id="dashboard">
     <div class="dash-header">
         <div class="dash-logo">⚡ pure-water admin</div>
@@ -368,8 +114,6 @@
         </div>
     </div>
     <div class="dash-body">
-
-        <!-- KPI -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-label">総登録者</div>
@@ -384,37 +128,30 @@
                 <div class="kpi-val green" id="kpiWell">--</div>
             </div>
         </div>
-
-        <!-- メーカー別ランキング -->
         <div class="section">
             <div class="section-header">メーカー別 平均生成量ランキング</div>
             <div class="section-body" id="modelRanking"></div>
         </div>
-
-        <!-- ppm帯分布 -->
         <div class="section">
             <div class="section-header">水道水硬度（ppm帯）分布</div>
             <div class="section-body" id="ppmDist"></div>
         </div>
-
-        <!-- 都道府県分布 -->
         <div class="section">
             <div class="section-header">都道府県分布</div>
             <div class="section-body" id="prefDist"></div>
         </div>
-
-        <!-- バージョン分布 -->
+        <div class="section">
+            <div class="section-header">市区町村分布</div>
+            <div class="section-body" id="cityDist"></div>
+        </div>
         <div class="section">
             <div class="section-header">アプリバージョン分布</div>
             <div class="section-body" id="verDist"></div>
         </div>
-
-        <!-- 直近登録 -->
         <div class="section">
             <div class="section-header">直近登録 20件</div>
             <div class="section-body" id="recentList"></div>
         </div>
-
     </div>
 </div>
 
@@ -422,13 +159,11 @@
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbwnz-HMQHlkslJ3QGUwdpZWfu5FlL76kLA8Qr6217pmPlB037FuM2J1JES5Es6FN9Vl/exec';
     let adminPass = '';
 
-    // 時刻更新
     setInterval(() => {
         const el = document.getElementById('dashTime');
         if (el) el.textContent = new Date().toLocaleString('ja-JP');
     }, 1000);
 
-    // Enterキーでログイン
     document.getElementById('passInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') login();
     });
@@ -446,7 +181,6 @@
         try {
             const res = await fetch(`${GAS_URL}?pass=${encodeURIComponent(adminPass)}`);
             const data = await res.json();
-
             if (data.error === 'unauthorized') {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('loginScreen').style.display = 'flex';
@@ -455,11 +189,9 @@
                 adminPass = '';
                 return;
             }
-
             document.getElementById('loading').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
             renderDashboard(data);
-
         } catch(e) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
@@ -469,12 +201,10 @@
     }
 
     function renderDashboard(data) {
-        // KPI
         document.getElementById('kpiTotal').textContent = data.total ?? '--';
         document.getElementById('kpiFounder').textContent = data.founderCount ?? '--';
         document.getElementById('kpiWell').textContent = data.wellWaterCount ?? '--';
 
-        // メーカーランキング
         const modelEl = document.getElementById('modelRanking');
         if (data.modelRanking && data.modelRanking.length > 0) {
             const maxAvg = Math.max(...data.modelRanking.map(r => r.avg));
@@ -493,7 +223,6 @@
             modelEl.innerHTML = '<div style="font-size:11px; color:var(--sub); text-align:center; padding:12px;">データなし</div>';
         }
 
-        // ppm帯
         const ppmEl = document.getElementById('ppmDist');
         if (data.ppmBands) {
             const total = Object.values(data.ppmBands).reduce((a, b) => a + b, 0);
@@ -508,18 +237,30 @@
             `).join('');
         }
 
-        // 都道府県
         const prefEl = document.getElementById('prefDist');
-        if (data.prefMap) {
+        if (data.prefMap && Object.keys(data.prefMap).length > 0) {
             const sorted = Object.entries(data.prefMap).sort((a, b) => b[1] - a[1]);
             prefEl.innerHTML = '<div class="pref-grid">' +
                 sorted.map(([pref, count]) =>
                     `<div class="pref-tag">${pref}<span>${count}</span></div>`
                 ).join('') +
             '</div>';
+        } else {
+            prefEl.innerHTML = '<div style="font-size:11px; color:var(--sub); text-align:center; padding:12px;">データなし</div>';
         }
 
-        // バージョン
+        const cityEl = document.getElementById('cityDist');
+        if (data.cityMap && Object.keys(data.cityMap).length > 0) {
+            const sorted = Object.entries(data.cityMap).sort((a, b) => b[1] - a[1]);
+            cityEl.innerHTML = '<div class="pref-grid">' +
+                sorted.map(([city, count]) =>
+                    `<div class="pref-tag">${city}<span>${count}</span></div>`
+                ).join('') +
+            '</div>';
+        } else {
+            cityEl.innerHTML = '<div style="font-size:11px; color:var(--sub); text-align:center; padding:12px;">データなし</div>';
+        }
+
         const verEl = document.getElementById('verDist');
         if (data.versionMap) {
             verEl.innerHTML = Object.entries(data.versionMap)
@@ -532,11 +273,10 @@
                 `).join('');
         }
 
-        // 直近一覧
         const recentEl = document.getElementById('recentList');
         if (data.recent && data.recent.length > 0) {
             recentEl.innerHTML =
-                '<div class="recent-row header"><div>日付</div><div>メーカー</div><div>ppm</div><div>生成量</div><div>都道府県</div></div>' +
+                '<div class="recent-row header"><div>日付</div><div>メーカー</div><div>ppm</div><div>生成量</div><div>都道府県</div><div>市区町村</div></div>' +
                 data.recent.map(r => `
                     <div class="recent-row">
                         <div style="color:var(--sub)">${r.date}</div>
@@ -547,6 +287,7 @@
                         <div style="color:var(--sub)">${r.ppm || '--'}</div>
                         <div style="color:var(--accent2)">${r.liters ? r.liters + 'L' : '--'}</div>
                         <div style="color:var(--sub)">${r.prefecture || '--'}</div>
+                        <div style="color:var(--sub)">${r.city || '--'}</div>
                     </div>
                 `).join('');
         } else {
