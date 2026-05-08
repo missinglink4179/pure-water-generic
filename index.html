@@ -829,7 +829,7 @@
             <div class="foot-h">統計データの取り扱いについて</div>
             本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
             ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
-            <br>Version 1.2.0 β<br>
+            <br>Version 1.2.1 β<br>
             © 2026 missing link. All rights reserved.
         </div>
     </div>
@@ -942,6 +942,7 @@
 
         // calPrefが未定義の場合の互換対応
         if (d.calPref === undefined) d.calPref = true;
+        if (d.firstLaunch === undefined) d.firstLaunch = new Date().getTime();
 
         const MANUFACTURER_PRESETS = {
             purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
@@ -1562,8 +1563,8 @@
 
         function meetsStatsCriteria(actualLiters, lastResetTs) {
             const litersOk = actualLiters >= 500;
-            const daysOk = lastResetTs
-                ? (new Date().getTime() - lastResetTs) / (1000 * 60 * 60 * 24) >= 60
+            const daysOk = d.firstLaunch
+                ? (new Date().getTime() - d.firstLaunch) / (1000 * 60 * 60 * 24) >= 60
                 : false;
             return litersOk && daysOk;
         }
@@ -1587,7 +1588,7 @@
                         actualLiters: actualLiters,
                         prefecture: d.prefecture || '',
                         wellWater: d.wellWater || false,
-                        appVersion: '1.2.0',
+                        appVersion: '1.2.1',
                         qualified: qualified
                     };
                     const res = await fetch(GAS_URL, {
