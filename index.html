@@ -90,7 +90,6 @@
     .onboarding-step-title { font-size: 12px; font-weight: bold; color: var(--accent-blue); margin-bottom: 4px; }
     .onboarding-step-desc { font-size: 11px; color: var(--text-sub); line-height: 1.5; }
 
-    /* ★ リングゲージ header-section（変更箇所のみ） */
     .header-section {
         text-align: center;
         margin-bottom: 20px;
@@ -112,7 +111,6 @@
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        transform: rotate(-90deg);
     }
 
     .ring-inner {
@@ -275,7 +273,6 @@
         touch-action: none;
     }
 
-    /* ── 洗車メモセクション ── */
     .wash-memo-box {
         background: var(--card-bg);
         padding: 18px 20px;
@@ -462,6 +459,49 @@
         -webkit-appearance: none; width: 80px;
     }
 
+    .dual-toggle-row {
+        display: flex; justify-content: space-between;
+        align-items: center; padding: 12px 0;
+        border-bottom: 1px solid #2c2c2e;
+    }
+
+    .toggle-switch {
+        position: relative; width: 44px; height: 26px; flex-shrink: 0;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-slider {
+        position: absolute; cursor: pointer;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: #3a3a3c; border-radius: 26px;
+        transition: 0.3s;
+    }
+
+    .toggle-slider:before {
+        position: absolute; content: "";
+        height: 20px; width: 20px; left: 3px; bottom: 3px;
+        background: white; border-radius: 50%; transition: 0.3s;
+    }
+
+    input:checked + .toggle-slider { background: var(--accent-blue); }
+    input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+    .dual-sub-box {
+        background: rgba(10,132,255,0.06);
+        border: 1px solid rgba(10,132,255,0.2);
+        border-radius: 12px;
+        padding: 14px;
+        margin-top: 8px;
+        margin-bottom: 4px;
+        display: none;
+    }
+
+    .dual-sub-title {
+        font-size: 11px; font-weight: bold;
+        color: var(--accent-blue); margin-bottom: 10px;
+    }
+
     .backup-section { margin-top: 25px; border-top: 1px dashed #3a3a3c; padding-top: 20px; }
     .backup-label { font-size: 11px; color: var(--accent-blue); font-weight: bold; text-align: center; margin-bottom: 10px; }
     .backup-guide { font-size: 9px; color: #666; line-height: 1.4; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
@@ -577,26 +617,36 @@
 
     <div id="noticeBar" class="notice-bar">⚠️ 樹脂の寿命が近づいています</div>
 
-    <!-- ★ header-section：リングゲージに変更（それ以外は元のまま） -->
     <div id="hSec" class="header-section">
         <div class="ring-wrap" id="ringWrap">
             <svg viewBox="0 0 240 240">
-                <!-- 背景トラック -->
-                <circle cx="120" cy="120" r="104"
-                    fill="none" stroke="#2c2c2e" stroke-width="12"/>
-                <!-- 危険ゾーン 薄赤（最後10%） -->
-                <circle cx="120" cy="120" r="104"
-                    fill="none" stroke="#ff453a" stroke-width="12"
-                    stroke-dasharray="65.3 588.7"
-                    stroke-dashoffset="1"
-                    opacity="0.2"/>
-                <!-- 残量アーク -->
-                <circle cx="120" cy="120" r="104"
-                    fill="none" stroke="#34c759" stroke-width="12"
-                    stroke-linecap="round"
-                    stroke-dasharray="653"
-                    stroke-dashoffset="653"
-                    id="mainArc"/>
+                <g transform="rotate(-90 120 120)">
+                    <!-- 背景トラック -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#2c2c2e" stroke-width="12"/>
+                    <!-- 危険ゾーン 薄赤（最後10%） -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#ff453a" stroke-width="12"
+                        stroke-dasharray="65.3 588.7"
+                        stroke-dashoffset="1"
+                        opacity="0.2"/>
+                    <!-- 残量アーク -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#34c759" stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="653"
+                        stroke-dashoffset="653"
+                        id="mainArc"/>
+                    <!-- 超過アーク（逆方向・金色） -->
+                    <circle cx="120" cy="120" r="104"
+                        fill="none" stroke="#ffcc00" stroke-width="13"
+                        stroke-linecap="round"
+                        stroke-dasharray="0 653"
+                        stroke-dashoffset="0"
+                        transform="scale(-1,1) translate(-240,0)"
+                        id="overArc"
+                        opacity="0"/>
+                </g>
             </svg>
             <div class="ring-inner" onclick="showDetail()">
                 <span class="label-xs-ring">交換まであと</span>
@@ -738,6 +788,7 @@
                 <option value="">選択してください</option>
                 <option value="purenish_pro">ピュアニッシュPRO／グリーンライフ（BC監修）</option>
                 <option value="purenish_just">ピュアニッシュJUST／グリーンライフ（BC監修）</option>
+                <option value="purenish_ju">ピュアニッシュ／グリーンライフ</option>
                 <option value="sanei_10">サンエイ（三栄商会）10L</option>
                 <option value="sanei_12">サンエイ（三栄商会）12L</option>
                 <option value="sanei_15">サンエイ（三栄商会）15L</option>
@@ -799,6 +850,58 @@
             </div>
             <div class="well-water-note" style="display:block; color:#666;">
                 井戸水・地下水をお使いの方は「はい」を選択してください。
+            </div>
+        </div>
+
+        <!-- 2連結モード -->
+        <div class="dual-toggle-row">
+            <div>
+                <span class="label-xs" style="color:#fff; font-size:12px;">2連結モード</span>
+                <div style="font-size:9px; color:#666; margin-top:2px;">純水器を2台連結して使用している場合にON</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="dualToggle" onchange="onDualToggle(this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+
+        <div id="dualSubBox" class="dual-sub-box">
+            <div class="dual-sub-title">🔗 2台目の設定</div>
+            <div style="margin-bottom:10px;">
+                <div style="font-size:11px; color:#fff; margin-bottom:4px;">純水器メーカー・機種</div>
+                <select id="subManufacturerSelect" class="manufacturer-select" style="margin-top:0;" onchange="onSubManufacturerChange(this.value)">
+                    <option value="">選択してください</option>
+                    <option value="purenish_pro">ピュアニッシュPRO／グリーンライフ（BC監修）</option>
+                    <option value="purenish_just">ピュアニッシュJUST／グリーンライフ（BC監修）</option>
+                    <option value="purenish_ju">ピュアニッシュ／グリーンライフ</option>
+                    <option value="sanei_10">サンエイ（三栄商会）10L</option>
+                    <option value="sanei_12">サンエイ（三栄商会）12L</option>
+                    <option value="sanei_15">サンエイ（三栄商会）15L</option>
+                    <option value="unger">UNGER（コストコ等）</option>
+                    <option value="garacoat_10">ガラコート（GARACOAT）10L</option>
+                    <option value="garacoat_15">ガラコート（GARACOAT）15L</option>
+                    <option value="dkworks_10">DKワークス（DK-works）10L</option>
+                    <option value="dkworks_5">DKワークス（DK-works）5L</option>
+                    <option value="actial_10">ACTIAL（アクティアル）10L</option>
+                    <option value="astro">アストロプロダクツ 10L</option>
+                    <option value="custom">手動入力（カスタム）</option>
+                </select>
+                <div id="subManufacturerNote" class="manufacturer-note" style="display:none;"></div>
+                <input type="text" id="subCustomNameInput" class="custom-name-input" placeholder="純水器名を入力してください（3文字以上）" oninput="setSubCustomName(this.value)" style="display:none;">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:11px; color:#fff;">メーカー公表生成量</span>
+                <div style="display:flex; align-items:center;">
+                    <input type="number" id="subSpecIn" class="ppm-input" placeholder="1800" oninput="setSubSpec(this.value)" onblur="validateSubSpecOnBlur(this)" pattern="\d*">
+                    <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">ℓ</span>
+                </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:11px; color:#fff;">樹脂交換費用</span>
+                <div style="display:flex; align-items:center;">
+                    <input type="number" id="subCostIn" class="ppm-input" placeholder="12980" oninput="setSubCost(this.value)" onblur="validateSubCostOnBlur(this)" pattern="\d*">
+                    <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">円</span>
+                </div>
             </div>
         </div>
 
@@ -947,16 +1050,22 @@
         ppm: null, unit: 'PPM', spec: null, price: null,
         used: 0, in: 0, washTime: 0, logs: {}, history: [], lastReset: null,
         manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
-        calPref: true
+        calPref: true,
+        isDual: false, sub_manufacturer: '', sub_customName: '', sub_spec: null, sub_price: null
     };
 
-    // calPrefが未定義の場合の互換対応
     if (d.calPref === undefined) d.calPref = true;
     if (d.firstLaunch === undefined) d.firstLaunch = new Date().getTime();
+    if (d.isDual === undefined) d.isDual = false;
+    if (d.sub_manufacturer === undefined) d.sub_manufacturer = '';
+    if (d.sub_customName === undefined) d.sub_customName = '';
+    if (d.sub_spec === undefined) d.sub_spec = null;
+    if (d.sub_price === undefined) d.sub_price = null;
 
     const MANUFACTURER_PRESETS = {
         purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
         purenish_just: { spec: 1000, price: 9878,  note: '100ppm基準・公式明記' },
+        purenish_ju:   { spec: 360,  price: 4902,  note: '100ppm基準・公式明記' },
         sanei_10:      { spec: 1800, price: 8250,  note: '200μS/cm基準・公式明記' },
         sanei_12:      { spec: 2160, price: 12000, note: '200μS/cm基準・公式明記' },
         sanei_15:      { spec: 2700, price: 13050, note: '200μS/cm基準・公式明記' },
@@ -970,7 +1079,6 @@
         custom:        { spec: null, price: null,  note: 'お使いの純水器の公表値を入力してください' }
     };
 
-    // 選択済みタグ管理
     let selectedTags = [];
 
     function toggleTag(btn, tag) {
@@ -996,7 +1104,6 @@
         document.getElementById('memoInput').value = '';
     }
 
-    // カレンダーチェック状態の読み書き
     function initCalCheck() {
         document.getElementById('calCheck').checked = d.calPref;
     }
@@ -1007,8 +1114,6 @@
         d.calPref = this.checked;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
     });
-
-    // ── カレンダー連携 ──
 
     let pendingCalData = null;
 
@@ -1079,6 +1184,64 @@
         const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateOnly}`;
         window.open(url, '_blank');
         closeCalModal();
+    }
+
+    // ── 2連結 ──
+
+    function onDualToggle(checked) {
+        d.isDual = checked;
+        document.getElementById('dualSubBox').style.display = checked ? 'block' : 'none';
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+        up();
+    }
+
+    function onSubManufacturerChange(val) {
+        d.sub_manufacturer = val;
+        const noteEl = document.getElementById('subManufacturerNote');
+        const customInput = document.getElementById('subCustomNameInput');
+        if (val && MANUFACTURER_PRESETS[val]) {
+            const preset = MANUFACTURER_PRESETS[val];
+            noteEl.style.display = 'block';
+            noteEl.innerText = preset.note;
+            const isAdjusted = ['unger','garacoat_10','garacoat_15','dkworks_10','dkworks_5','actial_10'].includes(val);
+            noteEl.style.color = isAdjusted ? '#ffcc00' : '#666';
+            if (val === 'custom') {
+                customInput.style.display = 'block';
+                customInput.value = d.sub_customName || '';
+                d.sub_spec = null; d.sub_price = null;
+                document.getElementById('subSpecIn').value = '';
+                document.getElementById('subCostIn').value = '';
+            } else {
+                customInput.style.display = 'none';
+                d.sub_spec = preset.spec; d.sub_price = preset.price;
+                document.getElementById('subSpecIn').value = preset.spec;
+                document.getElementById('subCostIn').value = preset.price;
+            }
+        } else {
+            noteEl.style.display = 'none';
+            customInput.style.display = 'none';
+        }
+        up();
+    }
+
+    function setSubCustomName(val) { d.sub_customName = val; up(); }
+    function setSubSpec(v) { d.sub_spec = v === "" ? null : parseInt(v); up(); }
+    function setSubCost(v) { d.sub_price = v === "" ? null : parseInt(v); up(); }
+
+    function validateSubSpecOnBlur(el) {
+        const val = parseInt(el.value);
+        if (el.value !== "" && (isNaN(val) || val < 200 || val > 10000)) {
+            alert("生成量は200〜10000ℓの範囲で入力してください");
+            el.value = ""; d.sub_spec = null; up();
+        }
+    }
+
+    function validateSubCostOnBlur(el) {
+        const val = parseInt(el.value);
+        if (el.value !== "" && (isNaN(val) || val < 1000 || val > 200000)) {
+            alert("樹脂交換費用は1,000〜200,000円の範囲で入力してください");
+            el.value = ""; d.sub_price = null; up();
+        }
     }
 
     // ── 既存ロジック ──
@@ -1174,7 +1337,17 @@
     }
 
     function calcCap() {
-        return d.unit === 'μS' ? d.spec * (200 / d.ppm) : d.spec * (100 / d.ppm);
+        const mainCap = d.unit === 'μS' ? d.spec * (200 / d.ppm) : d.spec * (100 / d.ppm);
+        if (d.isDual && d.sub_spec) {
+            const subCap = d.unit === 'μS' ? d.sub_spec * (200 / d.ppm) : d.sub_spec * (100 / d.ppm);
+            return mainCap + subCap;
+        }
+        return mainCap;
+    }
+
+    function calcTotalPrice() {
+        if (d.isDual && d.sub_price) return d.price + d.sub_price;
+        return d.price;
     }
 
     function setUnit(u) { d.unit = u; up(); }
@@ -1218,29 +1391,46 @@
     }
 
     function calculatePredictDate(remaining, avgUsage) {
-        if (!avgUsage || avgUsage <= 0 || remaining <= 0) return "--/--";
+        if (!avgUsage || avgUsage <= 0) return "--/--";
         const daysRem = Math.floor((remaining / avgUsage) * getAvgInterval());
         const target = new Date();
         target.setDate(target.getDate() + daysRem);
         return `${target.getMonth() + 1}/${target.getDate()}`;
     }
 
-    // ★ リングゲージ更新関数（追加）
     const RING_CIRCUMFERENCE = 653; // 2π×104
 
     function updateRing(ratio) {
         const arc = document.getElementById('mainArc');
+        const overArc = document.getElementById('overArc');
         const pctEl = document.getElementById('ringPct');
         const unitEl = document.getElementById('unitLabel');
         if (!arc) return;
-        const offset = RING_CIRCUMFERENCE * (1 - Math.max(0, Math.min(1, ratio)));
-        arc.setAttribute('stroke-dashoffset', offset);
-        let color = '#34c759';
-        if (ratio < 0.1) color = '#ff453a';
-        else if (ratio < 0.3) color = '#ffcc00';
-        arc.setAttribute('stroke', color);
-        pctEl.style.color = color;
-        pctEl.textContent = `残量 ${Math.round(ratio * 100)}%`;
+
+        if (ratio >= 0) {
+            // 通常範囲
+            const offset = RING_CIRCUMFERENCE * (1 - Math.min(1, ratio));
+            arc.setAttribute('stroke-dashoffset', offset);
+            let color = '#34c759';
+            if (ratio < 0.1) color = '#ff453a';
+            else if (ratio < 0.3) color = '#ffcc00';
+            arc.setAttribute('stroke', color);
+            arc.setAttribute('opacity', '1');
+            overArc.setAttribute('stroke-dasharray', `0 ${RING_CIRCUMFERENCE}`);
+            overArc.setAttribute('opacity', '0');
+            pctEl.style.color = color;
+            pctEl.textContent = `残量 ${Math.round(ratio * 100)}%`;
+        } else {
+            // 超過
+            arc.setAttribute('stroke-dashoffset', RING_CIRCUMFERENCE);
+            arc.setAttribute('opacity', '0.15');
+            const overRatio = Math.abs(ratio);
+            const overDash = Math.min(RING_CIRCUMFERENCE, overRatio * RING_CIRCUMFERENCE * 3);
+            overArc.setAttribute('stroke-dasharray', `${overDash} ${RING_CIRCUMFERENCE}`);
+            overArc.setAttribute('opacity', '0.95');
+            pctEl.style.color = '#ffcc00';
+            pctEl.textContent = `+${Math.round(overRatio * 100)}%`;
+        }
         pctEl.style.display = 'block';
         unitEl.style.display = 'block';
     }
@@ -1251,6 +1441,10 @@
         const arc = document.getElementById('mainArc');
         arc.setAttribute('stroke-dashoffset', RING_CIRCUMFERENCE);
         arc.setAttribute('stroke', '#2c2c2e');
+        arc.setAttribute('opacity', '1');
+        const overArc = document.getElementById('overArc');
+        overArc.setAttribute('stroke-dasharray', `0 ${RING_CIRCUMFERENCE}`);
+        overArc.setAttribute('opacity', '0');
     }
 
     function up() {
@@ -1272,6 +1466,11 @@
         if (d.prefecture) document.getElementById('prefectureSelect').value = d.prefecture;
         if (d.city) document.getElementById('cityInput').value = d.city;
         document.getElementById('wellWaterSelect').value = d.wellWater ? 'yes' : 'no';
+        document.getElementById('dualToggle').checked = d.isDual;
+        document.getElementById('dualSubBox').style.display = d.isDual ? 'block' : 'none';
+        if (d.sub_manufacturer) document.getElementById('subManufacturerSelect').value = d.sub_manufacturer;
+        if (d.sub_spec !== null && d.sub_spec !== undefined) document.getElementById('subSpecIn').value = d.sub_spec;
+        if (d.sub_price !== null && d.sub_price !== undefined) document.getElementById('subCostIn').value = d.sub_price;
 
         remL.style.color = '';
         body.classList.remove('alert-red');
@@ -1287,29 +1486,35 @@
             hideRingExtras();
         } else {
             const cap = calcCap();
-            const rem = Math.max(0, cap - d.used);
+            const totalPrice = calcTotalPrice();
+            const rem = cap - d.used; // クランプしない
             const ratio = rem / cap;
             const recentAvg = getRecentAvg();
 
-            remL.innerHTML = Math.floor(rem);
-            updateRing(ratio); // ★ リングゲージ更新
-
-            document.getElementById('remCount').innerText = Math.floor(rem / recentAvg);
-            if (ratio < 0.1) {
-                remL.style.color = 'var(--accent-red)';
-                body.classList.add('alert-red');
-                if (noticeBar) noticeBar.style.display = 'block';
-            } else if (ratio < 0.3) {
-                remL.style.color = 'var(--accent-yellow)';
+            if (rem < 0) {
+                remL.innerHTML = Math.floor(rem);
+                remL.style.color = '#ffcc00';
             } else {
-                remL.style.color = 'var(--accent-green)';
+                remL.innerHTML = Math.floor(rem);
+                if (ratio < 0.1) {
+                    remL.style.color = 'var(--accent-red)';
+                    body.classList.add('alert-red');
+                    if (noticeBar) noticeBar.style.display = 'block';
+                } else if (ratio < 0.3) {
+                    remL.style.color = 'var(--accent-yellow)';
+                } else {
+                    remL.style.color = 'var(--accent-green)';
+                }
             }
-            const monthlyCost = Math.round((monthUsed / cap) * d.price);
+
+            updateRing(ratio);
+
+            document.getElementById('remCount').innerText = rem > 0 ? Math.floor(rem / recentAvg) : '--';
+            const monthlyCost = Math.round((monthUsed / cap) * totalPrice);
             document.getElementById('costDisp').innerText = monthlyCost.toLocaleString() + ' 円';
-            document.getElementById('predictDate').innerText = `寿命予測：${calculatePredictDate(rem, recentAvg)}頃`;
+            document.getElementById('predictDate').innerText = rem > 0 ? `寿命予測：${calculatePredictDate(rem, recentAvg)}頃` : '理論値超過中';
         }
 
-        // 累計使用量（リセットからの積算）
         document.getElementById('totalUsed').innerText = d.used + ' ℓ';
         document.getElementById('monthUsed').innerText = monthUsed + ' ℓ';
         document.getElementById('inVal').innerText = d.in;
@@ -1321,7 +1526,6 @@
             document.getElementById('lastResetDisp').innerText = `前回交換：${dateStr}`;
         }
 
-        // 創設メンバーバッジ表示
         const founderBadge = document.getElementById('founderBadge');
         if (founderBadge) {
             if (d.isFounder && d.memberNo) {
@@ -1342,7 +1546,6 @@
             saveBtn.style.pointerEvents = "none";
         }
 
-        // 洗車時間ガイド更新
         const washTimeGuide = document.getElementById('washTimeGuide');
         if (washTimeGuide) {
             const timeCount = (d.history || []).filter(h => h.washTime && h.washTime > 0).length;
@@ -1368,7 +1571,8 @@
         const now = new Date();
         const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         const cap = calcCap();
-        const cost = Math.round((d.in / cap) * d.price);
+        const totalPrice = calcTotalPrice();
+        const cost = Math.round((d.in / cap) * totalPrice);
         const avg = getRecentAvg();
 
         const tags = [...selectedTags];
@@ -1377,7 +1581,7 @@
 
         if (d.in > 0) {
             const wasteL = Math.max(0, d.in - avg);
-            const wasteCost = Math.round((wasteL / cap) * d.price);
+            const wasteCost = Math.round((wasteL / cap) * totalPrice);
             let level = 'normal';
             if (d.in > avg * 1.5) level = 'danger';
             else if (d.in > avg * 1.2) level = 'warn';
@@ -1400,14 +1604,12 @@
         d.in = 0;
         d.washTime = 0;
 
-        // メモ・タグをクリア
         clearTags();
         clearMemo();
         document.getElementById('timeVal').innerText = 0;
 
         up();
 
-        // カレンダー連携
         if (document.getElementById('calCheck').checked) {
             const pad = n => String(n).padStart(2, '0');
             const dateStr = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`;
@@ -1419,6 +1621,7 @@
         const setupMsg = getSetupMessage();
         if (setupMsg) { alert(setupMsg); return; }
         const cap = calcCap();
+        const totalPrice = calcTotalPrice();
         const histDiv = document.getElementById('historyList');
         histDiv.innerHTML = d.history.length ? '' : '<div style="font-size:12px;color:#555;text-align:center;padding:20px;">履歴なし</div>';
         d.history.forEach(h => {
@@ -1428,11 +1631,9 @@
             if (h.level === 'danger') { color = 'var(--accent-red)'; label = `🔥多すぎ (+${h.wasteL}ℓ 約${h.wasteCost}円ロス)`; }
             else if (h.level === 'warn') { color = 'var(--accent-yellow)'; label = `⚠️多め (+${h.wasteL}ℓ 約${h.wasteCost}円ロス)`; }
 
-            // タグ表示
             const tagsHtml = (h.tags && h.tags.length > 0)
                 ? `<div class="hist-tags">${h.tags.map(t => `<span class="hist-tag">${t}</span>`).join('')}</div>`
                 : '';
-            // メモ表示（XSS対策：textContentで安全に描画）
             const memoEl = document.createElement('div');
             memoEl.className = 'hist-memo';
             memoEl.textContent = '💬 ' + h.memo;
@@ -1449,7 +1650,6 @@
                 </div>`;
         });
 
-        // 洗車時間セクション（3件以上記録がある場合のみ表示）
         const timeRecords = d.history.filter(h => h.washTime && h.washTime > 0);
         const timeSection = document.getElementById('washTimeSection');
         if (timeSection) {
@@ -1475,23 +1675,23 @@
         summaryDiv.innerHTML = sortedLogKeys.length ? '' : '<div style="font-size:12px;color:#555;text-align:center;padding:20px;">サマリーなし</div>';
         sortedLogKeys.slice(0, 12).forEach(key => {
             const mUsed = d.logs[key];
-            const mCost = Math.round((mUsed / cap) * d.price);
+            const mCost = Math.round((mUsed / cap) * totalPrice);
             summaryDiv.innerHTML += `<div class="history-item"><div class="hist-main"><span>${key}</span><span>${mUsed}ℓ</span><span>${mCost}円</span></div></div>`;
         });
 
         const recentAvg = getRecentAvg();
         const interval = getAvgInterval();
-        const rem = Math.max(0, cap - d.used);
-        const remCount = Math.floor(rem / recentAvg);
+        const rem = cap - d.used;
+        const remCount = rem > 0 ? Math.floor(rem / recentAvg) : '--';
         const predictDate = new Date();
         predictDate.setDate(predictDate.getDate() + Math.floor((rem / recentAvg) * interval));
-        const predictStr = `${predictDate.getMonth()+1}月${predictDate.getDate()}日頃`;
+        const predictStr = rem > 0 ? `${predictDate.getMonth()+1}月${predictDate.getDate()}日頃` : '理論値超過中';
         const logKeys = Object.keys(d.logs).sort();
-        const monthlyAvgCost = logKeys.length > 0 ? Math.round(logKeys.reduce((a,k) => a + Math.round((d.logs[k]/cap)*d.price), 0) / logKeys.length) : 0;
+        const monthlyAvgCost = logKeys.length > 0 ? Math.round(logKeys.reduce((a,k) => a + Math.round((d.logs[k]/cap)*totalPrice), 0) / logKeys.length) : 0;
         const now2 = new Date();
         const mk2 = `${now2.getFullYear()}-${String(now2.getMonth()+1).padStart(2,'0')}`;
         const thisMonthUsed = d.logs[mk2] || 0;
-        const thisMonthCost = Math.round((thisMonthUsed / cap) * d.price);
+        const thisMonthCost = Math.round((thisMonthUsed / cap) * totalPrice);
         const monthDiff = monthlyAvgCost > 0 ? thisMonthCost - monthlyAvgCost : 0;
         const monthDiffStr = monthDiff >= 0 ? `+${monthDiff.toLocaleString()}円` : `${monthDiff.toLocaleString()}円`;
         const yearCost = monthlyAvgCost > 0 ? (monthlyAvgCost * 12).toLocaleString() : '--';
@@ -1509,16 +1709,14 @@
             ・直近平均使用量: <strong>${recentAvg}ℓ</strong><br>
             ・現在の洗車間隔: <strong>${Math.round(interval * 10) / 10}日</strong> に1回<br>
             ${usageDiag}<br>
-            ・交換コスト設定: ${d.price.toLocaleString()}円<br>
-            ・交換時期予測: <strong>${predictStr}・洗車あと${remCount}回</strong><br>
+            ・交換コスト設定: ${totalPrice.toLocaleString()}円${d.isDual ? '（2連結合計）' : ''}<br>
+            ・交換時期予測: <strong>${predictStr}${rem > 0 ? '・洗車あと' + remCount + '回' : ''}</strong><br>
             ・年間コスト予測: <strong>${yearCost}円</strong>（実績ベース）<br>
             <span style="color:var(--accent-yellow);">・算出ロジックは記録を更新するとカスタマイズされます</span>`;
 
-        // トークン保有者のみ統計ボタンを表示
         const statsBtn = document.getElementById('statsBtn');
         if (statsBtn) statsBtn.style.display = d.statsToken ? 'block' : 'none';
 
-        // 創設メンバーバッジをモーダル内に表示
         const modalFounderBadge = document.getElementById('modalFounderBadge');
         if (modalFounderBadge) {
             if (d.isFounder && d.memberNo) {
@@ -1599,6 +1797,8 @@
                     prefecture: d.prefecture || '',
                     city: d.city || '',
                     wellWater: d.wellWater || false,
+                    isDual: d.isDual || false,
+                    sub_manufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
                     appVersion: '1.2.1',
                     qualified: qualified
                 };
@@ -1686,7 +1886,6 @@
             return;
         }
 
-        // タイトル設定
         if (isFounder) {
             title.innerHTML = `🏅 創設メンバー No.${memberNo}`;
             sub.innerText = '';
@@ -1700,7 +1899,6 @@
 
         let html = '';
 
-        // 創設メンバー特別メッセージ
         if (isFounder && isReset) {
             html += `<div style="color:var(--text-sub); font-size:12px; line-height:1.8; margin-bottom:12px;">
                 Pure Water Trackerの歩みを最初から支えてくださっている大切なメンバーの一人です。<br><br>
@@ -1712,7 +1910,6 @@
             <hr style="border-color:#2c2c2e; margin-bottom:12px;">`;
         }
 
-        // データなし・少ない場合
         if (!result.sameModelCount || result.sameModelCount < 3) {
             const isFirst = !result.sameModelCount || result.sameModelCount < 1;
             html += `<div style="line-height:1.9; color:var(--text-sub); font-size:12px;">
@@ -1818,6 +2015,11 @@
             try {
                 d = JSON.parse(decodeURIComponent(escape(atob(area.value.trim()))));
                 if (d.calPref === undefined) d.calPref = true;
+                if (d.isDual === undefined) d.isDual = false;
+                if (d.sub_manufacturer === undefined) d.sub_manufacturer = '';
+                if (d.sub_customName === undefined) d.sub_customName = '';
+                if (d.sub_spec === undefined) d.sub_spec = null;
+                if (d.sub_price === undefined) d.sub_price = null;
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
                 up(); alert("復元しました！"); closeTransferModal();
             } catch(e) { alert("不正なコードです"); }
@@ -1865,19 +2067,24 @@
         document.getElementById('manufacturerNote').innerText = 'お使いの純水器の公表値を入力してください';
     }
 
+    if (d.sub_manufacturer === 'custom') {
+        document.getElementById('subCustomNameInput').style.display = 'block';
+        document.getElementById('subCustomNameInput').value = d.sub_customName || '';
+    }
+
     (function checkStartupAlert() {
         if (!d.ppm || d.ppm === 0 || !d.spec) return;
         const todayKey = new Date().toDateString();
         if (localStorage.getItem('pwAlertDate') === todayKey) return;
         const cap = calcCap();
-        const rem = Math.max(0, cap - d.used);
+        const rem = cap - d.used;
         const now3 = new Date();
         const mk3 = `${now3.getFullYear()}-${String(now3.getMonth()+1).padStart(2,'0')}`;
         const thisMonthUsed3 = d.logs[mk3] || 0;
         const logKeys3 = Object.keys(d.logs).filter(k => k !== mk3).sort();
         const monthlyAvg3 = logKeys3.length > 0 ? logKeys3.reduce((a,k) => a + d.logs[k], 0) / logKeys3.length : 0;
         const msgs = [];
-        if (rem / cap < 0.1) msgs.push("樹脂の残量が少なくなっています。");
+        if (rem > 0 && rem / cap < 0.1) msgs.push("樹脂の残量が少なくなっています。");
         if (monthlyAvg3 > 0 && thisMonthUsed3 > monthlyAvg3 * 1.2) msgs.push("今月の使用量が平均より多めです。");
         if (msgs.length > 0) {
             setTimeout(() => { alert(msgs.join("\n\n")); }, 500);
