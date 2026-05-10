@@ -1398,7 +1398,7 @@
         return `${target.getMonth() + 1}/${target.getDate()}`;
     }
 
-    const RING_CIRCUMFERENCE = 653; // 2π×104
+    const RING_CIRCUMFERENCE = 653;
 
     function updateRing(ratio) {
         const arc = document.getElementById('mainArc');
@@ -1408,7 +1408,6 @@
         if (!arc) return;
 
         if (ratio >= 0) {
-            // 通常範囲
             const offset = RING_CIRCUMFERENCE * (1 - Math.min(1, ratio));
             arc.setAttribute('stroke-dashoffset', offset);
             let color = '#34c759';
@@ -1421,7 +1420,6 @@
             pctEl.style.color = color;
             pctEl.textContent = `残量 ${Math.round(ratio * 100)}%`;
         } else {
-            // 超過
             arc.setAttribute('stroke-dashoffset', RING_CIRCUMFERENCE);
             arc.setAttribute('opacity', '0.15');
             const overRatio = Math.abs(ratio);
@@ -1487,7 +1485,7 @@
         } else {
             const cap = calcCap();
             const totalPrice = calcTotalPrice();
-            const rem = cap - d.used; // クランプしない
+            const rem = cap - d.used;
             const ratio = rem / cap;
             const recentAvg = getRecentAvg();
 
@@ -1952,6 +1950,12 @@
 
         if (result.prefectureCount >= 1 && result.prefectureAvg) {
             html += `<br>📍 ${d.prefecture}の平均：<strong>${result.prefectureAvg}ℓ</strong>（${result.prefectureCount}件）`;
+        }
+
+        if (result.dualStats) {
+            html += `<br><br>🔗 2連結ユーザー数：<strong>${result.dualStats.dualUserCount}人</strong><br>`;
+            html += `📊 2連結平均生成量：<strong>${result.dualStats.dualAvg}ℓ</strong><br>`;
+            if (result.dualStats.dualRank) html += `🎖️ 2連結内ランク：<strong style="color:var(--accent-blue)">${result.dualStats.dualRank}</strong>`;
         }
 
         box.innerHTML = html;
