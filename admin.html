@@ -46,12 +46,13 @@
         .dash-logo { font-size: 11px; letter-spacing: 0.25em; color: var(--accent); text-transform: uppercase; }
         .dash-time { font-size: 10px; color: var(--sub); letter-spacing: 0.05em; }
         .dash-body { padding: 24px 20px; max-width: 800px; margin: 0 auto; }
-        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
         .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; text-align: center; }
         .kpi-label { font-size: 9px; color: var(--sub); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
         .kpi-val { font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
         .kpi-val.green { color: var(--accent2); }
         .kpi-val.yellow { color: var(--accent3); }
+        .kpi-val.blue { color: var(--accent); }
         .section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
         .section-header { padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 10px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
         .section-body { padding: 16px 18px; }
@@ -71,10 +72,11 @@
         .pref-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .pref-tag { background: #0a0f15; border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 10px; color: var(--sub); display: flex; gap: 6px; align-items: center; }
         .pref-tag span { color: var(--accent2); font-weight: bold; }
-        .recent-row { display: grid; grid-template-columns: 60px 1fr 45px 55px 55px 55px; gap: 6px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 10px; align-items: center; }
+        .recent-row { display: grid; grid-template-columns: 60px 1fr 45px 55px 55px 55px 45px; gap: 6px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 10px; align-items: center; }
         .recent-row:last-child { border-bottom: none; }
         .recent-row.header { color: var(--sub); font-size: 9px; letter-spacing: 0.1em; padding-bottom: 6px; }
         .founder-badge { font-size: 8px; background: rgba(255,204,0,0.15); color: var(--accent3); border: 1px solid rgba(255,204,0,0.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+        .dual-badge { font-size: 8px; background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); border-radius: 4px; padding: 1px 5px; }
         .ver-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 11px; }
         .ver-row:last-child { border-bottom: none; }
         .ver-key { color: var(--sub); }
@@ -127,10 +129,18 @@
                 <div class="kpi-label">井戸水ユーザー</div>
                 <div class="kpi-val green" id="kpiWell">--</div>
             </div>
+            <div class="kpi-card">
+                <div class="kpi-label">2連結ユーザー</div>
+                <div class="kpi-val blue" id="kpiDual">--</div>
+            </div>
         </div>
         <div class="section">
             <div class="section-header">メーカー別 平均生成量ランキング</div>
             <div class="section-body" id="modelRanking"></div>
+        </div>
+        <div class="section">
+            <div class="section-header">2連結 組み合わせランキング</div>
+            <div class="section-body" id="dualRanking"></div>
         </div>
         <div class="section">
             <div class="section-header">水道水硬度（ppm帯）分布</div>
@@ -204,6 +214,7 @@
         document.getElementById('kpiTotal').textContent = data.total ?? '--';
         document.getElementById('kpiFounder').textContent = data.founderCount ?? '--';
         document.getElementById('kpiWell').textContent = data.wellWaterCount ?? '--';
+        document.getElementById('kpiDual').textContent = data.dualCount ?? '--';
 
         const modelEl = document.getElementById('modelRanking');
         if (data.modelRanking && data.modelRanking.length > 0) {
@@ -221,6 +232,24 @@
             `).join('');
         } else {
             modelEl.innerHTML = '<div style="font-size:11px; color:var(--sub); text-align:center; padding:12px;">データなし</div>';
+        }
+
+        const dualEl = document.getElementById('dualRanking');
+        if (data.dualMap && Object.keys(data.dualMap).length > 0) {
+            const sorted = Object.entries(data.dualMap).sort((a, b) => b[1] - a[1]);
+            const maxCount = sorted[0][1];
+            dualEl.innerHTML = sorted.map(([combo, count], i) => `
+                <div class="rank-row">
+                    <div class="rank-no">${i + 1}</div>
+                    <div class="rank-name">${combo}</div>
+                    <div class="rank-bar-wrap">
+                        <div class="rank-bar" style="width:${Math.round((count / maxCount) * 100)}%; background:var(--accent);"></div>
+                    </div>
+                    <div class="rank-count">${count}件</div>
+                </div>
+            `).join('');
+        } else {
+            dualEl.innerHTML = '<div style="font-size:11px; color:var(--sub); text-align:center; padding:12px;">データなし</div>';
         }
 
         const ppmEl = document.getElementById('ppmDist');
@@ -276,7 +305,7 @@
         const recentEl = document.getElementById('recentList');
         if (data.recent && data.recent.length > 0) {
             recentEl.innerHTML =
-                '<div class="recent-row header"><div>日付</div><div>メーカー</div><div>ppm</div><div>生成量</div><div>都道府県</div><div>市区町村</div></div>' +
+                '<div class="recent-row header"><div>日付</div><div>メーカー</div><div>ppm</div><div>生成量</div><div>都道府県</div><div>市区町村</div><div>2連結</div></div>' +
                 data.recent.map(r => `
                     <div class="recent-row">
                         <div style="color:var(--sub)">${r.date}</div>
@@ -288,6 +317,7 @@
                         <div style="color:var(--accent2)">${r.liters ? r.liters + 'L' : '--'}</div>
                         <div style="color:var(--sub)">${r.prefecture || '--'}</div>
                         <div style="color:var(--sub)">${r.city || '--'}</div>
+                        <div>${r.isDual ? '<span class="dual-badge">🔗</span>' : ''}</div>
                     </div>
                 `).join('');
         } else {
