@@ -20,6 +20,12 @@
             color-scheme: only dark;
         }
 
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] { -moz-appearance: textfield; }
 
     * {
         box-sizing: border-box;
@@ -76,6 +82,89 @@
     @keyframes pulse {
         0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; }
     }
+
+    /* ===== 前回洗車カード ===== */
+    .wash-day-card {
+        width: 100%;
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: 16px 18px;
+        margin-bottom: 15px;
+        border: 1px solid #2c2c2e;
+        position: relative;
+        overflow: hidden;
+    }
+    .wash-day-card.state-over {
+        border-color: rgba(255,69,58,0.25);
+    }
+    .wash-day-card.state-over::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        border: 1px solid rgba(255,69,58,0.3);
+        animation: overBorder 2s ease-in-out infinite;
+        pointer-events: none;
+    }
+    @keyframes overBorder {
+        0%,100% { opacity: 0.3; }
+        50% { opacity: 1; }
+    }
+    .wdc-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .wdc-left { display: flex; flex-direction: column; gap: 4px; }
+    .wdc-eyebrow { font-size: 10px; color: var(--text-sub); letter-spacing: 0.05em; }
+    .wdc-number-row { display: flex; align-items: baseline; gap: 3px; }
+    .wdc-number {
+        font-size: 44px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -2px;
+    }
+    .wdc-unit { font-size: 16px; font-weight: 400; color: var(--text-sub); }
+    .wdc-sub { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+    .wdc-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .wdc-bar-wrap {
+        margin-top: 14px;
+        height: 3px;
+        background: #2c2c2e;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    .wdc-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .wdc-bar-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+        font-size: 9px;
+        color: #3a3a3c;
+    }
+    .wdc-ok   .wdc-number { color: var(--accent-green); }
+    .wdc-ok   .wdc-badge  { background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.3); color: var(--accent-green); }
+    .wdc-ok   .wdc-bar-fill { background: var(--accent-green); }
+    .wdc-warn .wdc-number { color: var(--accent-yellow); }
+    .wdc-warn .wdc-badge  { background: rgba(255,204,0,0.1); border: 1px solid rgba(255,204,0,0.3); color: var(--accent-yellow); }
+    .wdc-warn .wdc-bar-fill { background: var(--accent-yellow); }
+    .wdc-over .wdc-number { color: var(--accent-red); }
+    .wdc-over .wdc-badge  { background: rgba(255,69,58,0.12); border: 1px solid rgba(255,69,58,0.35); color: var(--accent-red); }
+    .wdc-over .wdc-bar-fill { background: var(--accent-red); }
+    .wdc-none .wdc-number { font-size: 20px; font-weight: 600; color: #3a3a3c; letter-spacing: 0; }
+    .wdc-none .wdc-badge  { background: #1c1c1e; border: 1px solid #2c2c2e; color: #3a3a3c; }
+    .wdc-none .wdc-bar-fill { background: #2c2c2e; }
+    /* ========================= */
 
     .onboarding-box {
         background: var(--card-bg);
@@ -591,6 +680,15 @@
     .cal-option-btn.apple { border-color: rgba(52,199,89,0.4); }
     .cal-option-btn.google { border-color: rgba(10,132,255,0.4); }
     .cal-option-icon { font-size: 22px; }
+
+    /* 推奨洗車間隔 入力 */
+    .interval-input {
+        background: none; border: none;
+        color: var(--accent-green); font-weight: bold;
+        font-size: 16px; text-align: right;
+        width: 60px; outline: none;
+    }
+    .interval-unit { font-size: 12px; color: var(--text-sub); margin-left: 2px; }
 </style>
 
 
@@ -598,7 +696,6 @@
 <body>
     <div class="container">
         <div class="top-title">Pure Water Tracker</div>
-
 
     <div id="onboardingBox" class="onboarding-box">
         <div class="onboarding-step">
@@ -617,27 +714,45 @@
 
     <div id="noticeBar" class="notice-bar">⚠️ 樹脂の寿命が近づいています</div>
 
+    <!-- 前回洗車カード -->
+    <div id="washDayCard" class="wash-day-card wdc-none">
+        <div class="wdc-row">
+            <div class="wdc-left">
+                <span class="wdc-eyebrow">前回の洗車から</span>
+                <div class="wdc-number-row">
+                    <span class="wdc-number" id="wdcNumber">記録なし</span>
+                    <span class="wdc-unit" id="wdcUnit" style="display:none;">日</span>
+                </div>
+                <span class="wdc-sub" id="wdcSub">洗車を記録すると表示されます</span>
+            </div>
+            <span class="wdc-badge" id="wdcBadge">----</span>
+        </div>
+        <div class="wdc-bar-wrap">
+            <div class="wdc-bar-fill" id="wdcBarFill" style="width:0%;"></div>
+        </div>
+        <div class="wdc-bar-labels">
+            <span>0日</span>
+            <span id="wdcBarLabel">推奨：--日</span>
+        </div>
+    </div>
+
     <div id="hSec" class="header-section">
         <div class="ring-wrap" id="ringWrap">
             <svg viewBox="0 0 240 240">
                 <g transform="rotate(-90 120 120)">
-                    <!-- 背景トラック -->
                     <circle cx="120" cy="120" r="104"
                         fill="none" stroke="#2c2c2e" stroke-width="12"/>
-                    <!-- 危険ゾーン 薄赤（最後10%） -->
                     <circle cx="120" cy="120" r="104"
                         fill="none" stroke="#ff453a" stroke-width="12"
                         stroke-dasharray="65.3 588.7"
                         stroke-dashoffset="1"
                         opacity="0.2"/>
-                    <!-- 残量アーク -->
                     <circle cx="120" cy="120" r="104"
                         fill="none" stroke="#34c759" stroke-width="12"
                         stroke-linecap="round"
                         stroke-dasharray="653"
                         stroke-dashoffset="653"
                         id="mainArc"/>
-                    <!-- 超過アーク（逆方向・金色） -->
                     <circle cx="120" cy="120" r="104"
                         fill="none" stroke="#ffcc00" stroke-width="13"
                         stroke-linecap="round"
@@ -685,7 +800,6 @@
         <div id="costDisp">0 円</div>
     </div>
 
-    <!-- 使用量入力 -->
     <div class="input-box">
         <div class="input-title">今回の洗車使用量</div>
         <div class="counter-row">
@@ -707,7 +821,6 @@
         </div>
     </div>
 
-    <!-- 洗車時間入力（任意） -->
     <div class="wash-memo-box" style="margin-bottom:12px;">
         <div class="wash-memo-title">⏱️ 洗車時間（任意）</div>
         <div class="counter-row" style="margin-bottom:10px;">
@@ -730,7 +843,6 @@
         <div id="washTimeGuide" style="font-size:10px; color:var(--text-sub); text-align:center; margin-top:8px; display:none;"></div>
     </div>
 
-    <!-- 施工メモボックス -->
     <div class="wash-memo-box">
         <div class="wash-memo-title">📋 施工内容・メモ（任意）</div>
         <div class="tag-grid" id="tagGrid">
@@ -748,7 +860,6 @@
         <textarea id="memoInput" class="memo-input" rows="2" placeholder="一言メモ（例：花粉多かったので2度洗い）"></textarea>
     </div>
 
-    <!-- カレンダー連携チェック + 保存ボタン -->
     <div class="cal-row">
         <input type="checkbox" id="calCheck" class="cal-checkbox" checked>
         <label for="calCheck" class="cal-label">
@@ -853,7 +964,17 @@
             </div>
         </div>
 
-        <!-- 2連結モード -->
+        <div class="setting-item">
+            <div>
+                <div class="label-xs" style="color:#fff; font-size:12px;">推奨洗車間隔</div>
+                <div style="font-size:10px; color:var(--text-sub); margin-top:2px;">経過日数の目安として使用</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:2px;">
+                <input type="number" id="intervalIn" class="interval-input" placeholder="--" oninput="setWashInterval(this.value)" pattern="\d*">
+                <span class="interval-unit">日</span>
+            </div>
+        </div>
+
         <div class="dual-toggle-row">
             <div>
                 <span class="label-xs" style="color:#fff; font-size:12px;">2連結モード</span>
@@ -942,7 +1063,7 @@
         <div class="foot-h">統計データの取り扱いについて</div>
         本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
         ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
-        <br>Version 1.2.1 β<br>
+        <br>Version 1.2.2 β<br>
         © 2026 missing link. All rights reserved.
     </div>
 </div>
@@ -1051,7 +1172,8 @@
         used: 0, in: 0, washTime: 0, logs: {}, history: [], lastReset: null,
         manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
         calPref: true,
-        isDual: false, sub_manufacturer: '', sub_customName: '', sub_spec: null, sub_price: null
+        isDual: false, sub_manufacturer: '', sub_customName: '', sub_spec: null, sub_price: null,
+        washInterval: null
     };
 
     if (d.calPref === undefined) d.calPref = true;
@@ -1061,6 +1183,7 @@
     if (d.sub_customName === undefined) d.sub_customName = '';
     if (d.sub_spec === undefined) d.sub_spec = null;
     if (d.sub_price === undefined) d.sub_price = null;
+    if (d.washInterval === undefined) d.washInterval = null;
 
     const MANUFACTURER_PRESETS = {
         purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
@@ -1096,13 +1219,8 @@
         document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('selected'));
     }
 
-    function getMemo() {
-        return document.getElementById('memoInput').value.trim();
-    }
-
-    function clearMemo() {
-        document.getElementById('memoInput').value = '';
-    }
+    function getMemo() { return document.getElementById('memoInput').value.trim(); }
+    function clearMemo() { document.getElementById('memoInput').value = ''; }
 
     function initCalCheck() {
         document.getElementById('calCheck').checked = d.calPref;
@@ -1130,8 +1248,7 @@
 
     function openCalModal(calData) {
         pendingCalData = calData;
-        const preview = buildCalTitle(calData.amt, calData.totalUsed);
-        document.getElementById('calModalPreview').innerText = preview;
+        document.getElementById('calModalPreview').innerText = buildCalTitle(calData.amt, calData.totalUsed);
         document.getElementById('calModal').style.display = 'flex';
     }
 
@@ -1148,28 +1265,21 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dtStart = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-        const dtEnd = dtStart;
         const ics = [
-            'BEGIN:VCALENDAR',
-            'VERSION:2.0',
-            'PRODID:-//Pure Water Tracker//JP',
+            'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Pure Water Tracker//JP',
             'BEGIN:VEVENT',
             `DTSTART;VALUE=DATE:${dtStart}`,
-            `DTEND;VALUE=DATE:${dtEnd}`,
+            `DTEND;VALUE=DATE:${dtStart}`,
             `SUMMARY:${title}`,
             `DESCRIPTION:${desc.replace(/\n/g, '\\n')}`,
-            'END:VEVENT',
-            'END:VCALENDAR'
+            'END:VEVENT', 'END:VCALENDAR'
         ].join('\r\n');
         const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `washlog_${dtStart}.ics`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        a.href = url; a.download = `washlog_${dtStart}.ics`;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
         closeCalModal();
     }
 
@@ -1181,12 +1291,9 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dateOnly = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-        const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateOnly}`;
-        window.open(url, '_blank');
+        window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateOnly}`, '_blank');
         closeCalModal();
     }
-
-    // ── 2連結 ──
 
     function onDualToggle(checked) {
         d.isDual = checked;
@@ -1244,8 +1351,6 @@
         }
     }
 
-    // ── 既存ロジック ──
-
     function getSetupProgress() {
         const total = 5;
         let done = 0;
@@ -1302,6 +1407,73 @@
     function setPrefecture(val) { d.prefecture = val; up(); }
     function setCity(val) { d.city = val; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
     function setWellWater(val) { d.wellWater = (val === 'yes'); localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+    function setWashInterval(val) {
+        d.washInterval = val === "" ? null : parseInt(val);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+        updateWashDayCard();
+    }
+
+    function updateWashDayCard() {
+        const card = document.getElementById('washDayCard');
+        const numEl = document.getElementById('wdcNumber');
+        const unitEl = document.getElementById('wdcUnit');
+        const subEl = document.getElementById('wdcSub');
+        const badgeEl = document.getElementById('wdcBadge');
+        const barFill = document.getElementById('wdcBarFill');
+        const barLabel = document.getElementById('wdcBarLabel');
+
+        card.classList.remove('wdc-ok', 'wdc-warn', 'wdc-over', 'wdc-none', 'state-over');
+
+        if (!d.history || d.history.length === 0 || !d.history[0].ts) {
+            card.classList.add('wdc-none');
+            numEl.textContent = '記録なし';
+            numEl.style.fontSize = '';
+            unitEl.style.display = 'none';
+            subEl.textContent = '洗車を記録すると表示されます';
+            badgeEl.textContent = '----';
+            barFill.style.width = '0%';
+            barLabel.textContent = `推奨：${d.washInterval ? d.washInterval + '日' : '--日'}`;
+            return;
+        }
+
+        const lastTs = d.history[0].ts;
+        const lastDate = new Date(lastTs);
+        const now = new Date();
+        const diffDays = Math.floor((now.getTime() - lastTs) / (1000 * 60 * 60 * 24));
+        const dateStr = `${lastDate.getMonth() + 1}月${lastDate.getDate()}日に洗車済み`;
+
+        numEl.style.fontSize = '';
+        unitEl.style.display = 'inline';
+        numEl.textContent = diffDays;
+        subEl.textContent = dateStr;
+
+        const interval = d.washInterval;
+
+        if (!interval) {
+            card.classList.add('wdc-ok');
+            badgeEl.textContent = '目安未設定';
+            barFill.style.width = '0%';
+            barLabel.textContent = '推奨：--日';
+            return;
+        }
+
+        barLabel.textContent = `推奨：${interval}日`;
+        const ratio = diffDays / interval;
+        barFill.style.width = Math.min(100, Math.round(ratio * 100)) + '%';
+
+        if (ratio >= 1) {
+            card.classList.add('wdc-over', 'state-over');
+            badgeEl.textContent = `${diffDays - interval}日 超過`;
+            barFill.style.width = '100%';
+        } else if (ratio >= 0.8) {
+            card.classList.add('wdc-warn');
+            badgeEl.textContent = `あと ${interval - diffDays}日`;
+        } else {
+            card.classList.add('wdc-ok');
+            badgeEl.textContent = `あと ${interval - diffDays}日`;
+        }
+    }
 
     function getLocation() {
         if (!navigator.geolocation) { alert('位置情報の取得に対応していません'); return; }
@@ -1455,6 +1627,7 @@
         const monthUsed = d.logs[monthKey] || 0;
 
         document.getElementById('ppmIn').value = d.ppm;
+        if (d.washInterval !== null && d.washInterval !== undefined) document.getElementById('intervalIn').value = d.washInterval;
         if (d.spec !== null && d.spec !== undefined) document.getElementById('specIn').value = d.spec;
         if (d.price !== null && d.price !== undefined) document.getElementById('costIn').value = d.price;
         document.getElementById('uPPM').className = d.unit === 'PPM' ? 'btn-m active' : 'btn-m';
@@ -1506,7 +1679,6 @@
             }
 
             updateRing(ratio);
-
             document.getElementById('remCount').innerText = rem > 0 ? Math.floor(rem / recentAvg) : '--';
             const monthlyCost = Math.round((monthUsed / cap) * totalPrice);
             document.getElementById('costDisp').innerText = monthlyCost.toLocaleString() + ' 円';
@@ -1558,6 +1730,7 @@
             }
         }
 
+        updateWashDayCard();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
         updateOnboarding();
     }
@@ -1572,7 +1745,6 @@
         const totalPrice = calcTotalPrice();
         const cost = Math.round((d.in / cap) * totalPrice);
         const avg = getRecentAvg();
-
         const tags = [...selectedTags];
         const memo = getMemo();
         const savedAmt = d.in;
@@ -1588,8 +1760,7 @@
                 ts: now.getTime(),
                 date: `${now.getMonth()+1}/${now.getDate()}`,
                 amt: d.in, cost, wasteL, wasteCost, refAvg: avg, level,
-                tags: tags,
-                memo: memo,
+                tags, memo,
                 washTime: d.washTime > 0 ? d.washTime : null
             });
             if (d.history.length > 10) d.history.pop();
@@ -1601,11 +1772,9 @@
         const totalUsed = d.used;
         d.in = 0;
         d.washTime = 0;
-
         clearTags();
         clearMemo();
         document.getElementById('timeVal').innerText = 0;
-
         up();
 
         if (document.getElementById('calCheck').checked) {
@@ -1630,8 +1799,7 @@
             else if (h.level === 'warn') { color = 'var(--accent-yellow)'; label = `⚠️多め (+${h.wasteL}ℓ 約${h.wasteCost}円ロス)`; }
 
             const tagsHtml = (h.tags && h.tags.length > 0)
-                ? `<div class="hist-tags">${h.tags.map(t => `<span class="hist-tag">${t}</span>`).join('')}</div>`
-                : '';
+                ? `<div class="hist-tags">${h.tags.map(t => `<span class="hist-tag">${t}</span>`).join('')}</div>` : '';
             const memoEl = document.createElement('div');
             memoEl.className = 'hist-memo';
             memoEl.textContent = '💬 ' + h.memo;
@@ -1643,8 +1811,7 @@
                     <div class="graph-bar-left" style="width:${barWidth}%; background:${color};"></div>
                     <div class="hist-main"><span>${h.date}</span><span style="font-weight:bold;font-size:15px;">${h.amt}ℓ</span><span>${h.cost}円</span></div>
                     <div class="hist-sub" style="color:${color}">${label}</div>
-                    ${tagsHtml}
-                    ${memoHtml}
+                    ${tagsHtml}${memoHtml}
                 </div>`;
         });
 
@@ -1672,7 +1839,6 @@
         const sortedLogKeys = Object.keys(d.logs).sort().reverse();
         summaryDiv.innerHTML = sortedLogKeys.length ? '' : '<div style="font-size:12px;color:#555;text-align:center;padding:20px;">サマリーなし</div>';
 
-        // ── 月平均コストを全月から算出 ──
         const logKeys = Object.keys(d.logs).sort();
         const avgMonthlyCost = logKeys.length > 0
             ? Math.round(logKeys.reduce((a, k) => a + Math.round((d.logs[k] / cap) * totalPrice), 0) / logKeys.length)
@@ -1744,12 +1910,8 @@
     function add(v) { d.in = Math.max(0, d.in + v); vib(5); up(); }
     function closeDetail() { document.getElementById('modalOverlay').style.display = 'none'; }
 
-    function resetHistory() {
-        if(confirm("履歴をクリアしますか？")) { d.history = []; up(); showDetail(); }
-    }
-    function resetSummary() {
-        if(confirm("サマリーをクリアしますか？")) { d.logs = {}; up(); showDetail(); }
-    }
+    function resetHistory() { if(confirm("履歴をクリアしますか？")) { d.history = []; up(); showDetail(); } }
+    function resetSummary() { if(confirm("サマリーをクリアしますか？")) { d.logs = {}; up(); showDetail(); } }
 
     let longClickTimer;
     const resetBtn = document.getElementById('resetBtn');
@@ -1806,7 +1968,7 @@
                     wellWater: d.wellWater || false,
                     isDual: d.isDual || false,
                     sub_manufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
-                    appVersion: '1.2.1',
+                    appVersion: '1.2.2',
                     qualified: qualified
                 };
                 const res = await fetch(GAS_URL, {
@@ -1971,9 +2133,7 @@
         document.getElementById('statsModal').style.display = 'flex';
     }
 
-    function closeStatsModal() {
-        document.getElementById('statsModal').style.display = 'none';
-    }
+    function closeStatsModal() { document.getElementById('statsModal').style.display = 'none'; }
 
     async function fetchLatestStats() {
         if (!d.statsToken) return;
@@ -2033,6 +2193,7 @@
                 if (d.sub_customName === undefined) d.sub_customName = '';
                 if (d.sub_spec === undefined) d.sub_spec = null;
                 if (d.sub_price === undefined) d.sub_price = null;
+                if (d.washInterval === undefined) d.washInterval = null;
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
                 up(); alert("復元しました！"); closeTransferModal();
             } catch(e) { alert("不正なコードです"); }
