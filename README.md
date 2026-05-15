@@ -14,12 +14,12 @@
 ## 📱 アプリ画面
 
 <div align="center">
-  <img src="screenshots/clean_IMG_2140.PNG" width="30%" alt="メイン画面：樹脂残量リアルタイム表示">
-  <img src="screenshots/clean_IMG_2142.PNG" width="30%" alt="入力画面：使用量・洗車時間の記録">
+  <img src="screenshots/clean_IMG_2140.PNG" width="30%" alt="記録画面：使用量・洗車時間の記録">
+  <img src="screenshots/clean_IMG_2142.PNG" width="30%" alt="メイン画面：樹脂残量リアルタイム表示">
   <img src="screenshots/clean_IMG_2141.PNG" width="30%" alt="コンディション詳細：履歴・コスト診断">
 </div>
 
-> 左から：**メイン画面**（残量・寿命をリアルタイム可視化）／**記録画面**（使用量・洗車時間をワンタップ入力）／**コンディション詳細**（履歴・コスト・交換時期を自動診断）
+> 左から：**記録画面**（使用量・洗車時間をワンタップ入力）／**メイン画面**（残量・寿命をリアルタイム可視化）／**コンディション詳細**（履歴・コスト・交換時期を自動診断）
 
 ---
 
