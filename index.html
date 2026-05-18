@@ -1063,7 +1063,7 @@
         <div class="foot-h">統計データの取り扱いについて</div>
         本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
         ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
-        <br>Version 1.2.2 β<br>
+        <br>Version 1.2.3 β<br>
         © 2026 missing link. All rights reserved.<br>
         本アプリのコード・デザイン・文言の無断転載・改変・商用利用を固く禁じます。
     </div>
@@ -1122,7 +1122,8 @@
         <div class="modal-h">樹脂をリセットします</div>
         <div class="data-consent-box">
             <div class="data-consent-title">📊 統計データへの協力のお願い</div>
-            <div class="data-consent-desc">本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量のみで、個人の特定は一切しません。</div>
+            <!-- [修正③] 同意文を実際の送信データに合わせて正確化 -->
+            <div class="data-consent-desc">本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量・都道府県・市区町村・井戸水の有無・2連結の有無で、個人の特定は一切しません。</div>
             <div class="data-consent-merit" id="consentMerit">✓ データを提供いただくと、同機種ユーザーの平均値・他機種との効率比較データが見られるようになります。</div>
             <label class="data-consent-check">
                 <input type="checkbox" id="dataConsentCheck" checked>
@@ -1266,11 +1267,15 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dtStart = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+        // [修正①] DTENDを翌日に修正
+        const tomorrow = new Date(now);
+        tomorrow.setDate(now.getDate() + 1);
+        const dtEnd = `${tomorrow.getFullYear()}${pad(tomorrow.getMonth()+1)}${pad(tomorrow.getDate())}`;
         const ics = [
             'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Pure Water Tracker//JP',
             'BEGIN:VEVENT',
             `DTSTART;VALUE=DATE:${dtStart}`,
-            `DTEND;VALUE=DATE:${dtStart}`,
+            `DTEND;VALUE=DATE:${dtEnd}`,
             `SUMMARY:${title}`,
             `DESCRIPTION:${desc.replace(/\n/g, '\\n')}`,
             'END:VEVENT', 'END:VCALENDAR'
@@ -1292,7 +1297,11 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dateOnly = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-        window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateOnly}`, '_blank');
+        // [修正②] Googleカレンダーの終了日を翌日に修正
+        const nextDay = new Date(now);
+        nextDay.setDate(now.getDate() + 1);
+        const dateEnd = `${nextDay.getFullYear()}${pad(nextDay.getMonth()+1)}${pad(nextDay.getDate())}`;
+        window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateEnd}`, '_blank');
         closeCalModal();
     }
 
@@ -1624,7 +1633,7 @@
         const saveBtn = document.getElementById('saveBtn');
         const noticeBar = document.getElementById('noticeBar');
         const now = new Date();
-        const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '00')}`;
         const monthUsed = d.logs[monthKey] || 0;
 
         document.getElementById('ppmIn').value = d.ppm;
@@ -1969,7 +1978,7 @@
                     wellWater: d.wellWater || false,
                     isDual: d.isDual || false,
                     sub_manufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
-                    appVersion: '1.2.2',
+                    appVersion: '1.2.3',
                     qualified: qualified
                 };
                 const res = await fetch(GAS_URL, {
@@ -2189,6 +2198,8 @@
             try {
                 d = JSON.parse(decodeURIComponent(escape(atob(area.value.trim()))));
                 if (d.calPref === undefined) d.calPref = true;
+                // [修正④] インポート時にfirstLaunchを補完
+                if (d.firstLaunch === undefined) d.firstLaunch = new Date().getTime();
                 if (d.isDual === undefined) d.isDual = false;
                 if (d.sub_manufacturer === undefined) d.sub_manufacturer = '';
                 if (d.sub_customName === undefined) d.sub_customName = '';
