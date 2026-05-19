@@ -1,536 +1,157 @@
 <script>
-
-const API_URL='YOUR_GAS_URL';
+const API_URL='https://script.google.com/macros/s/AKfycbwnz-HMQHlkslJ3QGUwdpZWfu5FlL76kLA8Qr6217pmPlB037FuM2J1JES5Es6FN9Vl/exec';
 
 let pass="";
 
 function login(){
-
-pass=document
-.getElementById(
-'passInput'
-).value;
-
-document
-.getElementById(
-'loginScreen'
-).style.display='none';
-
-fetchData()
-
+  pass=document.getElementById('passInput').value;
+  document.getElementById('loginScreen').style.display='none';
+  fetchData();
 }
-
 
 async function fetchData(){
+  try{
+    const res=await fetch(`${API_URL}?pass=${encodeURIComponent(pass)}`);
+    const data=await res.json();
 
-try{
+    if(data.error){
+      alert("認証失敗または取得失敗: "+data.error);
+      document.getElementById('loginScreen').style.display='flex';
+      return;
+    }
 
-const res=
-await fetch(
-`${API_URL}?pass=${
-encodeURIComponent(pass)
-}`
-);
+    document.getElementById('dashboard').style.display='block';
+    render(data);
 
-const data=
-await res.json();
-
-document
-.getElementById(
-'dashboard'
-).style.display='block';
-
-render(data)
-
-}catch(e){
-
-alert(
-"データ取得失敗"
-)
-
+  }catch(e){
+    alert("データ取得失敗");
+  }
 }
-
-}
-
-
 
 function render(data){
 
-/* KPI */
-
-totalUser.innerText=
-data.total||0
-
-softenerUser.innerText=
-data.softenerCount||0
-
-dualUser.innerText=
-data.dualCount||0
-
-avgPpm.innerText=
-(data.avgPpm||0)
-+"ppm"
-
-
-
-addKPI(
-"平均実生成量",
-(data.avgRealOutput||0)+"L"
-)
-
-addKPI(
-"平均交換周期",
-(data.avgResetDays||0)+"日"
-)
-
-addKPI(
-"30日継続率",
-(data.retention30||0)+"%"
-)
-
-addKPI(
-"平均洗車時間",
-(data.avgWashTime||0)+"分"
-)
-
-
-
-/* タグ */
-
-tagCloud.innerHTML=
-(data.popularTags||[])
-.map(t=>`
-
-<div class=tag-item>
-
-${t.name}
-
-(${t.count})
-
-</div>
-
-`).join("");
-
-
-
-/* 車種 */
-
-appendSection(
-
-"車種トレンド",
-
-(data.carTypes||[])
-.map(c=>`
-
-<div>
-
-${c.name}
-
-(${c.count})
-
-</div>
-
-`).join("")
-
-)
-
-
-
-/* PPM帯分析 */
-
-appendSection(
-
-"PPM帯別性能",
-
-(data.ppmBands||[])
-.map(p=>`
-
-<div style="
-margin-bottom:15px">
-
-<div style="
-font-size:11px">
-
-${p.range}
-
-平均生成量:
-
-${p.avgOutput}L
-
-件数:${p.count}
-
-</div>
-
-<div style="
-height:18px;
-background:#111;
-border-radius:20px;
-overflow:hidden">
-
-<div style="
-height:100%;
-width:${p.count}%;
-background:
-linear-gradient(
-90deg,
-#00d4ff,
-#a288ff
-)
-">
-
-</div>
-
-</div>
-
-</div>
-
-`).join("")
-
-)
-
-
-
-/* 地域 */
-
-prefList.innerHTML=
-(data.prefectures||[])
-.map(p=>`
-
-<div style="
-display:flex;
-justify-content:
-space-between;
-margin-bottom:8px">
-
-<div>
-${p.name}
-</div>
-
-<div>
-
-${p.count}
-
-</div>
-
-</div>
-
-`).join("");
-
-
-
-/* 軟水器 */
-
-softenerList.innerHTML=
-(data.softenerBrands||[])
-.map(s=>`
-
-<div style="
-display:flex;
-justify-content:
-space-between;
-margin-bottom:8px">
-
-<div>
-
-${s.name}
-
-</div>
-
-<div>
-
-${s.count}
-
-</div>
-
-</div>
-
-`).join("");
-
-
-
-/* 離脱率 */
-
-appendSection(
-
-"利用ファネル",
-
-`
-
-<div>
-インストール:
-${data.funnel?.install||0}
-</div>
-
-<div>
-PPM入力:
-${data.funnel?.ppm||0}
-</div>
-
-<div>
-初回保存:
-${data.funnel?.save||0}
-</div>
-
-<div>
-3回利用:
-${data.funnel?.repeat3||0}
-</div>
-
-<div>
-樹脂交換:
-${data.funnel?.reset||0}
-</div>
-
-`
-
-)
-
-
-
-/* 季節分析 */
-
-appendSection(
-
-"季節別利用",
-
-(data.seasons||[])
-.map(x=>`
-
-<div>
-
-${x.name}
-
-平均洗車:
-
-${x.avgWash}
-
-平均生成量:
-
-${x.avgOutput}
-
-</div>
-
-`).join("")
-
-)
-
-
-
-/* 月別 */
-
-appendSection(
-
-"月別推移",
-
-(data.monthlyTrend||[])
-.map(m=>`
-
-<div style="
-display:flex;
-justify-content:
-space-between;
-margin-bottom:8px">
-
-<div>
-
-${m.month}
-
-</div>
-
-<div>
-
-${m.count}
-
-回
-
-</div>
-
-</div>
-
-`).join("")
-
-)
-
-
-
-/* 最近ログ */
-
-logTable.innerHTML=
-(data.recent||[])
-.map(r=>`
-
-<tr>
-
-<td>
-
-${r.date}
-
-</td>
-
-<td>
-
-${r.isSoftener
-?'<span class="badge bg-soft">SOFT</span>'
-:''}
-
-${r.isDual
-?'<span class="badge bg-dual">DUAL</span>'
-:''}
-
-</td>
-
-<td>
-
-<div>
-
-${r.manufacturer}
-
-</div>
-
-<div style="
-font-size:9px;
-color:gray">
-
-${r.subManufacturer||""}
-
-</div>
-
-</td>
-
-<td>
-
-${r.ppm}
-
-</td>
-
-<td>
-
-${r.realOutput||"-"}
-
-L
-
-</td>
-
-<td>
-
-${r.daysToReset||"-"}
-
-日
-
-</td>
-
-<td>
-
-${r.carName||"-"}
-
-</td>
-
-<td>
-
-${r.lastTags||"-"}
-
-</td>
-
-</tr>
-
-`).join("");
-
+  document.getElementById('totalUser').innerText=data.total||0;
+  document.getElementById('softenerUser').innerText=data.softenerCount||0;
+  document.getElementById('dualUser').innerText=data.dualCount||0;
+  document.getElementById('avgPpm').innerText=(data.avgPpm||0)+'ppm';
+
+  clearExtraSections();
+
+  addKPI("平均実生成量",(data.avgRealOutput||0)+"L");
+  addKPI("平均交換周期",(data.avgResetDays||0)+"日");
+  addKPI("平均洗車時間",(data.avgWashTime||0)+"分");
+
+  document.getElementById('tagCloud').innerHTML=
+    (data.popularTags||[]).map(t=>`
+      <div class="tag-item">${t.name} (${t.count})</div>
+    `).join('') || '<div style="color:var(--sub);font-size:11px;">データなし</div>';
+
+  document.getElementById('prefList').innerHTML=
+    (data.prefectures||[]).map(p=>`
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span>${p.name}</span>
+        <b>${p.count}</b>
+      </div>
+    `).join('') || '<div style="color:var(--sub);font-size:11px;">データなし</div>';
+
+  document.getElementById('softenerList').innerHTML=
+    (data.softenerBrands||[]).map(s=>`
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span>${s.name}</span>
+        <b>${s.count}</b>
+      </div>
+    `).join('') || '<div style="color:var(--sub);font-size:11px;">データなし</div>';
+
+  addSection("車種トレンド",
+    (data.carTypes||[]).map(c=>`
+      <div class="tag-item">${c.name} (${c.count})</div>
+    `).join('') || 'データなし'
+  );
+
+  addSection("分析サマリー",`
+    <div>平均PPM：${data.avgPpm||0}ppm</div>
+    <div>平均実生成量：${data.avgRealOutput||0}L</div>
+    <div>平均交換周期：${data.avgResetDays||0}日</div>
+    <div>平均洗車時間：${data.avgWashTime||0}分</div>
+    <div>軟水器利用数：${data.softenerCount||0}</div>
+    <div>2連結利用数：${data.dualCount||0}</div>
+  `);
+
+  const table=document.querySelector('.recent-table');
+  table.innerHTML=`
+    <thead>
+      <tr>
+        <th>日時</th>
+        <th>構成</th>
+        <th>メーカー</th>
+        <th>PPM</th>
+        <th>実生成量</th>
+        <th>交換周期</th>
+        <th>洗車時間</th>
+        <th>車種</th>
+        <th>地域</th>
+        <th>タグ</th>
+      </tr>
+    </thead>
+    <tbody id="logTable"></tbody>
+  `;
+
+  document.getElementById('logTable').innerHTML=
+    (data.recent||[]).map(r=>`
+      <tr>
+        <td style="color:var(--sub)">${formatDate(r.createdAt)}</td>
+        <td>
+          ${r.softenerBrand||r.softenerPPM ? '<span class="badge bg-soft">SOFT</span>' : ''}
+          ${r.dual===true||r.dual==='true' ? '<span class="badge bg-dual">DUAL</span>' : ''}
+        </td>
+        <td>
+          <div style="font-weight:bold">${r.manufacturer||'-'}</div>
+          <div style="font-size:9px;color:var(--sub)">${r.subManufacturer||''}</div>
+        </td>
+        <td style="color:var(--accent-warn)">${r.ppm||'-'}</td>
+        <td>${r.realOutput||'-'}L</td>
+        <td>${r.daysToReset||'-'}日</td>
+        <td>${r.washTime||'-'}分</td>
+        <td>${r.carName||'-'}</td>
+        <td>${r.region||'-'}</td>
+        <td>${Array.isArray(r.tags)?r.tags.join(' / '):'-'}</td>
+      </tr>
+    `).join('');
 }
 
-
-function addKPI(
-label,
-value
-){
-
-const div=
-document.createElement(
-"div"
-)
-
-div.className=
-"kpi-card"
-
-div.innerHTML=`
-
-<div class=
-kpi-label>
-
-${label}
-
-</div>
-
-<div class=
-kpi-val>
-
-${value}
-
-</div>
-
-`
-
-document
-.querySelector(
-".kpi-grid"
-)
-.appendChild(
-div
-)
-
+function addKPI(label,value){
+  const div=document.createElement("div");
+  div.className="kpi-card extra-kpi";
+  div.innerHTML=`
+    <div class="kpi-label">${label}</div>
+    <div class="kpi-val">${value}</div>
+  `;
+  document.querySelector(".kpi-grid").appendChild(div);
 }
 
-
-
-function appendSection(
-title,
-body
-){
-
-const wrap=
-document.createElement(
-"div"
-)
-
-wrap.className=
-"section"
-
-wrap.innerHTML=`
-
-<div class=
-section-header>
-
-${title}
-
-</div>
-
-<div class=
-section-body>
-
-${body}
-
-</div>
-
-`
-
-document
-.querySelector(
-".container"
-)
-.appendChild(
-wrap
-)
-
+function addSection(title,body){
+  const div=document.createElement("div");
+  div.className="section extra-section";
+  div.innerHTML=`
+    <div class="section-header">${title}</div>
+    <div class="section-body">${body}</div>
+  `;
+  document.querySelector(".container").appendChild(div);
 }
 
+function clearExtraSections(){
+  document.querySelectorAll('.extra-kpi,.extra-section').forEach(el=>el.remove());
+}
 
+function formatDate(v){
+  if(!v) return '-';
+  const d=new Date(v);
+  if(isNaN(d)) return v;
+  return d.toLocaleString('ja-JP');
+}
 
 setInterval(()=>{
-
-time.innerText=
-
-new Date()
-.toLocaleString()
-
-},1000)
-
+  const t=document.getElementById('time');
+  if(t) t.innerText=new Date().toLocaleString('ja-JP');
+},1000);
 </script>
