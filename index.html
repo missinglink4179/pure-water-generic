@@ -1949,9 +1949,11 @@
         const countStr = washCount > 0 ? ` / 第${washCount}回` : '';
         const customTags = d.customTags ? `\n${d.customTags}` : '';
         const text = `純水洗車記録\n${amt}ℓ使用 / 残 ${pct}% / 累計 ${totalUsed}ℓ${countStr}${customTags}\n#PureWaterTracker`;
-        const url = `https://x.com/intent/post?text=${encodeURIComponent(text)}`;
+        const encoded = encodeURIComponent(text);
+        const appUrl = `twitter://post?message=${encoded}`;
         document.getElementById('xModalPreview').textContent = text;
-        document.getElementById('xModalLink').href = url;
+        document.getElementById('xModalLink').href = appUrl;
+        document.getElementById('xModalLink').onclick = null;
         document.getElementById('xModal').style.display = 'flex';
     }
 
