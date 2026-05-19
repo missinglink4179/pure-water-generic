@@ -415,12 +415,19 @@
     .memo-input::placeholder { color: #555; }
     .memo-input:focus { border-color: var(--accent-blue); }
 
+    .cal-rows-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
     .cal-row {
         display: flex;
         align-items: center;
-        justify-content: center;
         gap: 8px;
-        margin-bottom: 10px;
+        width: 200px;
     }
 
     .cal-checkbox {
@@ -435,10 +442,24 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
     }
 
     .cal-label span { font-size: 14px; }
+
+    .x-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px; height: 16px;
+        background: #fff;
+        color: #000;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: 900;
+        line-height: 1;
+        flex-shrink: 0;
+    }
 
     .btn-save {
         width: 100%; display: block;
@@ -881,11 +902,19 @@
         <textarea id="memoInput" class="memo-input" rows="2" placeholder="一言メモ（例：花粉多かったので2度洗い）"></textarea>
     </div>
 
-    <div class="cal-row">
-        <input type="checkbox" id="calCheck" class="cal-checkbox" checked>
-        <label for="calCheck" class="cal-label">
-            <span>📅</span> カレンダーに記録する
-        </label>
+    <div class="cal-rows-wrap">
+        <div class="cal-row">
+            <input type="checkbox" id="calCheck" class="cal-checkbox" checked>
+            <label for="calCheck" class="cal-label">
+                <span>📅</span> カレンダーに記録する
+            </label>
+        </div>
+        <div class="cal-row">
+            <input type="checkbox" id="xPostCheck" class="cal-checkbox">
+            <label for="xPostCheck" class="cal-label">
+                <span class="x-icon">X</span> Xに投稿する
+            </label>
+        </div>
     </div>
 
     <button class="btn-save" id="saveBtn" onclick="save()">数値を入力してください</button>
@@ -1091,6 +1120,12 @@
         </div>
 
         <div class="backup-section">
+            <div class="backup-label">X投稿のカスタムタグ</div>
+            <div class="backup-guide">車種名や好きなタグを保存しておくと、X投稿時に自動で追加されます。<br>例：#シビック #洗車好きと繋がりたい</div>
+            <input type="text" id="customTagsIn" class="softener-text-input" placeholder="#車種名 #好きなタグ" oninput="setCustomTags(this.value)" style="margin-bottom:0;">
+        </div>
+
+        <div class="backup-section">
             <div class="backup-label">データ移行・復元</div>
             <div class="backup-guide">機種変更やブラウザ変更時に、これまでの洗車記録をコードで引き継ぐことができます。</div>
             <div class="backup-row">
@@ -1235,7 +1270,8 @@
         calPref: true,
         isDual: false, sub_manufacturer: '', sub_customName: '', sub_spec: null, sub_price: null,
         washInterval: null,
-        hasSoftener: false, softenerPPM: null, softenerMaker: '', softenerName: '', softenerPrice: null
+        hasSoftener: false, softenerPPM: null, softenerMaker: '', softenerName: '', softenerPrice: null,
+        xPostPref: false, customTags: ''
     };
 
     if (d.calPref === undefined) d.calPref = true;
@@ -1251,6 +1287,8 @@
     if (d.softenerMaker === undefined) d.softenerMaker = '';
     if (d.softenerName === undefined) d.softenerName = '';
     if (d.softenerPrice === undefined) d.softenerPrice = null;
+    if (d.xPostPref === undefined) d.xPostPref = false;
+    if (d.customTags === undefined) d.customTags = '';
 
     const MANUFACTURER_PRESETS = {
         purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
@@ -1303,6 +1341,11 @@
 
     document.getElementById('calCheck').addEventListener('change', function() {
         d.calPref = this.checked;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    });
+
+    document.getElementById('xPostCheck').addEventListener('change', function() {
+        d.xPostPref = this.checked;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
     });
 
@@ -1735,6 +1778,8 @@
         if (d.softenerMaker) document.getElementById('softenerMakerIn').value = d.softenerMaker;
         if (d.softenerName) document.getElementById('softenerNameIn').value = d.softenerName;
         if (d.softenerPrice !== null && d.softenerPrice !== undefined) document.getElementById('softenerPriceIn').value = d.softenerPrice;
+        document.getElementById('xPostCheck').checked = d.xPostPref;
+        if (d.customTags) document.getElementById('customTagsIn').value = d.customTags;
         document.getElementById('dualToggle').checked = d.isDual;
         document.getElementById('dualSubBox').style.display = d.isDual ? 'block' : 'none';
         if (d.sub_manufacturer) document.getElementById('subManufacturerSelect').value = d.sub_manufacturer;
@@ -1880,7 +1925,24 @@
             const dateStr = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`;
             openCalModal({ amt: savedAmt, totalUsed, tags, memo, dateStr });
         }
+
+        if (document.getElementById('xPostCheck').checked) {
+            postToX(savedAmt, totalUsed);
+        }
     }
+
+    function postToX(amt, totalUsed) {
+        const cap = calcCap();
+        const rem = cap - d.used;
+        const pct = Math.round((rem / cap) * 100);
+        const washCount = d.history ? d.history.length : 0;
+        const countStr = washCount > 0 ? ` / 第${washCount}回` : '';
+        const customTags = d.customTags ? `\n${d.customTags}` : '';
+        const text = `純水洗車記録\n${amt}ℓ使用 / 残 ${pct}% / 累計 ${totalUsed}ℓ${countStr}${customTags}\n#PureWaterTracker`;
+        window.open(`https://x.com/intent/post?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function setCustomTags(v) { d.customTags = v; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 
     function showDetail() {
         const setupMsg = getSetupMessage();
@@ -2309,6 +2371,8 @@
                 if (d.softenerMaker === undefined) d.softenerMaker = '';
                 if (d.softenerName === undefined) d.softenerName = '';
                 if (d.softenerPrice === undefined) d.softenerPrice = null;
+                if (d.xPostPref === undefined) d.xPostPref = false;
+                if (d.customTags === undefined) d.customTags = '';
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
                 up(); alert("復元しました！"); closeTransferModal();
             } catch(e) { alert("不正なコードです"); }
