@@ -2141,21 +2141,43 @@
 
         if (sendData && actualLiters > 0 && d.manufacturer && d.ppm) {
             try {
+                // 平均洗車時間を算出
+                const timeRecords = (d.history || []).filter(h => h.washTime && h.washTime > 0);
+                const avgWashTime = timeRecords.length > 0
+                    ? Math.round(timeRecords.reduce((a, b) => a + b.washTime, 0) / timeRecords.length)
+                    : 0;
+
+                // 交換周期（日数）を算出
+                const daysToReset = d.lastReset && lastResetTs
+                    ? Math.round((d.lastReset - lastResetTs) / (1000 * 60 * 60 * 24))
+                    : 0;
+
+                // 直近の施工タグを収集
+                const recentTags = [...new Set((d.history || []).flatMap(h => h.tags || []))].slice(0, 10);
+
+                // 車種名をカスタムタグの最初の#タグから抽出
+                const carNameMatch = (d.customTags || '').match(/#(\S+)/);
+                const carName = carNameMatch ? carNameMatch[1] : '';
+
+                // 季節を判定
+                const month = new Date().getMonth() + 1;
+                const season = month <= 2 || month === 12 ? '冬' : month <= 5 ? '春' : month <= 8 ? '夏' : '秋';
+
                 const payload = {
                     manufacturer: d.manufacturer === 'custom' ? (d.customName || 'custom') : d.manufacturer,
+                    subManufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
                     ppm: d.ppm,
-                    actualLiters: actualLiters,
-                    prefecture: d.prefecture || '',
-                    city: d.city || '',
-                    wellWater: d.wellWater || false,
-                    isDual: d.isDual || false,
-                    sub_manufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
-                    hasSoftener: d.hasSoftener || false,
-                    softenerPPM: d.hasSoftener ? (d.softenerPPM || null) : null,
-                    softenerMaker: d.hasSoftener ? (d.softenerMaker || '') : '',
-                    softenerName: d.hasSoftener ? (d.softenerName || '') : '',
-                    softenerPrice: d.hasSoftener ? (d.softenerPrice || null) : null,
-                    waterPPM: d.ppm,
+                    realOutput: actualLiters,
+                    daysToReset: daysToReset,
+                    washTime: avgWashTime,
+                    carName: carName,
+                    season: season,
+                    region: (d.prefecture || '') + (d.city ? ' ' + d.city : ''),
+                    softenerPPM: d.hasSoftener ? (d.softenerPPM || 0) : 0,
+                    softenerBrand: d.hasSoftener ? (d.softenerMaker || d.softenerName || '') : '',
+                    dual: d.isDual || false,
+                    tags: recentTags,
+                    repeatCount: (d.history || []).length,
                     appVersion: '1.2.4',
                     qualified: qualified
                 };
