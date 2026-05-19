@@ -689,6 +689,27 @@
         width: 60px; outline: none;
     }
     .interval-unit { font-size: 12px; color: var(--text-sub); margin-left: 2px; }
+
+    /* 軟水器サブボックス */
+    .softener-sub-box {
+        background: rgba(52,199,89,0.06);
+        border: 1px solid rgba(52,199,89,0.2);
+        border-radius: 12px;
+        padding: 14px;
+        margin-top: 8px;
+        margin-bottom: 4px;
+        display: none;
+    }
+    .softener-sub-title {
+        font-size: 11px; font-weight: bold;
+        color: var(--accent-green); margin-bottom: 10px;
+    }
+    .softener-text-input {
+        width: 100%; background: #2c2c2e;
+        border: 1px solid #3a3a3c; color: white;
+        font-size: 13px; padding: 8px 12px;
+        border-radius: 8px; margin-top: 4px;
+    }
 </style>
 
 
@@ -975,6 +996,45 @@
             </div>
         </div>
 
+        <!-- 軟水器モード -->
+        <div class="dual-toggle-row">
+            <div>
+                <span class="label-xs" style="color:#fff; font-size:12px;">軟水器モード</span>
+                <div style="font-size:9px; color:#666; margin-top:2px;">軟水器を使用している場合はONにして、軟水器通過後のPPM値を入力してください。</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="softenerToggle" onchange="onSoftenerToggle(this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+
+        <div id="softenerSubBox" class="softener-sub-box">
+            <div class="softener-sub-title">💧 軟水器の設定</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-size:11px; color:#fff;">軟水器通過後のPPM</span>
+                <div style="display:flex; align-items:center;">
+                    <input type="number" id="softenerPPMIn" class="ppm-input" placeholder="--" oninput="setSoftenerPPM(this.value)" pattern="\d*">
+                    <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">PPM</span>
+                </div>
+            </div>
+            <div style="margin-bottom:8px;">
+                <div style="font-size:11px; color:#fff; margin-bottom:4px;">メーカー名（任意）</div>
+                <input type="text" id="softenerMakerIn" class="softener-text-input" placeholder="例：パナソニック" oninput="setSoftenerMaker(this.value)">
+            </div>
+            <div style="margin-bottom:8px;">
+                <div style="font-size:11px; color:#fff; margin-bottom:4px;">商品名（任意）</div>
+                <input type="text" id="softenerNameIn" class="softener-text-input" placeholder="例：TK-AS30" oninput="setSoftenerName(this.value)">
+            </div>
+            <div>
+                <div style="font-size:11px; color:#fff; margin-bottom:4px;">購入価格（任意）</div>
+                <div style="display:flex; align-items:center;">
+                    <input type="number" id="softenerPriceIn" class="ppm-input" style="width:120px;" placeholder="--" oninput="setSoftenerPrice(this.value)" pattern="\d*">
+                    <span style="font-size:10px; color:var(--text-sub); margin-left:4px;">円</span>
+                </div>
+            </div>
+            <div style="font-size:9px; color:#666; margin-top:10px; line-height:1.5;">水道水PPMより軟水器通過後のPPMを優先して生成量を算出します。</div>
+        </div>
+
         <div class="dual-toggle-row">
             <div>
                 <span class="label-xs" style="color:#fff; font-size:12px;">2連結モード</span>
@@ -1063,7 +1123,7 @@
         <div class="foot-h">統計データの取り扱いについて</div>
         本アプリでは、純水洗車文化の発展と製品比較の適正化を目的として、樹脂リセット時に機種名・水道水硬度・実際の生成量を匿名で収集する場合があります。収集されたデータは個人を特定できない形で集計し、各メーカーの実測効率比較や同機種ユーザーとの比較データとして、アプリ内でユーザーの皆様に還元いたします。<br>
         ご提供いただいたデータは、皆様の洗車環境の向上およびより良い純水器選びにお役立ていただけるよう活用してまいります。<br>
-        <br>Version 1.2.3 β<br>
+        <br>Version 1.2.4 β<br>
         © 2026 missing link. All rights reserved.<br>
         本アプリのコード・デザイン・文言の無断転載・改変・商用利用を固く禁じます。
     </div>
@@ -1122,8 +1182,7 @@
         <div class="modal-h">樹脂をリセットします</div>
         <div class="data-consent-box">
             <div class="data-consent-title">📊 統計データへの協力のお願い</div>
-            <!-- [修正③] 同意文を実際の送信データに合わせて正確化 -->
-            <div class="data-consent-desc">本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量・都道府県・市区町村・井戸水の有無・2連結の有無で、個人の特定は一切しません。</div>
+            <div class="data-consent-desc">本アプリはβ版です。皆様のデータが集まることで、各メーカーの実測値に基づいた純水器の効率比較データを作成し、より良い純水器選びに貢献できます。β版期間中はぜひ統計データ収集にご協力ください。収集するのは機種名・水道水硬度・実際の生成量・都道府県・市区町村・井戸水の有無・軟水器の有無・2連結の有無で、個人の特定は一切しません。</div>
             <div class="data-consent-merit" id="consentMerit">✓ データを提供いただくと、同機種ユーザーの平均値・他機種との効率比較データが見られるようになります。</div>
             <label class="data-consent-check">
                 <input type="checkbox" id="dataConsentCheck" checked>
@@ -1175,7 +1234,8 @@
         manufacturer: '', customName: '', prefecture: '', city: '', wellWater: false,
         calPref: true,
         isDual: false, sub_manufacturer: '', sub_customName: '', sub_spec: null, sub_price: null,
-        washInterval: null
+        washInterval: null,
+        hasSoftener: false, softenerPPM: null, softenerMaker: '', softenerName: '', softenerPrice: null
     };
 
     if (d.calPref === undefined) d.calPref = true;
@@ -1186,6 +1246,11 @@
     if (d.sub_spec === undefined) d.sub_spec = null;
     if (d.sub_price === undefined) d.sub_price = null;
     if (d.washInterval === undefined) d.washInterval = null;
+    if (d.hasSoftener === undefined) d.hasSoftener = false;
+    if (d.softenerPPM === undefined) d.softenerPPM = null;
+    if (d.softenerMaker === undefined) d.softenerMaker = '';
+    if (d.softenerName === undefined) d.softenerName = '';
+    if (d.softenerPrice === undefined) d.softenerPrice = null;
 
     const MANUFACTURER_PRESETS = {
         purenish_pro:  { spec: 1800, price: 12980, note: '100ppm基準・公式明記' },
@@ -1203,6 +1268,12 @@
         astro:         { spec: 1900, price: 13090, note: '100ppm基準・公式明記' },
         custom:        { spec: null, price: null,  note: 'お使いの純水器の公表値を入力してください' }
     };
+
+    // 軟水器PPMを優先して返す
+    function getEffectivePPM() {
+        if (d.hasSoftener && d.softenerPPM && d.softenerPPM > 0) return d.softenerPPM;
+        return d.ppm;
+    }
 
     let selectedTags = [];
 
@@ -1267,7 +1338,6 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dtStart = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-        // [修正①] DTENDを翌日に修正
         const tomorrow = new Date(now);
         tomorrow.setDate(now.getDate() + 1);
         const dtEnd = `${tomorrow.getFullYear()}${pad(tomorrow.getMonth()+1)}${pad(tomorrow.getDate())}`;
@@ -1297,13 +1367,24 @@
         const now = new Date();
         const pad = n => String(n).padStart(2, '0');
         const dateOnly = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
-        // [修正②] Googleカレンダーの終了日を翌日に修正
         const nextDay = new Date(now);
         nextDay.setDate(now.getDate() + 1);
         const dateEnd = `${nextDay.getFullYear()}${pad(nextDay.getMonth()+1)}${pad(nextDay.getDate())}`;
         window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateOnly}/${dateEnd}`, '_blank');
         closeCalModal();
     }
+
+    function onSoftenerToggle(checked) {
+        d.hasSoftener = checked;
+        document.getElementById('softenerSubBox').style.display = checked ? 'block' : 'none';
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+        up();
+    }
+
+    function setSoftenerPPM(v) { d.softenerPPM = v === "" ? null : parseInt(v); up(); }
+    function setSoftenerMaker(v) { d.softenerMaker = v; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+    function setSoftenerName(v) { d.softenerName = v; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+    function setSoftenerPrice(v) { d.softenerPrice = v === "" ? null : parseInt(v); localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 
     function onDualToggle(checked) {
         d.isDual = checked;
@@ -1519,9 +1600,10 @@
     }
 
     function calcCap() {
-        const mainCap = d.unit === 'μS' ? d.spec * (200 / d.ppm) : d.spec * (100 / d.ppm);
+        const effectivePPM = getEffectivePPM();
+        const mainCap = d.unit === 'μS' ? d.spec * (200 / effectivePPM) : d.spec * (100 / effectivePPM);
         if (d.isDual && d.sub_spec) {
-            const subCap = d.unit === 'μS' ? d.sub_spec * (200 / d.ppm) : d.sub_spec * (100 / d.ppm);
+            const subCap = d.unit === 'μS' ? d.sub_spec * (200 / effectivePPM) : d.sub_spec * (100 / effectivePPM);
             return mainCap + subCap;
         }
         return mainCap;
@@ -1633,7 +1715,7 @@
         const saveBtn = document.getElementById('saveBtn');
         const noticeBar = document.getElementById('noticeBar');
         const now = new Date();
-        const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '00')}`;
+        const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         const monthUsed = d.logs[monthKey] || 0;
 
         document.getElementById('ppmIn').value = d.ppm;
@@ -1647,6 +1729,12 @@
         if (d.prefecture) document.getElementById('prefectureSelect').value = d.prefecture;
         if (d.city) document.getElementById('cityInput').value = d.city;
         document.getElementById('wellWaterSelect').value = d.wellWater ? 'yes' : 'no';
+        document.getElementById('softenerToggle').checked = d.hasSoftener;
+        document.getElementById('softenerSubBox').style.display = d.hasSoftener ? 'block' : 'none';
+        if (d.softenerPPM !== null && d.softenerPPM !== undefined) document.getElementById('softenerPPMIn').value = d.softenerPPM;
+        if (d.softenerMaker) document.getElementById('softenerMakerIn').value = d.softenerMaker;
+        if (d.softenerName) document.getElementById('softenerNameIn').value = d.softenerName;
+        if (d.softenerPrice !== null && d.softenerPrice !== undefined) document.getElementById('softenerPriceIn').value = d.softenerPrice;
         document.getElementById('dualToggle').checked = d.isDual;
         document.getElementById('dualSubBox').style.display = d.isDual ? 'block' : 'none';
         if (d.sub_manufacturer) document.getElementById('subManufacturerSelect').value = d.sub_manufacturer;
@@ -1886,12 +1974,17 @@
             else if (pct < -10) usageDiag = `・使用量診断: <strong style="color:var(--accent-green);">平均値より少なめです 👍</strong>`;
         }
 
+        const softenerNote = d.hasSoftener && d.softenerPPM
+            ? `・軟水器使用中：通過後PPM <strong>${d.softenerPPM}</strong>（水道水 ${d.ppm} PPM → 優先適用中）<br>`
+            : '';
+
         document.getElementById('adviceBox').innerHTML = `
             ・洗車回数：あと <strong>${remCount}回</strong> 分<br>
             ・今月コスト：${thisMonthCost.toLocaleString()}円（月平均比 <strong>${monthDiffStr}</strong>）<br>
             ・直近平均使用量: <strong>${recentAvg}ℓ</strong><br>
             ・現在の洗車間隔: <strong>${Math.round(interval * 10) / 10}日</strong> に1回<br>
             ${usageDiag}<br>
+            ${softenerNote}
             ・交換コスト設定: ${totalPrice.toLocaleString()}円${d.isDual ? '（2連結合計）' : ''}<br>
             ・交換時期予測: <strong>${predictStr}${rem > 0 ? '・洗車あと' + remCount + '回' : ''}</strong><br>
             ・年間コスト予測: <strong>${yearCost}円</strong>（実績ベース）<br>
@@ -1978,7 +2071,13 @@
                     wellWater: d.wellWater || false,
                     isDual: d.isDual || false,
                     sub_manufacturer: d.isDual ? (d.sub_manufacturer === 'custom' ? (d.sub_customName || 'custom') : d.sub_manufacturer) : '',
-                    appVersion: '1.2.3',
+                    hasSoftener: d.hasSoftener || false,
+                    softenerPPM: d.hasSoftener ? (d.softenerPPM || null) : null,
+                    softenerMaker: d.hasSoftener ? (d.softenerMaker || '') : '',
+                    softenerName: d.hasSoftener ? (d.softenerName || '') : '',
+                    softenerPrice: d.hasSoftener ? (d.softenerPrice || null) : null,
+                    waterPPM: d.ppm,
+                    appVersion: '1.2.4',
                     qualified: qualified
                 };
                 const res = await fetch(GAS_URL, {
@@ -2198,7 +2297,6 @@
             try {
                 d = JSON.parse(decodeURIComponent(escape(atob(area.value.trim()))));
                 if (d.calPref === undefined) d.calPref = true;
-                // [修正④] インポート時にfirstLaunchを補完
                 if (d.firstLaunch === undefined) d.firstLaunch = new Date().getTime();
                 if (d.isDual === undefined) d.isDual = false;
                 if (d.sub_manufacturer === undefined) d.sub_manufacturer = '';
@@ -2206,6 +2304,11 @@
                 if (d.sub_spec === undefined) d.sub_spec = null;
                 if (d.sub_price === undefined) d.sub_price = null;
                 if (d.washInterval === undefined) d.washInterval = null;
+                if (d.hasSoftener === undefined) d.hasSoftener = false;
+                if (d.softenerPPM === undefined) d.softenerPPM = null;
+                if (d.softenerMaker === undefined) d.softenerMaker = '';
+                if (d.softenerName === undefined) d.softenerName = '';
+                if (d.softenerPrice === undefined) d.softenerPrice = null;
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
                 up(); alert("復元しました！"); closeTransferModal();
             } catch(e) { alert("不正なコードです"); }
